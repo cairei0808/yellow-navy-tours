@@ -8,18 +8,18 @@ import sportsImage from "@/assets/sports.jpg";
 const TourSection = () => {
   const tourAreas = [
     {
-      title: "Library & Learning Center",
-      description: "Explore our extensive collection of books and digital resources in a comfortable, modern setting designed for focused study and collaborative learning.",
+      title: "Buildings",
+      description: "Explore our campus buildings featuring modern architecture and facilities designed for optimal learning environments and student comfort.",
       image: libraryImage,
     },
     {
-      title: "Science Laboratories",
-      description: "State-of-the-art labs equipped with modern technology where students conduct hands-on experiments and develop critical thinking skills.",
+      title: "DCP and Computer Lab",
+      description: "State-of-the-art computer laboratories equipped with modern technology where students develop digital skills and technical competencies.",
       image: labImage,
     },
     {
-      title: "Sports Facilities",
-      description: "World-class athletic facilities including indoor courts, outdoor fields, and fitness centers to promote physical wellness and team spirit.",
+      title: "Gymnasium",
+      description: "Our fully-equipped gymnasium provides excellent facilities for sports, physical education, and school events promoting health and teamwork.",
       image: sportsImage,
     },
   ];

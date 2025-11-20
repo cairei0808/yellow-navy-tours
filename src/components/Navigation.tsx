@@ -30,7 +30,7 @@ const Navigation = () => {
             <a href="#contact" className="text-foreground hover:text-accent transition-colors">
               Contact
             </a>
-            <Button className="bg-accent text-accent-foreground hover:bg-accent/90">
+            <Button className="bg-accent text-accent-foreground hover:bg-accent/90 font-semibold shadow-md">
               Schedule Visit
             </Button>
           </div>
@@ -75,7 +75,7 @@ const Navigation = () => {
             >
               Contact
             </a>
-            <Button className="bg-accent text-accent-foreground hover:bg-accent/90 w-full">
+            <Button className="bg-accent text-accent-foreground hover:bg-accent/90 w-full font-semibold shadow-md">
               Schedule Visit
             </Button>
           </div>
