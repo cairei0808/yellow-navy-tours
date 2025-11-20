@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import heroImage from "@/assets/hero-classroom.jpg";
+import heroImage from "@/assets/fabinhs-school.webp";
 
 const Hero = () => {
   return (
@@ -9,7 +9,7 @@ const Hero = () => {
       <div className="absolute inset-0 z-0">
         <img
           src={heroImage}
-          alt="Modern school classroom"
+          alt="FABINHS school building with Philippine flag"
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/80 to-transparent"></div>
@@ -19,8 +19,8 @@ const Hero = () => {
       <div className="container mx-auto px-4 z-10 relative">
         <div className="max-w-3xl animate-fade-in">
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-primary-foreground mb-6 leading-tight">
-            Welcome to Our
-            <span className="block text-accent">Virtual School Tour</span>
+            Welcome to
+            <span className="block text-accent">FABINHS Virtual Tour</span>
           </h1>
           <p className="text-xl md:text-2xl text-primary-foreground/90 mb-8 leading-relaxed">
             Explore our state-of-the-art facilities, meet our dedicated faculty, and discover

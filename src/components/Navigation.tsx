@@ -11,9 +11,9 @@ const Navigation = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-10 h-10 rounded-lg bg-gradient-primary flex items-center justify-center">
-              <span className="text-xl font-bold text-primary-foreground">S</span>
+              <span className="text-xl font-bold text-primary-foreground">F</span>
             </div>
-            <span className="text-xl font-bold text-primary">SchoolTour</span>
+            <span className="text-xl font-bold text-primary">FABINHS Virtual Tour</span>
           </div>
 
           {/* Desktop Menu */}

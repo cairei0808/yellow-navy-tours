@@ -6,9 +6,9 @@ const Footer = () => {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <div className="w-10 h-10 rounded-lg bg-accent flex items-center justify-center">
-                <span className="text-xl font-bold text-accent-foreground">S</span>
+                <span className="text-xl font-bold text-accent-foreground">F</span>
               </div>
-              <span className="text-xl font-bold">SchoolTour</span>
+              <span className="text-xl font-bold">FABINHS Virtual Tour</span>
             </div>
             <p className="text-primary-foreground/80">
               Empowering students to achieve excellence through innovative education.
@@ -62,7 +62,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-primary-foreground/20 pt-8 text-center text-primary-foreground/80">
-          <p>&copy; {new Date().getFullYear()} SchoolTour. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} FABINHS Virtual Tour. All rights reserved.</p>
         </div>
       </div>
     </footer>
