@@ -1,3 +1,5 @@
+import fabinhsLogo from "@/assets/fabinhs-logo.jpg";
+
 const Footer = () => {
   return (
     <footer className="bg-primary text-primary-foreground py-12">
@@ -5,9 +7,7 @@ const Footer = () => {
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-lg bg-accent flex items-center justify-center">
-                <span className="text-xl font-bold text-accent-foreground">F</span>
-              </div>
+              <img src={fabinhsLogo} alt="FABINHS Logo" className="w-12 h-12 rounded-full object-cover" />
               <span className="text-xl font-bold">FABINHS Virtual Tour</span>
             </div>
             <p className="text-primary-foreground/80">
