@@ -1,14 +1,15 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { useState } from "react";
+import PanoramaViewer from "./PanoramaViewer";
 
 interface Tour360ModalProps {
   isOpen: boolean;
   onClose: () => void;
   title: string;
   tourUrl?: string;
+  panoramaImage?: string;
 }
 
-const Tour360Modal = ({ isOpen, onClose, title, tourUrl }: Tour360ModalProps) => {
+const Tour360Modal = ({ isOpen, onClose, title, tourUrl, panoramaImage }: Tour360ModalProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl h-[80vh]">
@@ -19,7 +20,9 @@ const Tour360Modal = ({ isOpen, onClose, title, tourUrl }: Tour360ModalProps) =>
           </DialogDescription>
         </DialogHeader>
         <div className="flex-1 bg-muted rounded-lg overflow-hidden relative h-full">
-          {tourUrl ? (
+          {panoramaImage ? (
+            <PanoramaViewer imageUrl={panoramaImage} />
+          ) : tourUrl ? (
             <iframe
               src={tourUrl}
               className="w-full h-full"

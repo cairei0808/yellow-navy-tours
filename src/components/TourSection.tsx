@@ -5,10 +5,11 @@ import { useState } from "react";
 import libraryImage from "@/assets/library.jpg";
 import labImage from "@/assets/lab.jpg";
 import sportsImage from "@/assets/sports.jpg";
+import building360 from "@/assets/building-360.webp";
 import Tour360Modal from "./Tour360Modal";
 
 const TourSection = () => {
-  const [selectedTour, setSelectedTour] = useState<{ title: string; url?: string } | null>(null);
+  const [selectedTour, setSelectedTour] = useState<{ title: string; url?: string; panorama?: string } | null>(null);
   const tourAreas = [
     {
       title: "Buildings",
@@ -61,7 +62,10 @@ const TourSection = () => {
                 <p className="text-muted-foreground mb-4">{area.description}</p>
                 <Button 
                   className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
-                  onClick={() => setSelectedTour({ title: area.title })}
+                  onClick={() => setSelectedTour({ 
+                    title: area.title,
+                    panorama: area.title === "Buildings" ? building360 : undefined
+                  })}
                 >
                   <Eye className="mr-2 w-4 h-4" />
                   View 360° Tour
@@ -76,6 +80,7 @@ const TourSection = () => {
           onClose={() => setSelectedTour(null)}
           title={selectedTour?.title || ""}
           tourUrl={selectedTour?.url}
+          panoramaImage={selectedTour?.panorama}
         />
       </div>
     </section>
