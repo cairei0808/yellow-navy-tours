@@ -14,8 +14,8 @@ const About = () => {
     },
     {
       icon: BookOpen,
-      title: "Modern Curriculum",
-      description: "Updated programs that prepare students for future success.",
+      title: "K-12 Curriculum",
+      description: "Junior High School (Grades 7-10) and Senior High School (Grades 11-12) programs aligned with DepEd K-12 standards.",
     },
     {
       icon: Sparkles,
@@ -29,10 +29,10 @@ const About = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">
-            Why Choose Our School?
+            Why Choose FABINHS?
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            We provide a nurturing environment where every student can thrive and reach their full potential.
+            Providing quality education for Junior High School and Senior High School students through the K-12 Philippine curriculum.
           </p>
         </div>
 

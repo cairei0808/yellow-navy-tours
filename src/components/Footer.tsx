@@ -44,10 +44,10 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold mb-4">Programs</h4>
             <ul className="space-y-2 text-primary-foreground/80">
-              <li>Elementary School</li>
-              <li>Middle School</li>
-              <li>High School</li>
-              <li>Advanced Placement</li>
+              <li>Junior High School (Grades 7-10)</li>
+              <li>Senior High School (Grades 11-12)</li>
+              <li>Academic Track</li>
+              <li>TVL Track</li>
             </ul>
           </div>
 

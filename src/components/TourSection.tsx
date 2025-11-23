@@ -1,11 +1,14 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Eye } from "lucide-react";
+import { useState } from "react";
 import libraryImage from "@/assets/library.jpg";
 import labImage from "@/assets/lab.jpg";
 import sportsImage from "@/assets/sports.jpg";
+import Tour360Modal from "./Tour360Modal";
 
 const TourSection = () => {
+  const [selectedTour, setSelectedTour] = useState<{ title: string; url?: string } | null>(null);
   const tourAreas = [
     {
       title: "Buildings",
@@ -56,7 +59,10 @@ const TourSection = () => {
               </div>
               <CardContent className="p-6">
                 <p className="text-muted-foreground mb-4">{area.description}</p>
-                <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
+                <Button 
+                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+                  onClick={() => setSelectedTour({ title: area.title })}
+                >
                   <Eye className="mr-2 w-4 h-4" />
                   View 360° Tour
                 </Button>
@@ -64,6 +70,13 @@ const TourSection = () => {
             </Card>
           ))}
         </div>
+
+        <Tour360Modal
+          isOpen={selectedTour !== null}
+          onClose={() => setSelectedTour(null)}
+          title={selectedTour?.title || ""}
+          tourUrl={selectedTour?.url}
+        />
       </div>
     </section>
   );
