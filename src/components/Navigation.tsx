@@ -12,7 +12,7 @@ const Navigation = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <img src={fabinhsLogo} alt="FABINHS Logo" className="w-12 h-12 rounded-full object-cover" />
-            <span className="text-xl font-bold text-primary">FABINHS</span>
+            <span className="text-xl font-bold text-primary">FABINHS Kiosk Information System</span>
           </div>
 
           {/* Desktop Menu */}
@@ -29,9 +29,6 @@ const Navigation = () => {
             <a href="#contact" className="text-foreground hover:text-accent transition-colors">
               Contact
             </a>
-            <Button className="bg-accent text-accent-foreground hover:bg-accent/90 font-semibold shadow-md">
-              Schedule Visit
-            </Button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -74,9 +71,6 @@ const Navigation = () => {
             >
               Contact
             </a>
-            <Button className="bg-accent text-accent-foreground hover:bg-accent/90 w-full font-semibold shadow-md">
-              Schedule Visit
-            </Button>
           </div>
         )}
       </div>
