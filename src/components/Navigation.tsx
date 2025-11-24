@@ -12,7 +12,7 @@ const Navigation = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <img src={fabinhsLogo} alt="FABINHS Logo" className="w-12 h-12 rounded-full object-cover" />
-            <span className="text-xl font-bold text-primary">FABINHS Virtual Tour</span>
+            <span className="text-xl font-bold text-primary">FABINHS</span>
           </div>
 
           {/* Desktop Menu */}
@@ -23,8 +23,8 @@ const Navigation = () => {
             <a href="#about" className="text-foreground hover:text-accent transition-colors">
               About
             </a>
-            <a href="#tour" className="text-foreground hover:text-accent transition-colors">
-              Virtual Tour
+            <a href="#kiosk" className="text-foreground hover:text-accent transition-colors">
+              Campus Map
             </a>
             <a href="#contact" className="text-foreground hover:text-accent transition-colors">
               Contact
@@ -61,11 +61,11 @@ const Navigation = () => {
               About
             </a>
             <a
-              href="#tour"
+              href="#kiosk"
               className="text-foreground hover:text-accent transition-colors"
               onClick={() => setIsOpen(false)}
             >
-              Virtual Tour
+              Campus Map
             </a>
             <a
               href="#contact"
