@@ -20,26 +20,20 @@ const Hero = () => {
         <div className="max-w-3xl animate-fade-in">
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-primary-foreground mb-6 leading-tight">
             Welcome to
-            <span className="block text-accent">FABINHS Virtual Tour</span>
+            <span className="block text-accent">FABINHS Kiosk System</span>
           </h1>
           <p className="text-xl md:text-2xl text-primary-foreground/90 mb-8 leading-relaxed">
-            Explore our state-of-the-art facilities, meet our dedicated faculty, and discover
-            why we're the perfect place for your child's educational journey.
+            Explore our interactive digital campus map, discover our facilities, and find your way
+            around Fernando Air Base Integrated National High School with ease.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <Button
               size="lg"
               className="bg-accent text-accent-foreground hover:bg-accent/90 text-lg px-8 py-6"
+              onClick={() => document.getElementById('kiosk')?.scrollIntoView({ behavior: 'smooth' })}
             >
-              Start Virtual Tour
+              View Information Kiosk System
               <ArrowRight className="ml-2" />
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="text-primary-foreground border-2 border-primary-foreground hover:bg-primary-foreground hover:text-primary text-lg px-8 py-6 font-semibold"
-            >
-              Schedule Visit
             </Button>
           </div>
         </div>

@@ -153,34 +153,42 @@ const KioskSystem = () => {
   };
 
   return (
-    <section id="kiosk" className="py-20 px-4">
+    <section id="kiosk" className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-accent/5 py-20 px-4">
       <div className="container mx-auto">
-        <div className="text-center mb-16 animate-fade-in">
-          <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">
-            Information Kiosk System
+        <div className="text-center mb-12 space-y-4 animate-fade-in">
+          <div className="inline-block px-6 py-2 bg-accent/10 rounded-full mb-4">
+            <span className="text-accent font-semibold">Digital Campus Navigation</span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-bold text-primary">
+            Interactive Campus Map
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Explore Fernando Air Base Integrated National High School campus map
+          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
+            Navigate through FABINHS with our comprehensive digital map featuring all buildings, floors, and room locations
           </p>
         </div>
 
-        <div className="max-w-7xl mx-auto bg-card rounded-2xl shadow-strong overflow-hidden">
-          <div className="grid lg:grid-cols-[320px_1fr] gap-0">
+        <div className="max-w-7xl mx-auto bg-card rounded-2xl shadow-strong overflow-hidden border border-border/50">
+          <div className="grid lg:grid-cols-[380px_1fr] gap-0">
             {/* Left Panel - Controls */}
-            <div className="bg-gradient-to-b from-muted/50 to-transparent border-r border-border p-6 space-y-6">
-              <div className="flex items-center gap-3">
-                <img src={fabinhsLogo} alt="FABINHS" className="w-11 h-11 rounded-lg object-cover" />
+            <div className="bg-gradient-to-b from-primary/5 via-muted/30 to-transparent border-r border-border p-6 space-y-6 backdrop-blur-sm">
+              <div className="flex items-center gap-3 pb-4 border-b border-border">
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center overflow-hidden">
+                  <img src={fabinhsLogo} alt="FABINHS" className="w-full h-full object-cover" />
+                </div>
                 <div>
-                  <div className="font-bold text-lg">Campus Map</div>
-                  <div className="text-sm text-muted-foreground">Welcome</div>
+                  <div className="font-bold text-lg text-foreground">Navigation Center</div>
+                  <div className="text-xs text-muted-foreground">Campus Directory</div>
                 </div>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-5">
                 <div>
-                  <label className="text-sm text-muted-foreground mb-2 block">Select Building</label>
+                  <label className="text-sm font-semibold text-foreground mb-3 block flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-primary"></span>
+                    Select Building
+                  </label>
                   <Select value={state.building} onValueChange={(value) => setState(prev => ({ ...prev, building: value, floor: 1 }))}>
-                    <SelectTrigger>
+                    <SelectTrigger className="h-11">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -192,14 +200,17 @@ const KioskSystem = () => {
                 </div>
 
                 <div>
-                  <label className="text-sm text-muted-foreground mb-2 block">Floor</label>
+                  <label className="text-sm font-semibold text-foreground mb-3 block flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-accent"></span>
+                    Floor Level
+                  </label>
                   <div className="grid grid-cols-4 gap-2">
                     {[1, 2, 3, 4].map(f => (
                       <Button
                         key={f}
                         variant={state.floor === f ? "default" : "outline"}
                         onClick={() => setState(prev => ({ ...prev, floor: f }))}
-                        className="font-bold"
+                        className="font-bold h-11"
                       >
                         {f}
                       </Button>
@@ -208,12 +219,18 @@ const KioskSystem = () => {
                 </div>
 
                 <div>
-                  <label className="text-sm text-muted-foreground mb-2 block">Search Rooms</label>
+                  <label className="text-sm font-semibold text-foreground mb-3 block flex items-center gap-2">
+                    <svg className="w-3.5 h-3.5 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    Search Rooms
+                  </label>
                   <Input
                     type="search"
                     placeholder="Find room or teacher..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
+                    className="h-11"
                   />
                 </div>
               </div>
@@ -242,20 +259,83 @@ const KioskSystem = () => {
             </div>
 
             {/* Right Panel - Map */}
-            <div className="relative h-[600px] lg:h-[760px] bg-gradient-to-b from-background to-muted/20">
-              <div className="absolute left-4 top-4 z-10 flex gap-2">
-                <Button variant="secondary" size="sm" onClick={() => setState(prev => ({ ...prev, zoom: 1, tx: 0, ty: 0 }))}>Reset</Button>
-                <Button variant="secondary" size="sm" onClick={() => setZoom(state.zoom * 1.2)}>+</Button>
-                <Button variant="secondary" size="sm" onClick={() => setZoom(state.zoom / 1.2)}>−</Button>
+            <div className="relative h-[600px] lg:h-[760px] bg-gradient-to-br from-muted/20 via-background to-accent/5">
+              {/* Header */}
+              <div className="absolute top-0 left-0 right-0 z-10 bg-gradient-to-r from-primary/10 via-primary/5 to-accent/10 p-6 border-b border-border flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-background flex items-center justify-center shadow-md">
+                    <svg className="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-xl text-foreground">
+                      {buildings.find(b => b.value === state.building)?.label} - Floor {state.floor}
+                    </h3>
+                    <p className="text-sm text-muted-foreground flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-accent"></span>
+                      5 rooms available
+                    </p>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setZoom(state.zoom * 1.2)}
+                    className="p-2.5 bg-background border border-border text-foreground rounded-lg hover:bg-primary hover:text-primary-foreground transition-all shadow-sm hover:shadow-md"
+                    title="Zoom In"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
+                    </svg>
+                  </button>
+                  <button
+                    onClick={() => setZoom(state.zoom / 1.2)}
+                    className="p-2.5 bg-background border border-border text-foreground rounded-lg hover:bg-primary hover:text-primary-foreground transition-all shadow-sm hover:shadow-md"
+                    title="Zoom Out"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7" />
+                    </svg>
+                  </button>
+                  <button
+                    onClick={() => setState(prev => ({ ...prev, zoom: 1, tx: 0, ty: 0 }))}
+                    className="p-2.5 bg-accent/10 border border-accent/20 text-accent rounded-lg hover:bg-accent hover:text-accent-foreground transition-all shadow-sm hover:shadow-md font-medium px-4"
+                    title="Reset View"
+                  >
+                    Reset
+                  </button>
+                </div>
               </div>
 
-              <div className="absolute right-4 top-4 z-10 bg-card/90 backdrop-blur-sm px-3 py-2 rounded-lg text-sm font-bold shadow-md">
-                {state.building.toUpperCase()} • F{state.floor}
+              {/* Legend */}
+              <div className="absolute top-24 left-4 z-10 bg-background/95 backdrop-blur-sm rounded-xl shadow-lg border border-border p-4 space-y-2">
+                <div className="text-xs font-bold text-foreground mb-3 flex items-center gap-2">
+                  <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  Map Legend
+                </div>
+                <div className="flex items-center gap-2 text-xs">
+                  <div className="w-5 h-5 bg-[#fff7eb] border-2 border-[#dc9b5b] rounded"></div>
+                  <span className="text-muted-foreground">Classrooms</span>
+                </div>
+                <div className="flex items-center gap-2 text-xs">
+                  <div className="w-5 h-5 bg-[#e8f0fe] border-2 border-[#6a86b6] rounded"></div>
+                  <span className="text-muted-foreground">Buildings</span>
+                </div>
+                <div className="flex items-center gap-2 text-xs">
+                  <div className="w-5 h-5 bg-[#fff4d8] border-2 border-[#c58f17] rounded"></div>
+                  <span className="text-muted-foreground">Gymnasium</span>
+                </div>
+                <div className="flex items-center gap-2 text-xs">
+                  <div className="w-5 h-5 bg-[#dbffe1] border-2 border-[#2ea44f] rounded"></div>
+                  <span className="text-muted-foreground">Entrance</span>
+                </div>
               </div>
 
               <div
                 ref={mapWrapRef}
-                className="w-full h-full relative overflow-hidden cursor-grab active:cursor-grabbing"
+                className="w-full h-full relative overflow-hidden cursor-grab active:cursor-grabbing pt-20"
                 onWheel={handleWheel}
                 onPointerDown={handlePointerDown}
                 onPointerMove={handlePointerMove}
@@ -269,6 +349,19 @@ const KioskSystem = () => {
                   className="w-full h-full select-none"
                   style={{ transformOrigin: '0 0', transition: isPanning ? 'none' : 'transform 0.18s cubic-bezier(.2,.9,.2,1)' }}
                 >
+                  <defs>
+                    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="hsl(var(--border))" strokeWidth="0.5" opacity="0.15" />
+                    </pattern>
+                    <linearGradient id="roomGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" style={{ stopColor: "#fff7eb", stopOpacity: 1 }} />
+                      <stop offset="100%" style={{ stopColor: "#ffe8c5", stopOpacity: 1 }} />
+                    </linearGradient>
+                    <filter id="shadow">
+                      <feDropShadow dx="0" dy="2" stdDeviation="3" floodOpacity="0.15" />
+                    </filter>
+                  </defs>
+                  <rect width="2000" height="1200" fill="url(#grid)" />
                   {/* Buildings */}
                   <rect id="b4" x="350" y="80" width="1300" height="120" className="fill-[#e8f0fe] stroke-[#6a86b6] stroke-4 rounded-xl" />
                   <text x="1000" y="150" className="text-[20px] font-bold fill-foreground pointer-events-none" textAnchor="middle">B4</text>
@@ -293,6 +386,53 @@ const KioskSystem = () => {
 
                   {/* Rooms */}
                   {renderRooms()}
+
+                  {/* Landmarks & Symbols */}
+                  <g className="landmarks">
+                    {/* North Arrow */}
+                    <g transform="translate(1850, 80)">
+                      <circle cx="0" cy="0" r="30" fill="hsl(var(--background))" stroke="hsl(var(--border))" strokeWidth="2" filter="url(#shadow)" />
+                      <path d="M 0,-18 L -6,12 L 0,6 L 6,12 Z" fill="hsl(var(--destructive))" />
+                      <path d="M 0,6 L -6,12 L 0,18 L 6,12 Z" fill="hsl(var(--muted-foreground))" opacity="0.4" />
+                      <text x="0" y="45" textAnchor="middle" fontSize="14" fill="hsl(var(--foreground))" fontWeight="bold">N</text>
+                    </g>
+                    
+                    {/* Main Entrance Icon */}
+                    <g transform="translate(275, 980)">
+                      <circle cx="0" cy="0" r="20" fill="hsl(var(--accent))" opacity="0.2" />
+                      <path d="M -8,-8 L 0,-14 L 8,-8 L 8,8 L -8,8 Z" fill="hsl(var(--accent))" stroke="hsl(var(--accent-foreground))" strokeWidth="1.5" />
+                      <rect x="-3" y="0" width="6" height="8" fill="hsl(var(--accent-foreground))" />
+                    </g>
+                    
+                    {/* Parking Symbol */}
+                    <g transform="translate(180, 700)">
+                      <rect x="-25" y="-25" width="50" height="50" rx="5" fill="hsl(var(--primary))" opacity="0.9" filter="url(#shadow)" />
+                      <text x="0" y="8" textAnchor="middle" fontSize="28" fill="hsl(var(--primary-foreground))" fontWeight="bold">P</text>
+                      <text x="0" y="45" textAnchor="middle" fontSize="11" fill="hsl(var(--foreground))" fontWeight="bold">PARKING</text>
+                    </g>
+                    
+                    {/* Flag Pole */}
+                    <g transform="translate(600, 700)">
+                      <line x1="0" y1="0" x2="0" y2="-80" stroke="hsl(var(--muted-foreground))" strokeWidth="3" />
+                      <path d="M 0,-80 L 40,-70 L 0,-60 Z" fill="hsl(var(--destructive))" />
+                      <circle cx="0" cy="-85" r="4" fill="hsl(var(--accent))" />
+                      <text x="0" y="20" textAnchor="middle" fontSize="11" fill="hsl(var(--foreground))" fontWeight="bold">FLAG POLE</text>
+                    </g>
+                    
+                    {/* Scale Indicator */}
+                    <g transform="translate(100, 1100)">
+                      <line x1="0" y1="0" x2="120" y2="0" stroke="hsl(var(--foreground))" strokeWidth="2.5" />
+                      <line x1="0" y1="-6" x2="0" y2="6" stroke="hsl(var(--foreground))" strokeWidth="2.5" />
+                      <line x1="120" y1="-6" x2="120" y2="6" stroke="hsl(var(--foreground))" strokeWidth="2.5" />
+                      <text x="60" y="-12" textAnchor="middle" fontSize="12" fill="hsl(var(--muted-foreground))" fontWeight="bold">20 meters</text>
+                    </g>
+
+                    {/* Restroom Icons */}
+                    <g transform="translate(550, 400)">
+                      <rect x="-20" y="-15" width="40" height="30" rx="4" fill="hsl(var(--secondary))" stroke="hsl(var(--border))" strokeWidth="1.5" />
+                      <text x="0" y="5" textAnchor="middle" fontSize="16" fill="hsl(var(--foreground))">🚻</text>
+                    </g>
+                  </g>
                 </svg>
 
                 {/* Popup */}
