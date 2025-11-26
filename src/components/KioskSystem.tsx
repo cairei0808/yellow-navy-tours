@@ -107,11 +107,16 @@ const KioskSystem = () => {
           <g key={`room-${i}`}>
             <rect
               x={rx} y={ry} width={roomW} height={40}
-              className="fill-[#fff7eb] stroke-[#dc9b5b] stroke-[3] rounded-lg cursor-pointer hover:translate-y-[-6px] transition-all"
+              fill="url(#roomGradient)"
+              stroke="#6c757d"
+              strokeWidth="3"
+              rx="4"
+              filter="url(#shadow)"
+              className="cursor-pointer hover:opacity-80 transition-all"
               onClick={(ev) => handleRoomClick(state.building, state.floor, i + 1, ev)}
             />
-            <text x={rx + roomW/2} y={ry + 20} className="text-[12px] font-bold fill-[#21364f] pointer-events-none" textAnchor="middle" dominantBaseline="middle">
-              {roomNumberFor(state.floor, i + 1)}
+            <text x={rx + roomW/2} y={ry + 20} className="text-[14px] font-bold" fill="#212529" textAnchor="middle" dominantBaseline="middle">
+              Room {roomNumberFor(state.floor, i + 1)}
             </text>
           </g>
         );
@@ -138,11 +143,16 @@ const KioskSystem = () => {
             <g key={`room-${i}`}>
               <rect
                 x={rx} y={ry} width={rw} height={roomHeight}
-                className="fill-[#fff7eb] stroke-[#dc9b5b] stroke-[3] rounded-lg cursor-pointer hover:translate-y-[-6px] transition-all"
+                fill="url(#roomGradient)"
+                stroke="#6c757d"
+                strokeWidth="3"
+                rx="4"
+                filter="url(#shadow)"
+                className="cursor-pointer hover:opacity-80 transition-all"
                 onClick={(ev) => handleRoomClick(state.building, state.floor, i + 1, ev)}
               />
-              <text x={rx + rw/2} y={ry + roomHeight/2} className="text-[12px] font-bold fill-[#21364f] pointer-events-none" textAnchor="middle" dominantBaseline="middle">
-                {roomNumberFor(state.floor, i + 1)}
+              <text x={rx + rw/2} y={ry + roomHeight/2} className="text-[14px] font-bold" fill="#212529" textAnchor="middle" dominantBaseline="middle">
+                Room {roomNumberFor(state.floor, i + 1)}
               </text>
             </g>
           );
@@ -316,20 +326,24 @@ const KioskSystem = () => {
                   Map Legend
                 </div>
                 <div className="flex items-center gap-2 text-xs">
-                  <div className="w-5 h-5 bg-[#fff7eb] border-2 border-[#dc9b5b] rounded"></div>
-                  <span className="text-muted-foreground">Classrooms</span>
+                  <div className="w-5 h-5 bg-white border-2 border-[#6c757d] rounded"></div>
+                  <span className="text-foreground font-medium">Classrooms</span>
                 </div>
                 <div className="flex items-center gap-2 text-xs">
-                  <div className="w-5 h-5 bg-[#e8f0fe] border-2 border-[#6a86b6] rounded"></div>
-                  <span className="text-muted-foreground">Buildings</span>
+                  <div className="w-5 h-5 bg-[#e9ecef] border-2 border-[#495057] rounded"></div>
+                  <span className="text-foreground font-medium">Buildings</span>
                 </div>
                 <div className="flex items-center gap-2 text-xs">
-                  <div className="w-5 h-5 bg-[#fff4d8] border-2 border-[#c58f17] rounded"></div>
-                  <span className="text-muted-foreground">Gymnasium</span>
+                  <div className="w-5 h-5 bg-[#fff3cd] border-2 border-[#b8860b] rounded"></div>
+                  <span className="text-foreground font-medium">Gymnasium</span>
                 </div>
                 <div className="flex items-center gap-2 text-xs">
-                  <div className="w-5 h-5 bg-[#dbffe1] border-2 border-[#2ea44f] rounded"></div>
-                  <span className="text-muted-foreground">Entrance</span>
+                  <div className="w-5 h-5 bg-[#ffe5e5] border-2 border-[#bd2130] rounded"></div>
+                  <span className="text-foreground font-medium">Canteen</span>
+                </div>
+                <div className="flex items-center gap-2 text-xs">
+                  <div className="w-5 h-5 bg-[#d4edda] border-2 border-[#28a745] rounded"></div>
+                  <span className="text-foreground font-medium">Entrance</span>
                 </div>
               </div>
 
@@ -350,89 +364,87 @@ const KioskSystem = () => {
                   style={{ transformOrigin: '0 0', transition: isPanning ? 'none' : 'transform 0.18s cubic-bezier(.2,.9,.2,1)' }}
                 >
                   <defs>
-                    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="hsl(var(--border))" strokeWidth="0.5" opacity="0.15" />
+                    <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+                      <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#e0e0e0" strokeWidth="1" opacity="0.3" />
                     </pattern>
+                    <linearGradient id="buildingGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" style={{ stopColor: "#f8f9fa", stopOpacity: 1 }} />
+                      <stop offset="100%" style={{ stopColor: "#e9ecef", stopOpacity: 1 }} />
+                    </linearGradient>
                     <linearGradient id="roomGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" style={{ stopColor: "#fff7eb", stopOpacity: 1 }} />
-                      <stop offset="100%" style={{ stopColor: "#ffe8c5", stopOpacity: 1 }} />
+                      <stop offset="0%" style={{ stopColor: "#ffffff", stopOpacity: 1 }} />
+                      <stop offset="100%" style={{ stopColor: "#f8f9fa", stopOpacity: 1 }} />
+                    </linearGradient>
+                    <linearGradient id="gymGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" style={{ stopColor: "#fff3cd", stopOpacity: 1 }} />
+                      <stop offset="100%" style={{ stopColor: "#ffeaa7", stopOpacity: 1 }} />
+                    </linearGradient>
+                    <linearGradient id="canteenGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" style={{ stopColor: "#ffe5e5", stopOpacity: 1 }} />
+                      <stop offset="100%" style={{ stopColor: "#ffd1d1", stopOpacity: 1 }} />
+                    </linearGradient>
+                    <linearGradient id="entranceGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" style={{ stopColor: "#d4edda", stopOpacity: 1 }} />
+                      <stop offset="100%" style={{ stopColor: "#c3e6cb", stopOpacity: 1 }} />
                     </linearGradient>
                     <filter id="shadow">
-                      <feDropShadow dx="0" dy="2" stdDeviation="3" floodOpacity="0.15" />
+                      <feDropShadow dx="0" dy="4" stdDeviation="6" floodOpacity="0.25" />
+                    </filter>
+                    <filter id="buildingShadow">
+                      <feDropShadow dx="2" dy="6" stdDeviation="8" floodOpacity="0.35" />
                     </filter>
                   </defs>
+                  <rect width="2000" height="1200" fill="#f0f4f8" />
                   <rect width="2000" height="1200" fill="url(#grid)" />
-                  {/* Buildings */}
-                  <rect id="b4" x="350" y="80" width="1300" height="120" className="fill-[#e8f0fe] stroke-[#6a86b6] stroke-4 rounded-xl" />
-                  <text x="1000" y="150" className="text-[20px] font-bold fill-foreground pointer-events-none" textAnchor="middle">B4</text>
+                  {/* Buildings with realistic shadows and depth */}
+                  <rect id="b4" x="350" y="80" width="1300" height="120" fill="url(#buildingGradient)" stroke="#495057" strokeWidth="5" rx="8" filter="url(#buildingShadow)" />
+                  <rect x="360" y="90" width="20" height="100" fill="#dee2e6" opacity="0.6" />
+                  <rect x="390" y="90" width="20" height="100" fill="#dee2e6" opacity="0.6" />
+                  <text x="1000" y="150" className="text-[28px] font-bold" fill="#212529" textAnchor="middle" dominantBaseline="middle">BUILDING 4</text>
 
-                  <rect id="b1" x="300" y="300" width="220" height="500" className="fill-[#e8f0fe] stroke-[#6a86b6] stroke-4 rounded-xl" />
-                  <text x="410" y="560" className="text-[20px] font-bold fill-foreground pointer-events-none" textAnchor="middle">B1</text>
+                  <rect id="b1" x="300" y="300" width="220" height="500" fill="url(#buildingGradient)" stroke="#495057" strokeWidth="5" rx="8" filter="url(#buildingShadow)" />
+                  <rect x="310" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
+                  <rect x="350" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
+                  <rect x="390" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
+                  <rect x="430" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
+                  <rect x="470" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
+                  <text x="410" y="560" className="text-[28px] font-bold" fill="#212529" textAnchor="middle" dominantBaseline="middle">BUILDING 1</text>
 
-                  <rect id="b2" x="900" y="300" width="260" height="500" className="fill-[#e8f0fe] stroke-[#6a86b6] stroke-4 rounded-xl" />
-                  <text x="1030" y="560" className="text-[20px] font-bold fill-foreground pointer-events-none" textAnchor="middle">B2</text>
+                  <rect id="b2" x="900" y="300" width="260" height="500" fill="url(#buildingGradient)" stroke="#495057" strokeWidth="5" rx="8" filter="url(#buildingShadow)" />
+                  <rect x="910" y="320" width="35" height="40" fill="#dee2e6" opacity="0.7" />
+                  <rect x="955" y="320" width="35" height="40" fill="#dee2e6" opacity="0.7" />
+                  <rect x="1000" y="320" width="35" height="40" fill="#dee2e6" opacity="0.7" />
+                  <rect x="1045" y="320" width="35" height="40" fill="#dee2e6" opacity="0.7" />
+                  <rect x="1090" y="320" width="35" height="40" fill="#dee2e6" opacity="0.7" />
+                  <text x="1030" y="560" className="text-[28px] font-bold" fill="#212529" textAnchor="middle" dominantBaseline="middle">BUILDING 2</text>
 
-                  <rect id="b3" x="1450" y="300" width="240" height="500" className="fill-[#e8f0fe] stroke-[#6a86b6] stroke-4 rounded-xl" />
-                  <text x="1570" y="560" className="text-[20px] font-bold fill-foreground pointer-events-none" textAnchor="middle">B3</text>
+                  <rect id="b3" x="1450" y="300" width="240" height="500" fill="url(#buildingGradient)" stroke="#495057" strokeWidth="5" rx="8" filter="url(#buildingShadow)" />
+                  <rect x="1460" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
+                  <rect x="1500" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
+                  <rect x="1540" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
+                  <rect x="1580" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
+                  <rect x="1620" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
+                  <text x="1570" y="560" className="text-[28px] font-bold" fill="#212529" textAnchor="middle" dominantBaseline="middle">BUILDING 3</text>
 
-                  <rect id="gym" x="700" y="850" width="600" height="220" className="fill-[#fff4d8] stroke-[#c58f17] stroke-[5] rounded-xl" />
-                  <text x="1000" y="970" className="text-[20px] font-bold fill-foreground pointer-events-none" textAnchor="middle">GYMNASIUM</text>
+                  <rect id="gym" x="700" y="850" width="600" height="220" fill="url(#gymGradient)" stroke="#b8860b" strokeWidth="6" rx="10" filter="url(#buildingShadow)" />
+                  <circle cx="850" cy="960" r="40" fill="none" stroke="#b8860b" strokeWidth="3" opacity="0.4" />
+                  <circle cx="1150" cy="960" r="40" fill="none" stroke="#b8860b" strokeWidth="3" opacity="0.4" />
+                  <text x="1000" y="970" className="text-[32px] font-bold" fill="#856404" textAnchor="middle" dominantBaseline="middle">GYMNASIUM</text>
 
-                  <rect id="canteen" x="820" y="1100" width="360" height="160" className="fill-[#ffe5e5] stroke-[#cc4b4b] stroke-4 rounded-xl" />
-                  <text x="1000" y="1180" className="text-[20px] font-bold fill-foreground pointer-events-none" textAnchor="middle">CANTEEN</text>
+                  <rect id="canteen" x="820" y="1100" width="360" height="160" fill="url(#canteenGradient)" stroke="#bd2130" strokeWidth="5" rx="8" filter="url(#buildingShadow)" />
+                  <rect x="860" y="1120" width="40" height="35" fill="#fff" opacity="0.6" />
+                  <rect x="910" y="1120" width="40" height="35" fill="#fff" opacity="0.6" />
+                  <rect x="960" y="1120" width="40" height="35" fill="#fff" opacity="0.6" />
+                  <rect x="1010" y="1120" width="40" height="35" fill="#fff" opacity="0.6" />
+                  <rect x="1060" y="1120" width="40" height="35" fill="#fff" opacity="0.6" />
+                  <text x="1000" y="1190" className="text-[28px] font-bold" fill="#721c24" textAnchor="middle" dominantBaseline="middle">CANTEEN</text>
 
-                  <rect id="entrance" x="150" y="950" width="250" height="140" className="fill-[#dbffe1] stroke-[#2ea44f] stroke-4 rounded-xl" />
-                  <text x="275" y="1030" className="text-[20px] font-bold fill-foreground pointer-events-none" textAnchor="middle">ENTRANCE</text>
+                  <rect id="entrance" x="150" y="950" width="250" height="140" fill="url(#entranceGradient)" stroke="#28a745" strokeWidth="5" rx="8" filter="url(#buildingShadow)" />
+                  <path d="M 275 990 L 275 1050 M 260 1020 L 290 1020" stroke="#155724" strokeWidth="8" strokeLinecap="round" />
+                  <text x="275" y="1020" className="text-[28px] font-bold" fill="#155724" textAnchor="middle" dominantBaseline="middle">ENTRANCE</text>
 
                   {/* Rooms */}
                   {renderRooms()}
-
-                  {/* Landmarks & Symbols */}
-                  <g className="landmarks">
-                    {/* North Arrow */}
-                    <g transform="translate(1850, 80)">
-                      <circle cx="0" cy="0" r="30" fill="hsl(var(--background))" stroke="hsl(var(--border))" strokeWidth="2" filter="url(#shadow)" />
-                      <path d="M 0,-18 L -6,12 L 0,6 L 6,12 Z" fill="hsl(var(--destructive))" />
-                      <path d="M 0,6 L -6,12 L 0,18 L 6,12 Z" fill="hsl(var(--muted-foreground))" opacity="0.4" />
-                      <text x="0" y="45" textAnchor="middle" fontSize="14" fill="hsl(var(--foreground))" fontWeight="bold">N</text>
-                    </g>
-                    
-                    {/* Main Entrance Icon */}
-                    <g transform="translate(275, 980)">
-                      <circle cx="0" cy="0" r="20" fill="hsl(var(--accent))" opacity="0.2" />
-                      <path d="M -8,-8 L 0,-14 L 8,-8 L 8,8 L -8,8 Z" fill="hsl(var(--accent))" stroke="hsl(var(--accent-foreground))" strokeWidth="1.5" />
-                      <rect x="-3" y="0" width="6" height="8" fill="hsl(var(--accent-foreground))" />
-                    </g>
-                    
-                    {/* Parking Symbol */}
-                    <g transform="translate(180, 700)">
-                      <rect x="-25" y="-25" width="50" height="50" rx="5" fill="hsl(var(--primary))" opacity="0.9" filter="url(#shadow)" />
-                      <text x="0" y="8" textAnchor="middle" fontSize="28" fill="hsl(var(--primary-foreground))" fontWeight="bold">P</text>
-                      <text x="0" y="45" textAnchor="middle" fontSize="11" fill="hsl(var(--foreground))" fontWeight="bold">PARKING</text>
-                    </g>
-                    
-                    {/* Flag Pole */}
-                    <g transform="translate(600, 700)">
-                      <line x1="0" y1="0" x2="0" y2="-80" stroke="hsl(var(--muted-foreground))" strokeWidth="3" />
-                      <path d="M 0,-80 L 40,-70 L 0,-60 Z" fill="hsl(var(--destructive))" />
-                      <circle cx="0" cy="-85" r="4" fill="hsl(var(--accent))" />
-                      <text x="0" y="20" textAnchor="middle" fontSize="11" fill="hsl(var(--foreground))" fontWeight="bold">FLAG POLE</text>
-                    </g>
-                    
-                    {/* Scale Indicator */}
-                    <g transform="translate(100, 1100)">
-                      <line x1="0" y1="0" x2="120" y2="0" stroke="hsl(var(--foreground))" strokeWidth="2.5" />
-                      <line x1="0" y1="-6" x2="0" y2="6" stroke="hsl(var(--foreground))" strokeWidth="2.5" />
-                      <line x1="120" y1="-6" x2="120" y2="6" stroke="hsl(var(--foreground))" strokeWidth="2.5" />
-                      <text x="60" y="-12" textAnchor="middle" fontSize="12" fill="hsl(var(--muted-foreground))" fontWeight="bold">20 meters</text>
-                    </g>
-
-                    {/* Restroom Icons */}
-                    <g transform="translate(550, 400)">
-                      <rect x="-20" y="-15" width="40" height="30" rx="4" fill="hsl(var(--secondary))" stroke="hsl(var(--border))" strokeWidth="1.5" />
-                      <text x="0" y="5" textAnchor="middle" fontSize="16" fill="hsl(var(--foreground))">🚻</text>
-                    </g>
-                  </g>
                 </svg>
 
                 {/* Popup */}
