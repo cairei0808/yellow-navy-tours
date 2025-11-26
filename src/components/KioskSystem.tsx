@@ -178,27 +178,27 @@ const KioskSystem = () => {
         </div>
 
         <div className="max-w-7xl mx-auto bg-card rounded-2xl shadow-strong overflow-hidden border border-border/50">
-          <div className="grid lg:grid-cols-[380px_1fr] gap-0">
+          <div className="grid lg:grid-cols-[320px_1fr] gap-0">
             {/* Left Panel - Controls */}
-            <div className="bg-gradient-to-b from-primary/5 via-muted/30 to-transparent border-r border-border p-6 space-y-6 backdrop-blur-sm">
-              <div className="flex items-center gap-3 pb-4 border-b border-border">
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center overflow-hidden">
+            <div className="bg-gradient-to-b from-primary/5 via-muted/30 to-transparent lg:border-r border-border p-4 lg:p-6 space-y-4 lg:space-y-6 backdrop-blur-sm">
+              <div className="flex items-center gap-3 pb-3 lg:pb-4 border-b border-border">
+                <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-xl bg-primary/10 flex items-center justify-center overflow-hidden">
                   <img src={fabinhsLogo} alt="FABINHS" className="w-full h-full object-cover" />
                 </div>
                 <div>
-                  <div className="font-bold text-lg text-foreground">Navigation Center</div>
-                  <div className="text-xs text-muted-foreground">Campus Directory</div>
+                  <div className="font-bold text-base lg:text-lg text-foreground">Navigation Center</div>
+                  <div className="text-xs text-muted-foreground hidden lg:block">Campus Directory</div>
                 </div>
               </div>
 
-              <div className="space-y-5">
+              <div className="space-y-3 lg:space-y-5">
                 <div>
-                  <label className="text-sm font-semibold text-foreground mb-3 block flex items-center gap-2">
+                  <label className="text-xs lg:text-sm font-semibold text-foreground mb-2 lg:mb-3 block flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-primary"></span>
                     Select Building
                   </label>
                   <Select value={state.building} onValueChange={(value) => setState(prev => ({ ...prev, building: value, floor: 1 }))}>
-                    <SelectTrigger className="h-11">
+                    <SelectTrigger className="h-9 lg:h-11">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -210,17 +210,17 @@ const KioskSystem = () => {
                 </div>
 
                 <div>
-                  <label className="text-sm font-semibold text-foreground mb-3 block flex items-center gap-2">
+                  <label className="text-xs lg:text-sm font-semibold text-foreground mb-2 lg:mb-3 block flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-accent"></span>
                     Floor Level
                   </label>
-                  <div className="grid grid-cols-4 gap-2">
+                  <div className="grid grid-cols-4 gap-1.5 lg:gap-2">
                     {[1, 2, 3, 4].map(f => (
                       <Button
                         key={f}
                         variant={state.floor === f ? "default" : "outline"}
                         onClick={() => setState(prev => ({ ...prev, floor: f }))}
-                        className="font-bold h-11"
+                        className="font-bold h-9 lg:h-11 text-xs lg:text-sm"
                       >
                         {f}
                       </Button>
@@ -228,7 +228,7 @@ const KioskSystem = () => {
                   </div>
                 </div>
 
-                <div>
+                <div className="hidden lg:block">
                   <label className="text-sm font-semibold text-foreground mb-3 block flex items-center gap-2">
                     <svg className="w-3.5 h-3.5 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -245,7 +245,7 @@ const KioskSystem = () => {
                 </div>
               </div>
 
-              <div className="border-t border-dashed border-border pt-4">
+              <div className="border-t border-dashed border-border pt-3 lg:pt-4 hidden lg:block">
                 <div className="flex justify-between items-center mb-3">
                   <strong className="text-sm">Rooms</strong>
                   <span className="text-xs text-muted-foreground">5</span>
@@ -269,47 +269,47 @@ const KioskSystem = () => {
             </div>
 
             {/* Right Panel - Map */}
-            <div className="relative h-[600px] lg:h-[760px] bg-gradient-to-br from-muted/20 via-background to-accent/5">
+            <div className="relative h-[70vh] min-h-[500px] lg:h-[760px] bg-gradient-to-br from-muted/20 via-background to-accent/5">
               {/* Header */}
-              <div className="absolute top-0 left-0 right-0 z-10 bg-gradient-to-r from-primary/10 via-primary/5 to-accent/10 p-6 border-b border-border flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-background flex items-center justify-center shadow-md">
-                    <svg className="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="absolute top-0 left-0 right-0 z-10 bg-gradient-to-r from-primary/10 via-primary/5 to-accent/10 p-3 lg:p-6 border-b border-border flex items-center justify-between">
+                <div className="flex items-center gap-2 lg:gap-4">
+                  <div className="w-8 h-8 lg:w-12 lg:h-12 rounded-xl bg-background flex items-center justify-center shadow-md">
+                    <svg className="w-5 h-5 lg:w-7 lg:h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                     </svg>
                   </div>
                   <div>
-                    <h3 className="font-bold text-xl text-foreground">
+                    <h3 className="font-bold text-sm lg:text-xl text-foreground">
                       {buildings.find(b => b.value === state.building)?.label} - Floor {state.floor}
                     </h3>
-                    <p className="text-sm text-muted-foreground flex items-center gap-2">
+                    <p className="text-xs lg:text-sm text-muted-foreground flex items-center gap-2">
                       <span className="w-1.5 h-1.5 rounded-full bg-accent"></span>
                       5 rooms available
                     </p>
                   </div>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-1 lg:gap-2">
                   <button
                     onClick={() => setZoom(state.zoom * 1.2)}
-                    className="p-2.5 bg-background border border-border text-foreground rounded-lg hover:bg-primary hover:text-primary-foreground transition-all shadow-sm hover:shadow-md"
+                    className="p-1.5 lg:p-2.5 bg-background border border-border text-foreground rounded-lg hover:bg-primary hover:text-primary-foreground transition-all shadow-sm hover:shadow-md"
                     title="Zoom In"
                   >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 lg:w-5 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
                     </svg>
                   </button>
                   <button
                     onClick={() => setZoom(state.zoom / 1.2)}
-                    className="p-2.5 bg-background border border-border text-foreground rounded-lg hover:bg-primary hover:text-primary-foreground transition-all shadow-sm hover:shadow-md"
+                    className="p-1.5 lg:p-2.5 bg-background border border-border text-foreground rounded-lg hover:bg-primary hover:text-primary-foreground transition-all shadow-sm hover:shadow-md"
                     title="Zoom Out"
                   >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 lg:w-5 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7" />
                     </svg>
                   </button>
                   <button
                     onClick={() => setState(prev => ({ ...prev, zoom: 1, tx: 0, ty: 0 }))}
-                    className="p-2.5 bg-accent/10 border border-accent/20 text-accent rounded-lg hover:bg-accent hover:text-accent-foreground transition-all shadow-sm hover:shadow-md font-medium px-4"
+                    className="p-1.5 lg:p-2.5 bg-accent/10 border border-accent/20 text-accent rounded-lg hover:bg-accent hover:text-accent-foreground transition-all shadow-sm hover:shadow-md font-medium px-2 lg:px-4 text-xs lg:text-sm"
                     title="Reset View"
                   >
                     Reset
@@ -318,31 +318,32 @@ const KioskSystem = () => {
               </div>
 
               {/* Legend */}
-              <div className="absolute top-24 left-4 z-10 bg-background/95 backdrop-blur-sm rounded-xl shadow-lg border border-border p-4 space-y-2">
-                <div className="text-xs font-bold text-foreground mb-3 flex items-center gap-2">
-                  <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="absolute top-16 lg:top-24 left-2 lg:left-4 z-10 bg-background/95 backdrop-blur-sm rounded-xl shadow-lg border border-border p-2 lg:p-4 space-y-1.5 lg:space-y-2">
+                <div className="text-[10px] lg:text-xs font-bold text-foreground mb-2 lg:mb-3 flex items-center gap-1.5 lg:gap-2">
+                  <svg className="w-3 h-3 lg:w-4 lg:h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
-                  Map Legend
+                  <span className="hidden lg:inline">Map Legend</span>
+                  <span className="lg:hidden">Legend</span>
                 </div>
-                <div className="flex items-center gap-2 text-xs">
-                  <div className="w-5 h-5 bg-white border-2 border-[#6c757d] rounded"></div>
+                <div className="flex items-center gap-1.5 lg:gap-2 text-[10px] lg:text-xs">
+                  <div className="w-4 h-4 lg:w-5 lg:h-5 bg-white border-2 border-[#6c757d] rounded"></div>
                   <span className="text-foreground font-medium">Classrooms</span>
                 </div>
-                <div className="flex items-center gap-2 text-xs">
-                  <div className="w-5 h-5 bg-[#e9ecef] border-2 border-[#495057] rounded"></div>
+                <div className="flex items-center gap-1.5 lg:gap-2 text-[10px] lg:text-xs">
+                  <div className="w-4 h-4 lg:w-5 lg:h-5 bg-[#e9ecef] border-2 border-[#495057] rounded"></div>
                   <span className="text-foreground font-medium">Buildings</span>
                 </div>
-                <div className="flex items-center gap-2 text-xs">
-                  <div className="w-5 h-5 bg-[#fff3cd] border-2 border-[#b8860b] rounded"></div>
+                <div className="flex items-center gap-1.5 lg:gap-2 text-[10px] lg:text-xs">
+                  <div className="w-4 h-4 lg:w-5 lg:h-5 bg-[#fff3cd] border-2 border-[#b8860b] rounded"></div>
                   <span className="text-foreground font-medium">Gymnasium</span>
                 </div>
-                <div className="flex items-center gap-2 text-xs">
-                  <div className="w-5 h-5 bg-[#ffe5e5] border-2 border-[#bd2130] rounded"></div>
+                <div className="flex items-center gap-1.5 lg:gap-2 text-[10px] lg:text-xs">
+                  <div className="w-4 h-4 lg:w-5 lg:h-5 bg-[#ffe5e5] border-2 border-[#bd2130] rounded"></div>
                   <span className="text-foreground font-medium">Canteen</span>
                 </div>
-                <div className="flex items-center gap-2 text-xs">
-                  <div className="w-5 h-5 bg-[#d4edda] border-2 border-[#28a745] rounded"></div>
+                <div className="flex items-center gap-1.5 lg:gap-2 text-[10px] lg:text-xs">
+                  <div className="w-4 h-4 lg:w-5 lg:h-5 bg-[#d4edda] border-2 border-[#28a745] rounded"></div>
                   <span className="text-foreground font-medium">Entrance</span>
                 </div>
               </div>
