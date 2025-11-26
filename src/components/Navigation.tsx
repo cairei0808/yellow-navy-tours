@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import fabinhsLogo from "@/assets/fabinhs-logo.jpg";
 
 const Navigation = () => {
@@ -17,16 +18,19 @@ const Navigation = () => {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-8">
-            <a href="#home" className="text-foreground hover:text-accent transition-colors">
+            <a href="/#home" className="text-foreground hover:text-accent transition-colors">
               Home
             </a>
-            <a href="#about" className="text-foreground hover:text-accent transition-colors">
+            <a href="/#about" className="text-foreground hover:text-accent transition-colors">
               About
             </a>
-            <a href="#kiosk" className="text-foreground hover:text-accent transition-colors">
+            <a href="/#kiosk" className="text-foreground hover:text-accent transition-colors">
               Campus Map
             </a>
-            <a href="#contact" className="text-foreground hover:text-accent transition-colors">
+            <Link to="/campus-tour" className="text-foreground hover:text-accent transition-colors">
+              Campus Tour
+            </Link>
+            <a href="/#contact" className="text-foreground hover:text-accent transition-colors">
               Contact
             </a>
           </div>
@@ -44,28 +48,35 @@ const Navigation = () => {
         {isOpen && (
           <div className="md:hidden mt-4 pb-4 flex flex-col gap-4 animate-fade-in">
             <a
-              href="#home"
+              href="/#home"
               className="text-foreground hover:text-accent transition-colors"
               onClick={() => setIsOpen(false)}
             >
               Home
             </a>
             <a
-              href="#about"
+              href="/#about"
               className="text-foreground hover:text-accent transition-colors"
               onClick={() => setIsOpen(false)}
             >
               About
             </a>
             <a
-              href="#kiosk"
+              href="/#kiosk"
               className="text-foreground hover:text-accent transition-colors"
               onClick={() => setIsOpen(false)}
             >
               Campus Map
             </a>
+            <Link
+              to="/campus-tour"
+              className="text-foreground hover:text-accent transition-colors"
+              onClick={() => setIsOpen(false)}
+            >
+              Campus Tour
+            </Link>
             <a
-              href="#contact"
+              href="/#contact"
               className="text-foreground hover:text-accent transition-colors"
               onClick={() => setIsOpen(false)}
             >
