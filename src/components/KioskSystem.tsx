@@ -350,7 +350,7 @@ const KioskSystem = () => {
 
               <div
                 ref={mapWrapRef}
-                className="w-full h-full relative overflow-hidden cursor-grab active:cursor-grabbing pt-20"
+                className="w-full h-full relative overflow-hidden cursor-grab active:cursor-grabbing pt-14 lg:pt-20"
                 onWheel={handleWheel}
                 onPointerDown={handlePointerDown}
                 onPointerMove={handlePointerMove}
@@ -464,16 +464,17 @@ const KioskSystem = () => {
               </div>
 
               {/* Floor Pills */}
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 flex gap-2">
+              <div className="absolute bottom-3 lg:bottom-4 left-1/2 -translate-x-1/2 z-10 flex gap-1.5 lg:gap-2">
                 {[1, 2, 3, 4].map(f => (
                   <Button
                     key={f}
                     variant={state.floor === f ? "default" : "secondary"}
                     size="sm"
                     onClick={() => setState(prev => ({ ...prev, floor: f }))}
-                    className="font-bold rounded-full"
+                    className="font-bold rounded-full h-8 lg:h-9 text-xs lg:text-sm px-3 lg:px-4"
                   >
-                    FLOOR {f}
+                    <span className="hidden lg:inline">FLOOR {f}</span>
+                    <span className="lg:hidden">F{f}</span>
                   </Button>
                 ))}
               </div>
