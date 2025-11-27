@@ -17,6 +17,7 @@ const KioskSystem = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedRoom, setSelectedRoom] = useState<any>(null);
   const [popupPos, setPopupPos] = useState({ x: 0, y: 0, show: false });
+  const [showLegend, setShowLegend] = useState(true);
   const svgRef = useRef<SVGSVGElement>(null);
   const mapWrapRef = useRef<HTMLDivElement>(null);
   const [isPanning, setIsPanning] = useState(false);
@@ -115,7 +116,7 @@ const KioskSystem = () => {
               className="cursor-pointer hover:opacity-80 transition-all"
               onClick={(ev) => handleRoomClick(state.building, state.floor, i + 1, ev)}
             />
-            <text x={rx + roomW/2} y={ry + 20} className="text-[14px] font-bold" fill="#212529" textAnchor="middle" dominantBaseline="middle">
+            <text x={rx + roomW/2} y={ry + 20} className="text-[16px] font-bold" fill="#000000" textAnchor="middle" dominantBaseline="middle">
               Room {roomNumberFor(state.floor, i + 1)}
             </text>
           </g>
@@ -151,7 +152,7 @@ const KioskSystem = () => {
                 className="cursor-pointer hover:opacity-80 transition-all"
                 onClick={(ev) => handleRoomClick(state.building, state.floor, i + 1, ev)}
               />
-              <text x={rx + rw/2} y={ry + roomHeight/2} className="text-[14px] font-bold" fill="#212529" textAnchor="middle" dominantBaseline="middle">
+              <text x={rx + rw/2} y={ry + roomHeight/2} className="text-[16px] font-bold" fill="#000000" textAnchor="middle" dominantBaseline="middle">
                 Room {roomNumberFor(state.floor, i + 1)}
               </text>
             </g>
@@ -290,6 +291,15 @@ const KioskSystem = () => {
                 </div>
                 <div className="flex gap-1.5 lg:gap-2">
                   <button
+                    onClick={() => setShowLegend(!showLegend)}
+                    className="p-1.5 lg:p-2.5 bg-background border border-border text-foreground rounded-lg hover:bg-accent hover:text-accent-foreground transition-all shadow-sm hover:shadow-md"
+                    title="Toggle Legend"
+                  >
+                    <svg className="w-4 h-4 lg:w-5 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                  </button>
+                  <button
                     onClick={() => setZoom(state.zoom * 1.2)}
                     className="p-1.5 lg:p-2.5 bg-background border border-border text-foreground rounded-lg hover:bg-primary hover:text-primary-foreground transition-all shadow-sm hover:shadow-md"
                     title="Zoom In"
@@ -318,34 +328,36 @@ const KioskSystem = () => {
               </div>
 
               {/* Legend */}
-              <div className="absolute top-16 lg:top-24 left-2 lg:left-4 z-10 bg-background/95 backdrop-blur-sm rounded-xl shadow-lg border border-border p-2 lg:p-4 space-y-1.5 lg:space-y-2">
-                <div className="text-[10px] lg:text-xs font-bold text-foreground mb-2 lg:mb-3 flex items-center gap-2">
-                  <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                  Map Legend
+              {showLegend && (
+                <div className="absolute top-16 lg:top-24 left-2 lg:left-4 z-10 bg-background/95 backdrop-blur-sm rounded-xl shadow-lg border border-border p-2 lg:p-4 space-y-1.5 lg:space-y-2">
+                  <div className="text-[10px] lg:text-xs font-bold text-foreground mb-2 lg:mb-3 flex items-center gap-2">
+                    <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    Map Legend
+                  </div>
+                  <div className="flex items-center gap-1.5 lg:gap-2 text-[10px] lg:text-xs">
+                    <div className="w-3.5 h-3.5 lg:w-5 lg:h-5 bg-white border-2 border-[#6c757d] rounded"></div>
+                    <span className="text-foreground font-medium">Classrooms</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 lg:gap-2 text-[10px] lg:text-xs">
+                    <div className="w-3.5 h-3.5 lg:w-5 lg:h-5 bg-[#e9ecef] border-2 border-[#495057] rounded"></div>
+                    <span className="text-foreground font-medium">Buildings</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 lg:gap-2 text-[10px] lg:text-xs">
+                    <div className="w-3.5 h-3.5 lg:w-5 lg:h-5 bg-[#fff3cd] border-2 border-[#b8860b] rounded"></div>
+                    <span className="text-foreground font-medium">Gymnasium</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 lg:gap-2 text-[10px] lg:text-xs">
+                    <div className="w-3.5 h-3.5 lg:w-5 lg:h-5 bg-[#ffe5e5] border-2 border-[#bd2130] rounded"></div>
+                    <span className="text-foreground font-medium">Canteen</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 lg:gap-2 text-[10px] lg:text-xs">
+                    <div className="w-3.5 h-3.5 lg:w-5 lg:h-5 bg-[#d4edda] border-2 border-[#28a745] rounded"></div>
+                    <span className="text-foreground font-medium">Entrance</span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-1.5 lg:gap-2 text-[10px] lg:text-xs">
-                  <div className="w-3.5 h-3.5 lg:w-5 lg:h-5 bg-white border-2 border-[#6c757d] rounded"></div>
-                  <span className="text-foreground font-medium">Classrooms</span>
-                </div>
-                <div className="flex items-center gap-1.5 lg:gap-2 text-[10px] lg:text-xs">
-                  <div className="w-3.5 h-3.5 lg:w-5 lg:h-5 bg-[#e9ecef] border-2 border-[#495057] rounded"></div>
-                  <span className="text-foreground font-medium">Buildings</span>
-                </div>
-                <div className="flex items-center gap-1.5 lg:gap-2 text-[10px] lg:text-xs">
-                  <div className="w-3.5 h-3.5 lg:w-5 lg:h-5 bg-[#fff3cd] border-2 border-[#b8860b] rounded"></div>
-                  <span className="text-foreground font-medium">Gymnasium</span>
-                </div>
-                <div className="flex items-center gap-1.5 lg:gap-2 text-[10px] lg:text-xs">
-                  <div className="w-3.5 h-3.5 lg:w-5 lg:h-5 bg-[#ffe5e5] border-2 border-[#bd2130] rounded"></div>
-                  <span className="text-foreground font-medium">Canteen</span>
-                </div>
-                <div className="flex items-center gap-1.5 lg:gap-2 text-[10px] lg:text-xs">
-                  <div className="w-3.5 h-3.5 lg:w-5 lg:h-5 bg-[#d4edda] border-2 border-[#28a745] rounded"></div>
-                  <span className="text-foreground font-medium">Entrance</span>
-                </div>
-              </div>
+              )}
 
               <div
                 ref={mapWrapRef}
@@ -397,51 +409,65 @@ const KioskSystem = () => {
                   <rect width="2000" height="1200" fill="#f0f4f8" />
                   <rect width="2000" height="1200" fill="url(#grid)" />
                   {/* Buildings with realistic shadows and depth */}
-                  <rect id="b4" x="350" y="80" width="1300" height="120" fill="url(#buildingGradient)" stroke="#495057" strokeWidth="5" rx="8" filter="url(#buildingShadow)" />
-                  <rect x="360" y="90" width="20" height="100" fill="#dee2e6" opacity="0.6" />
-                  <rect x="390" y="90" width="20" height="100" fill="#dee2e6" opacity="0.6" />
-                  <text x="1000" y="150" className="text-[28px] font-bold" fill="#212529" textAnchor="middle" dominantBaseline="middle">BUILDING 4</text>
+                  <g onClick={(e) => { e.stopPropagation(); setState(prev => ({ ...prev, building: 'b4', floor: 1 })); }} className="cursor-pointer hover:opacity-80 transition-opacity">
+                    <rect id="b4" x="350" y="80" width="1300" height="120" fill="url(#buildingGradient)" stroke="#495057" strokeWidth="5" rx="8" filter="url(#buildingShadow)" />
+                    <rect x="360" y="90" width="20" height="100" fill="#dee2e6" opacity="0.6" />
+                    <rect x="390" y="90" width="20" height="100" fill="#dee2e6" opacity="0.6" />
+                    <text x="1000" y="150" className="text-[32px] font-bold" fill="#000000" textAnchor="middle" dominantBaseline="middle" style={{ textShadow: '2px 2px 4px rgba(255,255,255,0.8)' }}>BUILDING 4</text>
+                  </g>
 
-                  <rect id="b1" x="300" y="300" width="220" height="500" fill="url(#buildingGradient)" stroke="#495057" strokeWidth="5" rx="8" filter="url(#buildingShadow)" />
-                  <rect x="310" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
-                  <rect x="350" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
-                  <rect x="390" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
-                  <rect x="430" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
-                  <rect x="470" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
-                  <text x="410" y="560" className="text-[28px] font-bold" fill="#212529" textAnchor="middle" dominantBaseline="middle">BUILDING 1</text>
+                  <g onClick={(e) => { e.stopPropagation(); setState(prev => ({ ...prev, building: 'b1', floor: 1 })); }} className="cursor-pointer hover:opacity-80 transition-opacity">
+                    <rect id="b1" x="300" y="300" width="220" height="500" fill="url(#buildingGradient)" stroke="#495057" strokeWidth="5" rx="8" filter="url(#buildingShadow)" />
+                    <rect x="310" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
+                    <rect x="350" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
+                    <rect x="390" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
+                    <rect x="430" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
+                    <rect x="470" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
+                    <text x="410" y="560" className="text-[32px] font-bold" fill="#000000" textAnchor="middle" dominantBaseline="middle" style={{ textShadow: '2px 2px 4px rgba(255,255,255,0.8)' }}>BUILDING 1</text>
+                  </g>
 
-                  <rect id="b2" x="900" y="300" width="260" height="500" fill="url(#buildingGradient)" stroke="#495057" strokeWidth="5" rx="8" filter="url(#buildingShadow)" />
-                  <rect x="910" y="320" width="35" height="40" fill="#dee2e6" opacity="0.7" />
-                  <rect x="955" y="320" width="35" height="40" fill="#dee2e6" opacity="0.7" />
-                  <rect x="1000" y="320" width="35" height="40" fill="#dee2e6" opacity="0.7" />
-                  <rect x="1045" y="320" width="35" height="40" fill="#dee2e6" opacity="0.7" />
-                  <rect x="1090" y="320" width="35" height="40" fill="#dee2e6" opacity="0.7" />
-                  <text x="1030" y="560" className="text-[28px] font-bold" fill="#212529" textAnchor="middle" dominantBaseline="middle">BUILDING 2</text>
+                  <g onClick={(e) => { e.stopPropagation(); setState(prev => ({ ...prev, building: 'b2', floor: 1 })); }} className="cursor-pointer hover:opacity-80 transition-opacity">
+                    <rect id="b2" x="900" y="300" width="260" height="500" fill="url(#buildingGradient)" stroke="#495057" strokeWidth="5" rx="8" filter="url(#buildingShadow)" />
+                    <rect x="910" y="320" width="35" height="40" fill="#dee2e6" opacity="0.7" />
+                    <rect x="955" y="320" width="35" height="40" fill="#dee2e6" opacity="0.7" />
+                    <rect x="1000" y="320" width="35" height="40" fill="#dee2e6" opacity="0.7" />
+                    <rect x="1045" y="320" width="35" height="40" fill="#dee2e6" opacity="0.7" />
+                    <rect x="1090" y="320" width="35" height="40" fill="#dee2e6" opacity="0.7" />
+                    <text x="1030" y="560" className="text-[32px] font-bold" fill="#000000" textAnchor="middle" dominantBaseline="middle" style={{ textShadow: '2px 2px 4px rgba(255,255,255,0.8)' }}>BUILDING 2</text>
+                  </g>
 
-                  <rect id="b3" x="1450" y="300" width="240" height="500" fill="url(#buildingGradient)" stroke="#495057" strokeWidth="5" rx="8" filter="url(#buildingShadow)" />
-                  <rect x="1460" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
-                  <rect x="1500" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
-                  <rect x="1540" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
-                  <rect x="1580" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
-                  <rect x="1620" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
-                  <text x="1570" y="560" className="text-[28px] font-bold" fill="#212529" textAnchor="middle" dominantBaseline="middle">BUILDING 3</text>
+                  <g onClick={(e) => { e.stopPropagation(); setState(prev => ({ ...prev, building: 'b3', floor: 1 })); }} className="cursor-pointer hover:opacity-80 transition-opacity">
+                    <rect id="b3" x="1450" y="300" width="240" height="500" fill="url(#buildingGradient)" stroke="#495057" strokeWidth="5" rx="8" filter="url(#buildingShadow)" />
+                    <rect x="1460" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
+                    <rect x="1500" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
+                    <rect x="1540" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
+                    <rect x="1580" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
+                    <rect x="1620" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
+                    <text x="1570" y="560" className="text-[32px] font-bold" fill="#000000" textAnchor="middle" dominantBaseline="middle" style={{ textShadow: '2px 2px 4px rgba(255,255,255,0.8)' }}>BUILDING 3</text>
+                  </g>
 
-                  <rect id="gym" x="700" y="850" width="600" height="220" fill="url(#gymGradient)" stroke="#b8860b" strokeWidth="6" rx="10" filter="url(#buildingShadow)" />
-                  <circle cx="850" cy="960" r="40" fill="none" stroke="#b8860b" strokeWidth="3" opacity="0.4" />
-                  <circle cx="1150" cy="960" r="40" fill="none" stroke="#b8860b" strokeWidth="3" opacity="0.4" />
-                  <text x="1000" y="970" className="text-[32px] font-bold" fill="#856404" textAnchor="middle" dominantBaseline="middle">GYMNASIUM</text>
+                  <g onClick={(e) => { e.stopPropagation(); }} className="cursor-pointer hover:opacity-80 transition-opacity">
+                    <rect id="gym" x="700" y="850" width="600" height="220" fill="url(#gymGradient)" stroke="#b8860b" strokeWidth="6" rx="10" filter="url(#buildingShadow)" />
+                    <circle cx="850" cy="960" r="40" fill="none" stroke="#b8860b" strokeWidth="3" opacity="0.4" />
+                    <circle cx="1150" cy="960" r="40" fill="none" stroke="#b8860b" strokeWidth="3" opacity="0.4" />
+                    <text x="1000" y="970" className="text-[36px] font-bold" fill="#5a4003" textAnchor="middle" dominantBaseline="middle" style={{ textShadow: '2px 2px 4px rgba(255,255,255,0.6)' }}>GYMNASIUM</text>
+                  </g>
 
-                  <rect id="canteen" x="820" y="1100" width="360" height="160" fill="url(#canteenGradient)" stroke="#bd2130" strokeWidth="5" rx="8" filter="url(#buildingShadow)" />
-                  <rect x="860" y="1120" width="40" height="35" fill="#fff" opacity="0.6" />
-                  <rect x="910" y="1120" width="40" height="35" fill="#fff" opacity="0.6" />
-                  <rect x="960" y="1120" width="40" height="35" fill="#fff" opacity="0.6" />
-                  <rect x="1010" y="1120" width="40" height="35" fill="#fff" opacity="0.6" />
-                  <rect x="1060" y="1120" width="40" height="35" fill="#fff" opacity="0.6" />
-                  <text x="1000" y="1190" className="text-[28px] font-bold" fill="#721c24" textAnchor="middle" dominantBaseline="middle">CANTEEN</text>
+                  <g onClick={(e) => { e.stopPropagation(); }} className="cursor-pointer hover:opacity-80 transition-opacity">
+                    <rect id="canteen" x="820" y="1100" width="360" height="160" fill="url(#canteenGradient)" stroke="#bd2130" strokeWidth="5" rx="8" filter="url(#buildingShadow)" />
+                    <rect x="860" y="1120" width="40" height="35" fill="#fff" opacity="0.6" />
+                    <rect x="910" y="1120" width="40" height="35" fill="#fff" opacity="0.6" />
+                    <rect x="960" y="1120" width="40" height="35" fill="#fff" opacity="0.6" />
+                    <rect x="1010" y="1120" width="40" height="35" fill="#fff" opacity="0.6" />
+                    <rect x="1060" y="1120" width="40" height="35" fill="#fff" opacity="0.6" />
+                    <text x="1000" y="1190" className="text-[32px] font-bold" fill="#4a0a0f" textAnchor="middle" dominantBaseline="middle" style={{ textShadow: '2px 2px 4px rgba(255,255,255,0.6)' }}>CANTEEN</text>
+                  </g>
 
-                  <rect id="entrance" x="150" y="950" width="250" height="140" fill="url(#entranceGradient)" stroke="#28a745" strokeWidth="5" rx="8" filter="url(#buildingShadow)" />
-                  <path d="M 275 990 L 275 1050 M 260 1020 L 290 1020" stroke="#155724" strokeWidth="8" strokeLinecap="round" />
-                  <text x="275" y="1020" className="text-[28px] font-bold" fill="#155724" textAnchor="middle" dominantBaseline="middle">ENTRANCE</text>
+                  <g onClick={(e) => { e.stopPropagation(); }} className="cursor-pointer hover:opacity-80 transition-opacity">
+                    <rect id="entrance" x="150" y="950" width="250" height="140" fill="url(#entranceGradient)" stroke="#28a745" strokeWidth="5" rx="8" filter="url(#buildingShadow)" />
+                    <path d="M 275 990 L 275 1050 M 260 1020 L 290 1020" stroke="#155724" strokeWidth="8" strokeLinecap="round" />
+                    <text x="275" y="1020" className="text-[32px] font-bold" fill="#0a3d14" textAnchor="middle" dominantBaseline="middle" style={{ textShadow: '2px 2px 4px rgba(255,255,255,0.6)' }}>ENTRANCE</text>
+                  </g>
 
                   {/* Rooms */}
                   {renderRooms()}
