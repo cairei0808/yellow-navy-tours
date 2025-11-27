@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Clock, User, BookOpen, MapPin } from "lucide-react";
 import fabinhsLogo from "@/assets/fabinhs-logo.jpg";
 
 interface State {
@@ -12,11 +14,35 @@ interface State {
   ty: number;
 }
 
+// Mock teacher schedule data
+const teacherSchedules: Record<string, { teacher: string; subject: string; schedule: { day: string; time: string }[] }> = {
+  "B1-101": { teacher: "Ms. Maria Santos", subject: "Mathematics", schedule: [{ day: "Mon-Fri", time: "8:00 AM - 9:00 AM" }] },
+  "B1-102": { teacher: "Mr. Juan Reyes", subject: "Science", schedule: [{ day: "Mon-Fri", time: "9:00 AM - 10:00 AM" }] },
+  "B1-103": { teacher: "Mrs. Ana Cruz", subject: "English", schedule: [{ day: "Mon-Fri", time: "10:00 AM - 11:00 AM" }] },
+  "B1-104": { teacher: "Mr. Pedro Garcia", subject: "Filipino", schedule: [{ day: "Mon-Fri", time: "11:00 AM - 12:00 PM" }] },
+  "B1-105": { teacher: "Ms. Rosa Mendoza", subject: "Social Studies", schedule: [{ day: "Mon-Fri", time: "1:00 PM - 2:00 PM" }] },
+  "B2-201": { teacher: "Mr. Carlos Diaz", subject: "Physics", schedule: [{ day: "Mon-Fri", time: "8:00 AM - 9:00 AM" }] },
+  "B2-202": { teacher: "Ms. Elena Torres", subject: "Chemistry", schedule: [{ day: "Mon-Fri", time: "9:00 AM - 10:00 AM" }] },
+  "B2-203": { teacher: "Mr. Ramon Lopez", subject: "Biology", schedule: [{ day: "Mon-Fri", time: "10:00 AM - 11:00 AM" }] },
+  "B2-204": { teacher: "Mrs. Sofia Ramos", subject: "History", schedule: [{ day: "Mon-Fri", time: "11:00 AM - 12:00 PM" }] },
+  "B2-205": { teacher: "Mr. Luis Fernandez", subject: "Geography", schedule: [{ day: "Mon-Fri", time: "1:00 PM - 2:00 PM" }] },
+  "B3-301": { teacher: "Ms. Carmen Flores", subject: "Computer Science", schedule: [{ day: "Mon-Fri", time: "8:00 AM - 9:00 AM" }] },
+  "B3-302": { teacher: "Mr. Miguel Castro", subject: "P.E.", schedule: [{ day: "Mon-Fri", time: "9:00 AM - 10:00 AM" }] },
+  "B3-303": { teacher: "Mrs. Gloria Morales", subject: "Arts", schedule: [{ day: "Mon-Fri", time: "10:00 AM - 11:00 AM" }] },
+  "B3-304": { teacher: "Mr. Ricardo Jimenez", subject: "Music", schedule: [{ day: "Mon-Fri", time: "11:00 AM - 12:00 PM" }] },
+  "B3-305": { teacher: "Ms. Patricia Vargas", subject: "Values Education", schedule: [{ day: "Mon-Fri", time: "1:00 PM - 2:00 PM" }] },
+  "B4-401": { teacher: "Mr. Antonio Ruiz", subject: "Calculus", schedule: [{ day: "Mon-Fri", time: "8:00 AM - 9:00 AM" }] },
+  "B4-402": { teacher: "Ms. Isabel Navarro", subject: "Statistics", schedule: [{ day: "Mon-Fri", time: "9:00 AM - 10:00 AM" }] },
+  "B4-403": { teacher: "Mr. Francisco Herrera", subject: "Economics", schedule: [{ day: "Mon-Fri", time: "10:00 AM - 11:00 AM" }] },
+  "B4-404": { teacher: "Mrs. Teresa Medina", subject: "Accounting", schedule: [{ day: "Mon-Fri", time: "11:00 AM - 12:00 PM" }] },
+  "B4-405": { teacher: "Mr. Jorge Romero", subject: "Business", schedule: [{ day: "Mon-Fri", time: "1:00 PM - 2:00 PM" }] },
+};
+
 const KioskSystem = () => {
   const [state, setState] = useState<State>({ building: 'b1', floor: 1, zoom: 1, tx: 0, ty: 0 });
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedRoom, setSelectedRoom] = useState<any>(null);
-  const [popupPos, setPopupPos] = useState({ x: 0, y: 0, show: false });
+  const [showRoomDialog, setShowRoomDialog] = useState(false);
   const [showLegend, setShowLegend] = useState(true);
   const svgRef = useRef<SVGSVGElement>(null);
   const mapWrapRef = useRef<HTMLDivElement>(null);
@@ -75,19 +101,7 @@ const KioskSystem = () => {
     ev.stopPropagation();
     const code = roomCode(bid, floor, idx);
     setSelectedRoom({ bid, floor, idx, code });
-    if (mapWrapRef.current) {
-      const rect = mapWrapRef.current.getBoundingClientRect();
-      setPopupPos({ 
-        x: Math.min(Math.max(8, ev.clientX - rect.left), rect.width - 260), 
-        y: Math.min(Math.max(8, ev.clientY - rect.top), rect.height - 120),
-        show: true 
-      });
-    }
-  };
-
-  const closePopup = () => {
-    setPopupPos(prev => ({ ...prev, show: false }));
-    setSelectedRoom(null);
+    setShowRoomDialog(true);
   };
 
   useEffect(() => {
@@ -367,7 +381,6 @@ const KioskSystem = () => {
                 onPointerMove={handlePointerMove}
                 onPointerUp={handlePointerUp}
                 onPointerCancel={handlePointerUp}
-                onClick={closePopup}
               >
                 <svg
                   ref={svgRef}
@@ -472,20 +485,6 @@ const KioskSystem = () => {
                   {/* Rooms */}
                   {renderRooms()}
                 </svg>
-
-                {/* Popup */}
-                {popupPos.show && selectedRoom && (
-                  <div
-                    className="absolute z-20 bg-card rounded-lg shadow-strong p-4 min-w-[220px]"
-                    style={{ left: `${popupPos.x}px`, top: `${popupPos.y}px` }}
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <h4 className="font-bold text-lg mb-2">{selectedRoom.code}</h4>
-                    <p className="text-sm text-muted-foreground mb-1">Teacher: TBA</p>
-                    <p className="text-sm text-muted-foreground mb-3">Schedule: TBA</p>
-                    <Button onClick={closePopup} className="w-full" size="sm">Close</Button>
-                  </div>
-                )}
               </div>
 
               {/* Floor Pills */}
@@ -506,6 +505,84 @@ const KioskSystem = () => {
           </div>
         </div>
       </div>
+
+      {/* Room Info Dialog */}
+      <Dialog open={showRoomDialog} onOpenChange={setShowRoomDialog}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-2xl">
+              <MapPin className="w-6 h-6 text-primary" />
+              {selectedRoom?.code}
+            </DialogTitle>
+            <DialogDescription>
+              Room details and teacher schedule information
+            </DialogDescription>
+          </DialogHeader>
+          
+          {selectedRoom && teacherSchedules[selectedRoom.code] && (
+            <div className="space-y-6 py-4">
+              {/* Teacher Info */}
+              <div className="bg-primary/5 rounded-lg p-4 space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                    <User className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Teacher</p>
+                    <p className="font-semibold text-lg">{teacherSchedules[selectedRoom.code].teacher}</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
+                    <BookOpen className="w-5 h-5 text-accent" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Subject</p>
+                    <p className="font-semibold">{teacherSchedules[selectedRoom.code].subject}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Schedule */}
+              <div>
+                <div className="flex items-center gap-2 mb-3">
+                  <Clock className="w-5 h-5 text-primary" />
+                  <h4 className="font-semibold text-lg">Class Schedule</h4>
+                </div>
+                <div className="space-y-2">
+                  {teacherSchedules[selectedRoom.code].schedule.map((slot, idx) => (
+                    <div key={idx} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg border border-border">
+                      <span className="font-medium">{slot.day}</span>
+                      <span className="text-sm text-muted-foreground">{slot.time}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Location Info */}
+              <div className="border-t border-border pt-4">
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <p className="text-muted-foreground mb-1">Building</p>
+                    <p className="font-semibold">{buildings.find(b => b.value === selectedRoom.bid)?.label}</p>
+                  </div>
+                  <div>
+                    <p className="text-muted-foreground mb-1">Floor</p>
+                    <p className="font-semibold">Floor {selectedRoom.floor}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {selectedRoom && !teacherSchedules[selectedRoom.code] && (
+            <div className="py-8 text-center">
+              <p className="text-muted-foreground">No schedule information available for this room.</p>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
