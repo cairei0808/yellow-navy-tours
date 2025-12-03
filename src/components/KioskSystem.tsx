@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -46,17 +46,23 @@ const buildingPositions: Record<string, { x: number; y: number; w: number; h: nu
   b4: { x: 350, y: 80, w: 1300, h: 120 },
 };
 
+const MIN_ZOOM = 0.5;
+const MAX_ZOOM = 4;
+const SVG_WIDTH = 2000;
+const SVG_HEIGHT = 1200;
+
 const KioskSystem = () => {
   const [state, setState] = useState<State>({ building: 'b1', floor: 1, zoom: 1, tx: 0, ty: 0 });
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedRoom, setSelectedRoom] = useState<any>(null);
   const [showRoomDialog, setShowRoomDialog] = useState(false);
   const [showLegend, setShowLegend] = useState(true);
+  const [isPanning, setIsPanning] = useState(false);
+  
   const svgRef = useRef<SVGSVGElement>(null);
   const mapWrapRef = useRef<HTMLDivElement>(null);
-  const [isPanning, setIsPanning] = useState(false);
-  const [panStart, setPanStart] = useState({ x: 0, y: 0 });
-  const [lastTranslate, setLastTranslate] = useState({ tx: 0, ty: 0 });
+  const panStartRef = useRef({ x: 0, y: 0 });
+  const lastTranslateRef = useRef({ tx: 0, ty: 0 });
 
   const roomNumberFor = (floor: number, idx: number) => (floor * 100) + idx;
   const roomCode = (bid: string, floor: number, idx: number) => 
@@ -69,29 +75,41 @@ const KioskSystem = () => {
     { value: 'b4', label: 'Building 4' },
   ];
 
-  const setZoom = (newZoom: number) => {
-    const minZ = 0.6, maxZ = 4;
-    const z = Math.max(minZ, Math.min(maxZ, newZoom));
-    setState(prev => ({ ...prev, zoom: z }));
-  };
+  const clampTranslate = useCallback((tx: number, ty: number, zoom: number) => {
+    if (!mapWrapRef.current) return { tx, ty };
+    const container = mapWrapRef.current.getBoundingClientRect();
+    const scaledW = SVG_WIDTH * zoom * (container.width / SVG_WIDTH);
+    const scaledH = SVG_HEIGHT * zoom * (container.height / SVG_HEIGHT);
+    
+    const maxTx = Math.max(0, scaledW - container.width);
+    const maxTy = Math.max(0, scaledH - container.height);
+    
+    return {
+      tx: Math.max(-maxTx, Math.min(maxTx / 2, tx)),
+      ty: Math.max(-maxTy, Math.min(maxTy / 2, ty)),
+    };
+  }, []);
 
-  const zoomToBuilding = (buildingId: string) => {
+  const setZoom = useCallback((newZoom: number) => {
+    const z = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, newZoom));
+    setState(prev => {
+      const clamped = clampTranslate(prev.tx, prev.ty, z);
+      return { ...prev, zoom: z, ...clamped };
+    });
+  }, [clampTranslate]);
+
+  const zoomToBuilding = useCallback((buildingId: string) => {
     const pos = buildingPositions[buildingId];
     if (!pos || !mapWrapRef.current) return;
     
     const container = mapWrapRef.current.getBoundingClientRect();
     const targetZoom = 1.8;
     
-    // Calculate center of building in SVG coordinates
     const buildingCenterX = pos.x + pos.w / 2;
     const buildingCenterY = pos.y + pos.h / 2;
     
-    // Calculate translation to center the building
-    // We need to account for the SVG viewBox (2000x1200) and container size
-    const svgWidth = 2000;
-    const svgHeight = 1200;
-    const scaleX = container.width / svgWidth;
-    const scaleY = container.height / svgHeight;
+    const scaleX = container.width / SVG_WIDTH;
+    const scaleY = container.height / SVG_HEIGHT;
     const scale = Math.min(scaleX, scaleY);
     
     const tx = (container.width / 2) - (buildingCenterX * scale * targetZoom);
@@ -105,31 +123,41 @@ const KioskSystem = () => {
       tx,
       ty
     }));
-  };
+  }, []);
 
-  const handleWheel = (ev: React.WheelEvent) => {
+  const handleWheel = useCallback((ev: React.WheelEvent) => {
     ev.preventDefault();
-    const delta = ev.deltaY < 0 ? 1.12 : 1/1.12;
+    ev.stopPropagation();
+    const delta = ev.deltaY < 0 ? 1.1 : 1/1.1;
     setZoom(state.zoom * delta);
-  };
+  }, [state.zoom, setZoom]);
 
-  const handlePointerDown = (ev: React.PointerEvent) => {
+  const handlePointerDown = useCallback((ev: React.PointerEvent) => {
     if (ev.button && ev.button !== 0) return;
+    ev.preventDefault();
     setIsPanning(true);
-    setPanStart({ x: ev.clientX, y: ev.clientY });
-    setLastTranslate({ tx: state.tx, ty: state.ty });
-  };
+    panStartRef.current = { x: ev.clientX, y: ev.clientY };
+    lastTranslateRef.current = { tx: state.tx, ty: state.ty };
+    (ev.target as HTMLElement).setPointerCapture(ev.pointerId);
+  }, [state.tx, state.ty]);
 
-  const handlePointerMove = (ev: React.PointerEvent) => {
+  const handlePointerMove = useCallback((ev: React.PointerEvent) => {
     if (!isPanning) return;
-    const dx = ev.clientX - panStart.x;
-    const dy = ev.clientY - panStart.y;
-    setState(prev => ({ ...prev, tx: lastTranslate.tx + dx, ty: lastTranslate.ty + dy }));
-  };
+    ev.preventDefault();
+    const dx = ev.clientX - panStartRef.current.x;
+    const dy = ev.clientY - panStartRef.current.y;
+    const newTx = lastTranslateRef.current.tx + dx;
+    const newTy = lastTranslateRef.current.ty + dy;
+    const clamped = clampTranslate(newTx, newTy, state.zoom);
+    setState(prev => ({ ...prev, ...clamped }));
+  }, [isPanning, state.zoom, clampTranslate]);
 
-  const handlePointerUp = () => {
+  const handlePointerUp = useCallback((ev: React.PointerEvent) => {
+    if (isPanning) {
+      (ev.target as HTMLElement).releasePointerCapture(ev.pointerId);
+    }
     setIsPanning(false);
-  };
+  }, [isPanning]);
 
   const handleRoomClick = (bid: string, floor: number, idx: number, ev: React.MouseEvent) => {
     ev.stopPropagation();
@@ -405,7 +433,12 @@ const KioskSystem = () => {
 
               <div
                 ref={mapWrapRef}
-                className="w-full h-full relative overflow-hidden cursor-grab active:cursor-grabbing pt-14 lg:pt-20"
+                className="w-full h-full relative overflow-hidden pt-14 lg:pt-20"
+                style={{ 
+                  cursor: isPanning ? 'grabbing' : 'grab',
+                  touchAction: 'none',
+                  userSelect: 'none',
+                }}
                 onWheel={handleWheel}
                 onPointerDown={handlePointerDown}
                 onPointerMove={handlePointerMove}
@@ -415,17 +448,20 @@ const KioskSystem = () => {
               >
                 <div
                   style={{
-                    transform: `translate(${state.tx}px, ${state.ty}px) scale(${state.zoom})`,
-                    transformOrigin: '0 0',
-                    transition: isPanning ? 'none' : 'transform 0.4s cubic-bezier(.25,.46,.45,.94)',
+                    transform: `translate3d(${state.tx}px, ${state.ty}px, 0) scale(${state.zoom})`,
+                    transformOrigin: 'center center',
+                    transition: isPanning ? 'none' : 'transform 0.35s cubic-bezier(0.25, 0.1, 0.25, 1)',
                     width: '100%',
                     height: '100%',
+                    willChange: 'transform',
+                    backfaceVisibility: 'hidden',
                   }}
                 >
                   <svg
                     ref={svgRef}
                     viewBox="0 0 2000 1200"
                     className="w-full h-full select-none"
+                    style={{ pointerEvents: isPanning ? 'none' : 'auto' }}
                   >
                     <defs>
                       <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
