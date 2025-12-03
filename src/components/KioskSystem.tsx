@@ -493,19 +493,29 @@ const KioskSystem = () => {
                       <filter id="buildingShadow">
                         <feDropShadow dx="2" dy="6" stdDeviation="8" floodOpacity="0.35" />
                       </filter>
+                      <filter id="selectedGlow" x="-50%" y="-50%" width="200%" height="200%">
+                        <feGaussianBlur stdDeviation="8" result="blur" />
+                        <feFlood floodColor="#eab308" floodOpacity="0.8" result="color" />
+                        <feComposite in="color" in2="blur" operator="in" result="glow" />
+                        <feMerge>
+                          <feMergeNode in="glow" />
+                          <feMergeNode in="glow" />
+                          <feMergeNode in="SourceGraphic" />
+                        </feMerge>
+                      </filter>
                     </defs>
                     <rect width="2000" height="1200" fill="#f0f4f8" />
                     <rect width="2000" height="1200" fill="url(#grid)" />
                     {/* Buildings with realistic shadows and depth */}
-                    <g onClick={(e) => { e.stopPropagation(); zoomToBuilding('b4'); }} className="cursor-pointer hover:opacity-80 transition-opacity">
-                      <rect id="b4" x="350" y="80" width="1300" height="120" fill="url(#buildingGradient)" stroke="#495057" strokeWidth="5" rx="8" filter="url(#buildingShadow)" />
+                    <g onClick={(e) => { e.stopPropagation(); zoomToBuilding('b4'); }} className="cursor-pointer hover:opacity-90 transition-all" style={{ filter: state.building === 'b4' ? 'url(#selectedGlow)' : undefined }}>
+                      <rect id="b4" x="350" y="80" width="1300" height="120" fill="url(#buildingGradient)" stroke={state.building === 'b4' ? '#eab308' : '#495057'} strokeWidth={state.building === 'b4' ? 8 : 5} rx="8" filter="url(#buildingShadow)" />
                       <rect x="360" y="90" width="20" height="100" fill="#dee2e6" opacity="0.6" />
                       <rect x="390" y="90" width="20" height="100" fill="#dee2e6" opacity="0.6" />
                       <text x="1000" y="150" className="text-[32px] font-bold" fill="#000000" textAnchor="middle" dominantBaseline="middle" style={{ textShadow: '2px 2px 4px rgba(255,255,255,0.8)' }}>BUILDING 4</text>
                     </g>
 
-                    <g onClick={(e) => { e.stopPropagation(); zoomToBuilding('b1'); }} className="cursor-pointer hover:opacity-80 transition-opacity">
-                      <rect id="b1" x="300" y="300" width="220" height="500" fill="url(#buildingGradient)" stroke="#495057" strokeWidth="5" rx="8" filter="url(#buildingShadow)" />
+                    <g onClick={(e) => { e.stopPropagation(); zoomToBuilding('b1'); }} className="cursor-pointer hover:opacity-90 transition-all" style={{ filter: state.building === 'b1' ? 'url(#selectedGlow)' : undefined }}>
+                      <rect id="b1" x="300" y="300" width="220" height="500" fill="url(#buildingGradient)" stroke={state.building === 'b1' ? '#eab308' : '#495057'} strokeWidth={state.building === 'b1' ? 8 : 5} rx="8" filter="url(#buildingShadow)" />
                       <rect x="310" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
                       <rect x="350" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
                       <rect x="390" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
@@ -514,8 +524,8 @@ const KioskSystem = () => {
                       <text x="410" y="560" className="text-[32px] font-bold" fill="#000000" textAnchor="middle" dominantBaseline="middle" style={{ textShadow: '2px 2px 4px rgba(255,255,255,0.8)' }}>BUILDING 1</text>
                     </g>
 
-                    <g onClick={(e) => { e.stopPropagation(); zoomToBuilding('b2'); }} className="cursor-pointer hover:opacity-80 transition-opacity">
-                      <rect id="b2" x="900" y="300" width="260" height="500" fill="url(#buildingGradient)" stroke="#495057" strokeWidth="5" rx="8" filter="url(#buildingShadow)" />
+                    <g onClick={(e) => { e.stopPropagation(); zoomToBuilding('b2'); }} className="cursor-pointer hover:opacity-90 transition-all" style={{ filter: state.building === 'b2' ? 'url(#selectedGlow)' : undefined }}>
+                      <rect id="b2" x="900" y="300" width="260" height="500" fill="url(#buildingGradient)" stroke={state.building === 'b2' ? '#eab308' : '#495057'} strokeWidth={state.building === 'b2' ? 8 : 5} rx="8" filter="url(#buildingShadow)" />
                       <rect x="910" y="320" width="35" height="40" fill="#dee2e6" opacity="0.7" />
                       <rect x="955" y="320" width="35" height="40" fill="#dee2e6" opacity="0.7" />
                       <rect x="1000" y="320" width="35" height="40" fill="#dee2e6" opacity="0.7" />
@@ -524,8 +534,8 @@ const KioskSystem = () => {
                       <text x="1030" y="560" className="text-[32px] font-bold" fill="#000000" textAnchor="middle" dominantBaseline="middle" style={{ textShadow: '2px 2px 4px rgba(255,255,255,0.8)' }}>BUILDING 2</text>
                     </g>
 
-                    <g onClick={(e) => { e.stopPropagation(); zoomToBuilding('b3'); }} className="cursor-pointer hover:opacity-80 transition-opacity">
-                      <rect id="b3" x="1450" y="300" width="240" height="500" fill="url(#buildingGradient)" stroke="#495057" strokeWidth="5" rx="8" filter="url(#buildingShadow)" />
+                    <g onClick={(e) => { e.stopPropagation(); zoomToBuilding('b3'); }} className="cursor-pointer hover:opacity-90 transition-all" style={{ filter: state.building === 'b3' ? 'url(#selectedGlow)' : undefined }}>
+                      <rect id="b3" x="1450" y="300" width="240" height="500" fill="url(#buildingGradient)" stroke={state.building === 'b3' ? '#eab308' : '#495057'} strokeWidth={state.building === 'b3' ? 8 : 5} rx="8" filter="url(#buildingShadow)" />
                       <rect x="1460" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
                       <rect x="1500" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
                       <rect x="1540" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
