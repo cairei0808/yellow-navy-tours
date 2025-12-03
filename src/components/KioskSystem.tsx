@@ -38,6 +38,14 @@ const teacherSchedules: Record<string, { teacher: string; subject: string; sched
   "B4-405": { teacher: "Mr. Jorge Romero", subject: "Business", schedule: [{ day: "Mon-Fri", time: "1:00 PM - 2:00 PM" }] },
 };
 
+// Building positions for zoom-to-building feature
+const buildingPositions: Record<string, { x: number; y: number; w: number; h: number }> = {
+  b1: { x: 300, y: 300, w: 220, h: 500 },
+  b2: { x: 900, y: 300, w: 260, h: 500 },
+  b3: { x: 1450, y: 300, w: 240, h: 500 },
+  b4: { x: 350, y: 80, w: 1300, h: 120 },
+};
+
 const KioskSystem = () => {
   const [state, setState] = useState<State>({ building: 'b1', floor: 1, zoom: 1, tx: 0, ty: 0 });
   const [searchQuery, setSearchQuery] = useState("");
@@ -61,16 +69,42 @@ const KioskSystem = () => {
     { value: 'b4', label: 'Building 4' },
   ];
 
-  const applyTransform = () => {
-    if (svgRef.current) {
-      svgRef.current.style.transform = `translate(${state.tx}px, ${state.ty}px) scale(${state.zoom})`;
-    }
-  };
-
   const setZoom = (newZoom: number) => {
     const minZ = 0.6, maxZ = 4;
     const z = Math.max(minZ, Math.min(maxZ, newZoom));
     setState(prev => ({ ...prev, zoom: z }));
+  };
+
+  const zoomToBuilding = (buildingId: string) => {
+    const pos = buildingPositions[buildingId];
+    if (!pos || !mapWrapRef.current) return;
+    
+    const container = mapWrapRef.current.getBoundingClientRect();
+    const targetZoom = 1.8;
+    
+    // Calculate center of building in SVG coordinates
+    const buildingCenterX = pos.x + pos.w / 2;
+    const buildingCenterY = pos.y + pos.h / 2;
+    
+    // Calculate translation to center the building
+    // We need to account for the SVG viewBox (2000x1200) and container size
+    const svgWidth = 2000;
+    const svgHeight = 1200;
+    const scaleX = container.width / svgWidth;
+    const scaleY = container.height / svgHeight;
+    const scale = Math.min(scaleX, scaleY);
+    
+    const tx = (container.width / 2) - (buildingCenterX * scale * targetZoom);
+    const ty = (container.height / 2) - (buildingCenterY * scale * targetZoom);
+    
+    setState(prev => ({ 
+      ...prev, 
+      building: buildingId, 
+      floor: 1,
+      zoom: targetZoom,
+      tx,
+      ty
+    }));
   };
 
   const handleWheel = (ev: React.WheelEvent) => {
@@ -103,10 +137,6 @@ const KioskSystem = () => {
     setSelectedRoom({ bid, floor, idx, code });
     setShowRoomDialog(true);
   };
-
-  useEffect(() => {
-    applyTransform();
-  }, [state.tx, state.ty, state.zoom]);
 
   const renderRooms = () => {
     const rooms = [];
@@ -381,110 +411,120 @@ const KioskSystem = () => {
                 onPointerMove={handlePointerMove}
                 onPointerUp={handlePointerUp}
                 onPointerCancel={handlePointerUp}
+                onPointerLeave={handlePointerUp}
               >
-                <svg
-                  ref={svgRef}
-                  viewBox="0 0 2000 1200"
-                  className="w-full h-full select-none"
-                  style={{ transformOrigin: '0 0', transition: isPanning ? 'none' : 'transform 0.18s cubic-bezier(.2,.9,.2,1)' }}
+                <div
+                  style={{
+                    transform: `translate(${state.tx}px, ${state.ty}px) scale(${state.zoom})`,
+                    transformOrigin: '0 0',
+                    transition: isPanning ? 'none' : 'transform 0.4s cubic-bezier(.25,.46,.45,.94)',
+                    width: '100%',
+                    height: '100%',
+                  }}
                 >
-                  <defs>
-                    <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
-                      <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#e0e0e0" strokeWidth="1" opacity="0.3" />
-                    </pattern>
-                    <linearGradient id="buildingGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" style={{ stopColor: "#f8f9fa", stopOpacity: 1 }} />
-                      <stop offset="100%" style={{ stopColor: "#e9ecef", stopOpacity: 1 }} />
-                    </linearGradient>
-                    <linearGradient id="roomGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" style={{ stopColor: "#ffffff", stopOpacity: 1 }} />
-                      <stop offset="100%" style={{ stopColor: "#f8f9fa", stopOpacity: 1 }} />
-                    </linearGradient>
-                    <linearGradient id="gymGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" style={{ stopColor: "#fff3cd", stopOpacity: 1 }} />
-                      <stop offset="100%" style={{ stopColor: "#ffeaa7", stopOpacity: 1 }} />
-                    </linearGradient>
-                    <linearGradient id="canteenGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" style={{ stopColor: "#ffe5e5", stopOpacity: 1 }} />
-                      <stop offset="100%" style={{ stopColor: "#ffd1d1", stopOpacity: 1 }} />
-                    </linearGradient>
-                    <linearGradient id="entranceGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" style={{ stopColor: "#d4edda", stopOpacity: 1 }} />
-                      <stop offset="100%" style={{ stopColor: "#c3e6cb", stopOpacity: 1 }} />
-                    </linearGradient>
-                    <filter id="shadow">
-                      <feDropShadow dx="0" dy="4" stdDeviation="6" floodOpacity="0.25" />
-                    </filter>
-                    <filter id="buildingShadow">
-                      <feDropShadow dx="2" dy="6" stdDeviation="8" floodOpacity="0.35" />
-                    </filter>
-                  </defs>
-                  <rect width="2000" height="1200" fill="#f0f4f8" />
-                  <rect width="2000" height="1200" fill="url(#grid)" />
-                  {/* Buildings with realistic shadows and depth */}
-                  <g onClick={(e) => { e.stopPropagation(); setState(prev => ({ ...prev, building: 'b4', floor: 1 })); }} className="cursor-pointer hover:opacity-80 transition-opacity">
-                    <rect id="b4" x="350" y="80" width="1300" height="120" fill="url(#buildingGradient)" stroke="#495057" strokeWidth="5" rx="8" filter="url(#buildingShadow)" />
-                    <rect x="360" y="90" width="20" height="100" fill="#dee2e6" opacity="0.6" />
-                    <rect x="390" y="90" width="20" height="100" fill="#dee2e6" opacity="0.6" />
-                    <text x="1000" y="150" className="text-[32px] font-bold" fill="#000000" textAnchor="middle" dominantBaseline="middle" style={{ textShadow: '2px 2px 4px rgba(255,255,255,0.8)' }}>BUILDING 4</text>
-                  </g>
+                  <svg
+                    ref={svgRef}
+                    viewBox="0 0 2000 1200"
+                    className="w-full h-full select-none"
+                  >
+                    <defs>
+                      <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+                        <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#e0e0e0" strokeWidth="1" opacity="0.3" />
+                      </pattern>
+                      <linearGradient id="buildingGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style={{ stopColor: "#f8f9fa", stopOpacity: 1 }} />
+                        <stop offset="100%" style={{ stopColor: "#e9ecef", stopOpacity: 1 }} />
+                      </linearGradient>
+                      <linearGradient id="roomGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style={{ stopColor: "#ffffff", stopOpacity: 1 }} />
+                        <stop offset="100%" style={{ stopColor: "#f8f9fa", stopOpacity: 1 }} />
+                      </linearGradient>
+                      <linearGradient id="gymGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style={{ stopColor: "#fff3cd", stopOpacity: 1 }} />
+                        <stop offset="100%" style={{ stopColor: "#ffeaa7", stopOpacity: 1 }} />
+                      </linearGradient>
+                      <linearGradient id="canteenGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style={{ stopColor: "#ffe5e5", stopOpacity: 1 }} />
+                        <stop offset="100%" style={{ stopColor: "#ffd1d1", stopOpacity: 1 }} />
+                      </linearGradient>
+                      <linearGradient id="entranceGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style={{ stopColor: "#d4edda", stopOpacity: 1 }} />
+                        <stop offset="100%" style={{ stopColor: "#c3e6cb", stopOpacity: 1 }} />
+                      </linearGradient>
+                      <filter id="shadow">
+                        <feDropShadow dx="0" dy="4" stdDeviation="6" floodOpacity="0.25" />
+                      </filter>
+                      <filter id="buildingShadow">
+                        <feDropShadow dx="2" dy="6" stdDeviation="8" floodOpacity="0.35" />
+                      </filter>
+                    </defs>
+                    <rect width="2000" height="1200" fill="#f0f4f8" />
+                    <rect width="2000" height="1200" fill="url(#grid)" />
+                    {/* Buildings with realistic shadows and depth */}
+                    <g onClick={(e) => { e.stopPropagation(); zoomToBuilding('b4'); }} className="cursor-pointer hover:opacity-80 transition-opacity">
+                      <rect id="b4" x="350" y="80" width="1300" height="120" fill="url(#buildingGradient)" stroke="#495057" strokeWidth="5" rx="8" filter="url(#buildingShadow)" />
+                      <rect x="360" y="90" width="20" height="100" fill="#dee2e6" opacity="0.6" />
+                      <rect x="390" y="90" width="20" height="100" fill="#dee2e6" opacity="0.6" />
+                      <text x="1000" y="150" className="text-[32px] font-bold" fill="#000000" textAnchor="middle" dominantBaseline="middle" style={{ textShadow: '2px 2px 4px rgba(255,255,255,0.8)' }}>BUILDING 4</text>
+                    </g>
 
-                  <g onClick={(e) => { e.stopPropagation(); setState(prev => ({ ...prev, building: 'b1', floor: 1 })); }} className="cursor-pointer hover:opacity-80 transition-opacity">
-                    <rect id="b1" x="300" y="300" width="220" height="500" fill="url(#buildingGradient)" stroke="#495057" strokeWidth="5" rx="8" filter="url(#buildingShadow)" />
-                    <rect x="310" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
-                    <rect x="350" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
-                    <rect x="390" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
-                    <rect x="430" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
-                    <rect x="470" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
-                    <text x="410" y="560" className="text-[32px] font-bold" fill="#000000" textAnchor="middle" dominantBaseline="middle" style={{ textShadow: '2px 2px 4px rgba(255,255,255,0.8)' }}>BUILDING 1</text>
-                  </g>
+                    <g onClick={(e) => { e.stopPropagation(); zoomToBuilding('b1'); }} className="cursor-pointer hover:opacity-80 transition-opacity">
+                      <rect id="b1" x="300" y="300" width="220" height="500" fill="url(#buildingGradient)" stroke="#495057" strokeWidth="5" rx="8" filter="url(#buildingShadow)" />
+                      <rect x="310" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
+                      <rect x="350" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
+                      <rect x="390" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
+                      <rect x="430" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
+                      <rect x="470" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
+                      <text x="410" y="560" className="text-[32px] font-bold" fill="#000000" textAnchor="middle" dominantBaseline="middle" style={{ textShadow: '2px 2px 4px rgba(255,255,255,0.8)' }}>BUILDING 1</text>
+                    </g>
 
-                  <g onClick={(e) => { e.stopPropagation(); setState(prev => ({ ...prev, building: 'b2', floor: 1 })); }} className="cursor-pointer hover:opacity-80 transition-opacity">
-                    <rect id="b2" x="900" y="300" width="260" height="500" fill="url(#buildingGradient)" stroke="#495057" strokeWidth="5" rx="8" filter="url(#buildingShadow)" />
-                    <rect x="910" y="320" width="35" height="40" fill="#dee2e6" opacity="0.7" />
-                    <rect x="955" y="320" width="35" height="40" fill="#dee2e6" opacity="0.7" />
-                    <rect x="1000" y="320" width="35" height="40" fill="#dee2e6" opacity="0.7" />
-                    <rect x="1045" y="320" width="35" height="40" fill="#dee2e6" opacity="0.7" />
-                    <rect x="1090" y="320" width="35" height="40" fill="#dee2e6" opacity="0.7" />
-                    <text x="1030" y="560" className="text-[32px] font-bold" fill="#000000" textAnchor="middle" dominantBaseline="middle" style={{ textShadow: '2px 2px 4px rgba(255,255,255,0.8)' }}>BUILDING 2</text>
-                  </g>
+                    <g onClick={(e) => { e.stopPropagation(); zoomToBuilding('b2'); }} className="cursor-pointer hover:opacity-80 transition-opacity">
+                      <rect id="b2" x="900" y="300" width="260" height="500" fill="url(#buildingGradient)" stroke="#495057" strokeWidth="5" rx="8" filter="url(#buildingShadow)" />
+                      <rect x="910" y="320" width="35" height="40" fill="#dee2e6" opacity="0.7" />
+                      <rect x="955" y="320" width="35" height="40" fill="#dee2e6" opacity="0.7" />
+                      <rect x="1000" y="320" width="35" height="40" fill="#dee2e6" opacity="0.7" />
+                      <rect x="1045" y="320" width="35" height="40" fill="#dee2e6" opacity="0.7" />
+                      <rect x="1090" y="320" width="35" height="40" fill="#dee2e6" opacity="0.7" />
+                      <text x="1030" y="560" className="text-[32px] font-bold" fill="#000000" textAnchor="middle" dominantBaseline="middle" style={{ textShadow: '2px 2px 4px rgba(255,255,255,0.8)' }}>BUILDING 2</text>
+                    </g>
 
-                  <g onClick={(e) => { e.stopPropagation(); setState(prev => ({ ...prev, building: 'b3', floor: 1 })); }} className="cursor-pointer hover:opacity-80 transition-opacity">
-                    <rect id="b3" x="1450" y="300" width="240" height="500" fill="url(#buildingGradient)" stroke="#495057" strokeWidth="5" rx="8" filter="url(#buildingShadow)" />
-                    <rect x="1460" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
-                    <rect x="1500" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
-                    <rect x="1540" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
-                    <rect x="1580" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
-                    <rect x="1620" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
-                    <text x="1570" y="560" className="text-[32px] font-bold" fill="#000000" textAnchor="middle" dominantBaseline="middle" style={{ textShadow: '2px 2px 4px rgba(255,255,255,0.8)' }}>BUILDING 3</text>
-                  </g>
+                    <g onClick={(e) => { e.stopPropagation(); zoomToBuilding('b3'); }} className="cursor-pointer hover:opacity-80 transition-opacity">
+                      <rect id="b3" x="1450" y="300" width="240" height="500" fill="url(#buildingGradient)" stroke="#495057" strokeWidth="5" rx="8" filter="url(#buildingShadow)" />
+                      <rect x="1460" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
+                      <rect x="1500" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
+                      <rect x="1540" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
+                      <rect x="1580" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
+                      <rect x="1620" y="320" width="30" height="40" fill="#dee2e6" opacity="0.7" />
+                      <text x="1570" y="560" className="text-[32px] font-bold" fill="#000000" textAnchor="middle" dominantBaseline="middle" style={{ textShadow: '2px 2px 4px rgba(255,255,255,0.8)' }}>BUILDING 3</text>
+                    </g>
 
-                  <g onClick={(e) => { e.stopPropagation(); }} className="cursor-pointer hover:opacity-80 transition-opacity">
-                    <rect id="gym" x="700" y="850" width="600" height="220" fill="url(#gymGradient)" stroke="#b8860b" strokeWidth="6" rx="10" filter="url(#buildingShadow)" />
-                    <circle cx="850" cy="960" r="40" fill="none" stroke="#b8860b" strokeWidth="3" opacity="0.4" />
-                    <circle cx="1150" cy="960" r="40" fill="none" stroke="#b8860b" strokeWidth="3" opacity="0.4" />
-                    <text x="1000" y="970" className="text-[36px] font-bold" fill="#5a4003" textAnchor="middle" dominantBaseline="middle" style={{ textShadow: '2px 2px 4px rgba(255,255,255,0.6)' }}>GYMNASIUM</text>
-                  </g>
+                    <g onClick={(e) => { e.stopPropagation(); }} className="cursor-pointer hover:opacity-80 transition-opacity">
+                      <rect id="gym" x="700" y="850" width="600" height="220" fill="url(#gymGradient)" stroke="#b8860b" strokeWidth="6" rx="10" filter="url(#buildingShadow)" />
+                      <circle cx="850" cy="960" r="40" fill="none" stroke="#b8860b" strokeWidth="3" opacity="0.4" />
+                      <circle cx="1150" cy="960" r="40" fill="none" stroke="#b8860b" strokeWidth="3" opacity="0.4" />
+                      <text x="1000" y="970" className="text-[36px] font-bold" fill="#5a4003" textAnchor="middle" dominantBaseline="middle" style={{ textShadow: '2px 2px 4px rgba(255,255,255,0.6)' }}>GYMNASIUM</text>
+                    </g>
 
-                  <g onClick={(e) => { e.stopPropagation(); }} className="cursor-pointer hover:opacity-80 transition-opacity">
-                    <rect id="canteen" x="820" y="1100" width="360" height="160" fill="url(#canteenGradient)" stroke="#bd2130" strokeWidth="5" rx="8" filter="url(#buildingShadow)" />
-                    <rect x="860" y="1120" width="40" height="35" fill="#fff" opacity="0.6" />
-                    <rect x="910" y="1120" width="40" height="35" fill="#fff" opacity="0.6" />
-                    <rect x="960" y="1120" width="40" height="35" fill="#fff" opacity="0.6" />
-                    <rect x="1010" y="1120" width="40" height="35" fill="#fff" opacity="0.6" />
-                    <rect x="1060" y="1120" width="40" height="35" fill="#fff" opacity="0.6" />
-                    <text x="1000" y="1190" className="text-[32px] font-bold" fill="#4a0a0f" textAnchor="middle" dominantBaseline="middle" style={{ textShadow: '2px 2px 4px rgba(255,255,255,0.6)' }}>CANTEEN</text>
-                  </g>
+                    <g onClick={(e) => { e.stopPropagation(); }} className="cursor-pointer hover:opacity-80 transition-opacity">
+                      <rect id="canteen" x="820" y="1100" width="360" height="160" fill="url(#canteenGradient)" stroke="#bd2130" strokeWidth="5" rx="8" filter="url(#buildingShadow)" />
+                      <rect x="860" y="1120" width="40" height="35" fill="#fff" opacity="0.6" />
+                      <rect x="910" y="1120" width="40" height="35" fill="#fff" opacity="0.6" />
+                      <rect x="960" y="1120" width="40" height="35" fill="#fff" opacity="0.6" />
+                      <rect x="1010" y="1120" width="40" height="35" fill="#fff" opacity="0.6" />
+                      <rect x="1060" y="1120" width="40" height="35" fill="#fff" opacity="0.6" />
+                      <text x="1000" y="1190" className="text-[32px] font-bold" fill="#4a0a0f" textAnchor="middle" dominantBaseline="middle" style={{ textShadow: '2px 2px 4px rgba(255,255,255,0.6)' }}>CANTEEN</text>
+                    </g>
 
-                  <g onClick={(e) => { e.stopPropagation(); }} className="cursor-pointer hover:opacity-80 transition-opacity">
-                    <rect id="entrance" x="150" y="950" width="250" height="140" fill="url(#entranceGradient)" stroke="#28a745" strokeWidth="5" rx="8" filter="url(#buildingShadow)" />
-                    <path d="M 275 990 L 275 1050 M 260 1020 L 290 1020" stroke="#155724" strokeWidth="8" strokeLinecap="round" />
-                    <text x="275" y="1020" className="text-[32px] font-bold" fill="#0a3d14" textAnchor="middle" dominantBaseline="middle" style={{ textShadow: '2px 2px 4px rgba(255,255,255,0.6)' }}>ENTRANCE</text>
-                  </g>
+                    <g onClick={(e) => { e.stopPropagation(); }} className="cursor-pointer hover:opacity-80 transition-opacity">
+                      <rect id="entrance" x="150" y="950" width="250" height="140" fill="url(#entranceGradient)" stroke="#28a745" strokeWidth="5" rx="8" filter="url(#buildingShadow)" />
+                      <path d="M 275 990 L 275 1050 M 260 1020 L 290 1020" stroke="#155724" strokeWidth="8" strokeLinecap="round" />
+                      <text x="275" y="1020" className="text-[32px] font-bold" fill="#0a3d14" textAnchor="middle" dominantBaseline="middle" style={{ textShadow: '2px 2px 4px rgba(255,255,255,0.6)' }}>ENTRANCE</text>
+                    </g>
 
-                  {/* Rooms */}
-                  {renderRooms()}
-                </svg>
+                    {/* Rooms */}
+                    {renderRooms()}
+                  </svg>
+                </div>
               </div>
 
               {/* Floor Pills */}
