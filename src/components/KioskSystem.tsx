@@ -164,22 +164,44 @@ const KioskSystem = () => {
     if (!pos || !mapWrapRef.current) return;
     
     const container = mapWrapRef.current.getBoundingClientRect();
-    const targetZoom = 1.8;
     
-    const buildingCenterX = pos.x + pos.w / 2;
-    const buildingCenterY = pos.y + pos.h / 2;
+    // Calculate zoom to fit building with padding
+    const paddingFactor = 0.7; // 70% of container for the building
+    const zoomX = (container.width * paddingFactor) / pos.w;
+    const zoomY = (container.height * paddingFactor) / pos.h;
+    const targetZoom = Math.min(Math.max(zoomX, zoomY), 2.5); // Cap at 2.5x
     
-    const scaleX = container.width / SVG_WIDTH;
-    const scaleY = container.height / SVG_HEIGHT;
-    const scale = Math.min(scaleX, scaleY);
+    // Get SVG's actual rendered dimensions
+    const svgAspect = SVG_WIDTH / SVG_HEIGHT;
+    const containerAspect = container.width / container.height;
     
-    const tx = (container.width / 2) - (buildingCenterX * scale * targetZoom);
-    const ty = (container.height / 2) - (buildingCenterY * scale * targetZoom);
+    let svgRenderedWidth: number, svgRenderedHeight: number;
+    if (containerAspect > svgAspect) {
+      svgRenderedHeight = container.height;
+      svgRenderedWidth = svgRenderedHeight * svgAspect;
+    } else {
+      svgRenderedWidth = container.width;
+      svgRenderedHeight = svgRenderedWidth / svgAspect;
+    }
+    
+    // Calculate building center in screen coordinates
+    const scaleX = svgRenderedWidth / SVG_WIDTH;
+    const scaleY = svgRenderedHeight / SVG_HEIGHT;
+    
+    const buildingCenterX = (pos.x + pos.w / 2) * scaleX;
+    const buildingCenterY = (pos.y + pos.h / 2) * scaleY;
+    
+    // Calculate translation to center building
+    const offsetX = (container.width - svgRenderedWidth) / 2;
+    const offsetY = (container.height - svgRenderedHeight) / 2;
+    
+    const tx = (container.width / 2) - (buildingCenterX + offsetX) * targetZoom;
+    const ty = (container.height / 2) - (buildingCenterY + offsetY) * targetZoom;
     
     setState(prev => ({ 
       ...prev, 
       building: buildingId, 
-      floor: 1,
+      floor: prev.building === buildingId ? prev.floor : 1,
       zoom: targetZoom,
       tx,
       ty
@@ -607,12 +629,15 @@ const KioskSystem = () => {
                 <div
                   style={{
                     transform: `translate3d(${state.tx}px, ${state.ty}px, 0) scale(${state.zoom})`,
-                    transformOrigin: 'center center',
-                    transition: isPanning ? 'none' : 'transform 0.35s cubic-bezier(0.25, 0.1, 0.25, 1)',
+                    transformOrigin: 'top left',
+                    transition: isPanning ? 'none' : 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
                     width: '100%',
                     height: '100%',
                     willChange: 'transform',
                     backfaceVisibility: 'hidden',
+                    WebkitBackfaceVisibility: 'hidden',
+                    perspective: 1000,
+                    WebkitPerspective: 1000,
                   }}
                 >
                   <svg
