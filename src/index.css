@@ -121,3 +121,35 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  @keyframes pulse-glow {
+    0%, 100% {
+      opacity: 1;
+      filter: drop-shadow(0 0 8px hsl(45 95% 55% / 0.8));
+    }
+    50% {
+      opacity: 0.7;
+      filter: drop-shadow(0 0 20px hsl(45 95% 55% / 1));
+    }
+  }
+  
+  @keyframes search-highlight {
+    0%, 100% {
+      stroke: hsl(45 95% 55%);
+      stroke-width: 6;
+    }
+    50% {
+      stroke: hsl(120 70% 45%);
+      stroke-width: 8;
+    }
+  }
+  
+  .animate-pulse-glow {
+    animation: pulse-glow 1.5s ease-in-out infinite;
+  }
+  
+  .animate-search-highlight {
+    animation: search-highlight 1s ease-in-out infinite;
+  }
+}

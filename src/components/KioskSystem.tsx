@@ -1,9 +1,9 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { Clock, User, BookOpen, MapPin } from "lucide-react";
+import { Clock, User, BookOpen, MapPin, Search, X } from "lucide-react";
 import fabinhsLogo from "@/assets/fabinhs-logo.jpg";
 
 interface State {
@@ -12,6 +12,15 @@ interface State {
   zoom: number;
   tx: number;
   ty: number;
+}
+
+interface SearchResult {
+  code: string;
+  building: string;
+  floor: number;
+  roomIdx: number;
+  teacher?: string;
+  subject?: string;
 }
 
 // Mock teacher schedule data
@@ -58,11 +67,63 @@ const KioskSystem = () => {
   const [showRoomDialog, setShowRoomDialog] = useState(false);
   const [showLegend, setShowLegend] = useState(true);
   const [isPanning, setIsPanning] = useState(false);
+  const [highlightedRooms, setHighlightedRooms] = useState<Set<string>>(new Set());
   
   const svgRef = useRef<SVGSVGElement>(null);
   const mapWrapRef = useRef<HTMLDivElement>(null);
   const panStartRef = useRef({ x: 0, y: 0 });
   const lastTranslateRef = useRef({ tx: 0, ty: 0 });
+
+  // Generate all rooms for search
+  const allRooms = useMemo(() => {
+    const rooms: SearchResult[] = [];
+    const buildingIds = ['b1', 'b2', 'b3', 'b4'];
+    buildingIds.forEach(bid => {
+      for (let floor = 1; floor <= 4; floor++) {
+        for (let idx = 1; idx <= 5; idx++) {
+          const code = `${bid.toUpperCase()}-${floor * 100 + idx}`;
+          const schedule = teacherSchedules[code];
+          rooms.push({
+            code,
+            building: bid,
+            floor,
+            roomIdx: idx,
+            teacher: schedule?.teacher,
+            subject: schedule?.subject,
+          });
+        }
+      }
+    });
+    return rooms;
+  }, []);
+
+  // Search results based on query
+  const searchResults = useMemo(() => {
+    if (!searchQuery.trim()) return [];
+    const query = searchQuery.toLowerCase();
+    return allRooms.filter(room => 
+      room.code.toLowerCase().includes(query) ||
+      room.teacher?.toLowerCase().includes(query) ||
+      room.subject?.toLowerCase().includes(query)
+    ).slice(0, 10);
+  }, [searchQuery, allRooms]);
+
+  // Handle search and highlight
+  const handleSearch = useCallback(() => {
+    if (searchResults.length > 0) {
+      const codes = new Set(searchResults.map(r => r.code));
+      setHighlightedRooms(codes);
+      // Navigate to first result
+      const first = searchResults[0];
+      setState(prev => ({ ...prev, building: first.building, floor: first.floor }));
+      zoomToBuilding(first.building);
+    }
+  }, [searchResults]);
+
+  const clearSearch = useCallback(() => {
+    setSearchQuery("");
+    setHighlightedRooms(new Set());
+  }, []);
 
   const roomNumberFor = (floor: number, idx: number) => (floor * 100) + idx;
   const roomCode = (bid: string, floor: number, idx: number) => 
@@ -176,15 +237,17 @@ const KioskSystem = () => {
       const baseX = 400;
       for (let i = 0; i < roomsCount; i++) {
         const rx = baseX + i * (roomW + gap);
+        const code = roomCode(state.building, state.floor, i + 1);
+        const isHighlighted = highlightedRooms.has(code);
         rooms.push(
-          <g key={`room-${i}`}>
+          <g key={`room-${i}`} className={isHighlighted ? 'animate-pulse-glow' : ''}>
             <rect
               x={rx} y={ry} width={roomW} height={40}
-              fill="url(#roomGradient)"
-              stroke="#6c757d"
-              strokeWidth="3"
+              fill={isHighlighted ? "#fef3c7" : "url(#roomGradient)"}
+              stroke={isHighlighted ? "#22c55e" : "#6c757d"}
+              strokeWidth={isHighlighted ? 6 : 3}
               rx="4"
-              filter="url(#shadow)"
+              filter={isHighlighted ? "url(#searchGlow)" : "url(#shadow)"}
               className="cursor-pointer hover:opacity-80 transition-all"
               onClick={(ev) => handleRoomClick(state.building, state.floor, i + 1, ev)}
             />
@@ -211,16 +274,18 @@ const KioskSystem = () => {
           const rx = building.x + padding;
           const ry = Math.round(startY + i*(roomHeight + gaps));
           const rw = Math.max(36, building.w - padding*2);
+          const code = roomCode(state.building, state.floor, i + 1);
+          const isHighlighted = highlightedRooms.has(code);
           
           rooms.push(
-            <g key={`room-${i}`}>
+            <g key={`room-${i}`} className={isHighlighted ? 'animate-pulse-glow' : ''}>
               <rect
                 x={rx} y={ry} width={rw} height={roomHeight}
-                fill="url(#roomGradient)"
-                stroke="#6c757d"
-                strokeWidth="3"
+                fill={isHighlighted ? "#fef3c7" : "url(#roomGradient)"}
+                stroke={isHighlighted ? "#22c55e" : "#6c757d"}
+                strokeWidth={isHighlighted ? 6 : 3}
                 rx="4"
-                filter="url(#shadow)"
+                filter={isHighlighted ? "url(#searchGlow)" : "url(#shadow)"}
                 className="cursor-pointer hover:opacity-80 transition-all"
                 onClick={(ev) => handleRoomClick(state.building, state.floor, i + 1, ev)}
               />
@@ -233,6 +298,46 @@ const KioskSystem = () => {
       }
     }
     return rooms;
+  };
+
+  // Mini-map component
+  const renderMiniMap = () => {
+    const miniScale = 0.08;
+    const viewportW = (1 / state.zoom) * 100;
+    const viewportH = (1 / state.zoom) * 100;
+    const viewportX = 50 - (state.tx / SVG_WIDTH / state.zoom) * 100 - viewportW / 2;
+    const viewportY = 50 - (state.ty / SVG_HEIGHT / state.zoom) * 100 - viewportH / 2;
+
+    return (
+      <div className="absolute bottom-16 right-2 lg:right-4 z-10 bg-background/95 backdrop-blur-sm rounded-lg shadow-lg border border-border overflow-hidden">
+        <div className="p-1 border-b border-border bg-muted/50">
+          <span className="text-[9px] font-bold text-muted-foreground">Overview</span>
+        </div>
+        <svg width={SVG_WIDTH * miniScale} height={SVG_HEIGHT * miniScale} viewBox="0 0 2000 1200" className="block">
+          <rect width="2000" height="1200" fill="#f0f4f8" />
+          {/* Buildings */}
+          <rect x="350" y="80" width="1300" height="120" fill={state.building === 'b4' ? '#eab308' : '#e9ecef'} stroke="#495057" strokeWidth="8" rx="8" />
+          <rect x="300" y="300" width="220" height="500" fill={state.building === 'b1' ? '#eab308' : '#e9ecef'} stroke="#495057" strokeWidth="8" rx="8" />
+          <rect x="900" y="300" width="260" height="500" fill={state.building === 'b2' ? '#eab308' : '#e9ecef'} stroke="#495057" strokeWidth="8" rx="8" />
+          <rect x="1450" y="300" width="240" height="500" fill={state.building === 'b3' ? '#eab308' : '#e9ecef'} stroke="#495057" strokeWidth="8" rx="8" />
+          <rect x="700" y="850" width="600" height="220" fill="#fff3cd" stroke="#b8860b" strokeWidth="8" rx="10" />
+          <rect x="820" y="1100" width="360" height="160" fill="#ffe5e5" stroke="#bd2130" strokeWidth="8" rx="8" />
+          <rect x="150" y="950" width="250" height="140" fill="#d4edda" stroke="#28a745" strokeWidth="8" rx="8" />
+          {/* Viewport indicator */}
+          <rect 
+            x={viewportX * 20} 
+            y={viewportY * 12} 
+            width={Math.max(viewportW * 20, 40)} 
+            height={Math.max(viewportH * 12, 30)} 
+            fill="hsl(220 70% 25% / 0.2)" 
+            stroke="hsl(220 70% 25%)" 
+            strokeWidth="4" 
+            rx="4"
+            className="animate-pulse"
+          />
+        </svg>
+      </div>
+    );
   };
 
   return (
@@ -303,18 +408,71 @@ const KioskSystem = () => {
 
                 <div>
                   <label className="text-sm font-semibold text-foreground mb-3 block flex items-center gap-2">
-                    <svg className="w-3.5 h-3.5 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
+                    <Search className="w-3.5 h-3.5 text-muted-foreground" />
                     Search Rooms
                   </label>
-                  <Input
-                    type="search"
-                    placeholder="Find room or teacher..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="h-11"
-                  />
+                  <div className="relative">
+                    <Input
+                      type="search"
+                      placeholder="Find room or teacher..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                      className="h-11 pr-16"
+                    />
+                    {searchQuery && (
+                      <button
+                        onClick={clearSearch}
+                        className="absolute right-10 top-1/2 -translate-y-1/2 p-1 hover:bg-muted rounded"
+                      >
+                        <X className="w-4 h-4 text-muted-foreground" />
+                      </button>
+                    )}
+                    <button
+                      onClick={handleSearch}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 bg-primary text-primary-foreground rounded hover:bg-primary/90"
+                    >
+                      <Search className="w-4 h-4" />
+                    </button>
+                  </div>
+                  {/* Search Results Dropdown */}
+                  {searchQuery && searchResults.length > 0 && (
+                    <div className="mt-2 bg-background border border-border rounded-lg shadow-lg max-h-48 overflow-y-auto">
+                      {searchResults.map((result, idx) => (
+                        <div
+                          key={idx}
+                          className="p-2 hover:bg-accent/10 cursor-pointer border-b border-border/50 last:border-b-0"
+                          onClick={() => {
+                            setHighlightedRooms(new Set([result.code]));
+                            setState(prev => ({ ...prev, building: result.building, floor: result.floor }));
+                            zoomToBuilding(result.building);
+                          }}
+                        >
+                          <div className="flex items-center justify-between">
+                            <span className="font-semibold text-sm">{result.code}</span>
+                            <span className="text-xs text-muted-foreground">Floor {result.floor}</span>
+                          </div>
+                          {result.teacher && (
+                            <div className="text-xs text-muted-foreground mt-0.5">
+                              {result.teacher} - {result.subject}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {highlightedRooms.size > 0 && (
+                    <div className="mt-2 p-2 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs text-green-700 dark:text-green-400 font-medium">
+                          {highlightedRooms.size} room(s) highlighted
+                        </span>
+                        <button onClick={clearSearch} className="text-xs text-green-600 dark:text-green-400 hover:underline">
+                          Clear
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -503,6 +661,17 @@ const KioskSystem = () => {
                           <feMergeNode in="SourceGraphic" />
                         </feMerge>
                       </filter>
+                      <filter id="searchGlow" x="-50%" y="-50%" width="200%" height="200%">
+                        <feGaussianBlur stdDeviation="6" result="blur" />
+                        <feFlood floodColor="#22c55e" floodOpacity="0.9" result="color" />
+                        <feComposite in="color" in2="blur" operator="in" result="glow" />
+                        <feMerge>
+                          <feMergeNode in="glow" />
+                          <feMergeNode in="glow" />
+                          <feMergeNode in="glow" />
+                          <feMergeNode in="SourceGraphic" />
+                        </feMerge>
+                      </filter>
                     </defs>
                     <rect width="2000" height="1200" fill="#f0f4f8" />
                     <rect width="2000" height="1200" fill="url(#grid)" />
@@ -572,6 +741,9 @@ const KioskSystem = () => {
                   </svg>
                 </div>
               </div>
+
+              {/* Mini Map */}
+              {renderMiniMap()}
 
               {/* Floor Pills */}
               <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 flex gap-2">
