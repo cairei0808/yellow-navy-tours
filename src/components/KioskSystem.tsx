@@ -542,12 +542,16 @@ const KioskSystem = () => {
                     <span className="text-xs font-medium">Gym</span>
                   </div>
                   <div className="flex items-center gap-2 p-2 rounded-lg bg-muted/30">
-                    <div className="w-4 h-4 rounded bg-gradient-to-b from-red-100 to-red-200 border-2 border-red-500"></div>
+                    <div className="w-4 h-4 rounded bg-gradient-to-b from-pink-100 to-pink-200 border-2 border-pink-500"></div>
                     <span className="text-xs font-medium">Canteen</span>
                   </div>
-                  <div className="flex items-center gap-2 p-2 rounded-lg bg-muted/30 col-span-2">
+                  <div className="flex items-center gap-2 p-2 rounded-lg bg-muted/30">
                     <div className="w-4 h-4 rounded bg-gradient-to-b from-green-100 to-green-200 border-2 border-green-500"></div>
                     <span className="text-xs font-medium">Entrance</span>
+                  </div>
+                  <div className="flex items-center gap-2 p-2 rounded-lg bg-muted/30">
+                    <div className="w-4 h-3 rounded bg-gradient-to-r from-slate-200 via-slate-100 to-slate-200 border border-dashed border-slate-400"></div>
+                    <span className="text-xs font-medium">Pathways</span>
                   </div>
                 </div>
               </div>
@@ -694,10 +698,40 @@ const KioskSystem = () => {
                           <feMergeNode in="SourceGraphic" />
                         </feMerge>
                       </filter>
+                      {/* Pathway gradient */}
+                      <linearGradient id="pathwayGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style={{ stopColor: "#e2e8f0", stopOpacity: 1 }} />
+                        <stop offset="50%" style={{ stopColor: "#f1f5f9", stopOpacity: 1 }} />
+                        <stop offset="100%" style={{ stopColor: "#e2e8f0", stopOpacity: 1 }} />
+                      </linearGradient>
                     </defs>
                     {/* Clean modern background */}
                     <rect width="2000" height="1200" fill="#f8fafc" />
                     <rect width="2000" height="1200" fill="url(#dotPattern)" />
+
+                    {/* Pathways */}
+                    <g id="pathways">
+                      {/* Main horizontal pathway connecting all buildings */}
+                      <rect x="200" y="220" width="1550" height="60" rx="8" fill="url(#pathwayGradient)" stroke="#cbd5e1" strokeWidth="1" strokeDasharray="8 4" />
+                      
+                      {/* Vertical pathway from Building 1 to Entrance */}
+                      <rect x="380" y="800" width="50" height="150" rx="8" fill="url(#pathwayGradient)" stroke="#cbd5e1" strokeWidth="1" strokeDasharray="8 4" />
+                      <rect x="200" y="900" width="230" height="50" rx="8" fill="url(#pathwayGradient)" stroke="#cbd5e1" strokeWidth="1" strokeDasharray="8 4" />
+                      
+                      {/* Pathway from buildings to gymnasium */}
+                      <rect x="970" y="800" width="60" height="50" rx="8" fill="url(#pathwayGradient)" stroke="#cbd5e1" strokeWidth="1" strokeDasharray="8 4" />
+                      
+                      {/* Pathway from gymnasium to canteen */}
+                      <rect x="970" y="1070" width="60" height="30" rx="8" fill="url(#pathwayGradient)" stroke="#cbd5e1" strokeWidth="1" strokeDasharray="8 4" />
+                      
+                      {/* Pathway connecting Building 3 area */}
+                      <rect x="1540" y="800" width="50" height="100" rx="8" fill="url(#pathwayGradient)" stroke="#cbd5e1" strokeWidth="1" strokeDasharray="8 4" />
+                      <rect x="1300" y="880" width="290" height="40" rx="8" fill="url(#pathwayGradient)" stroke="#cbd5e1" strokeWidth="1" strokeDasharray="8 4" />
+                      
+                      {/* Pathway labels */}
+                      <text x="975" y="255" className="text-[14px] font-medium" fill="#94a3b8" textAnchor="middle">Main Walkway</text>
+                    </g>
+
                     {/* Modern Buildings */}
                     <g onClick={(e) => { e.stopPropagation(); zoomToBuilding('b4'); }} className="cursor-pointer" style={{ filter: state.building === 'b4' ? 'url(#selectedGlow)' : undefined }}>
                       <rect id="b4" x="350" y="80" width="1300" height="120" fill={state.building === 'b4' ? 'url(#buildingGradientActive)' : 'url(#buildingGradient)'} stroke={state.building === 'b4' ? '#ca8a04' : '#94a3b8'} strokeWidth={state.building === 'b4' ? 4 : 2} rx="12" filter="url(#buildingShadow)" />
