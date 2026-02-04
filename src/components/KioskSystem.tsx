@@ -895,6 +895,13 @@ const KioskSystem = () => {
                       {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(i => (
                         <rect key={`b4-win-${i}`} x={400 + i * 125} y={100} width="80" height="50" rx="4" fill="#bae6fd" stroke="#0ea5e9" strokeWidth="1" />
                       ))}
+                      {/* Icon badge */}
+                      <circle cx="1600" cy="90" r="28" fill="#0284c7" stroke="white" strokeWidth="3" />
+                      <g transform="translate(1600, 90)">
+                        {/* Book/Education icon */}
+                        <path d="M-12,-8 L0,-14 L12,-8 L12,10 L0,4 L-12,10 Z" fill="none" stroke="white" strokeWidth="2" strokeLinejoin="round" />
+                        <path d="M0,-14 L0,4" stroke="white" strokeWidth="2" />
+                      </g>
                       {/* Label */}
                       <rect x="880" y="115" width="240" height="40" rx="8" fill="white" opacity="0.95" filter="url(#shadow)" />
                       <text x="1000" y="140" className="text-[22px] font-bold" fill="#0c4a6e" textAnchor="middle" dominantBaseline="middle">Building 4</text>
@@ -918,6 +925,14 @@ const KioskSystem = () => {
                       {[0, 1, 2, 3, 4].map(i => (
                         <rect key={`b1-win-${i}`} x={320} y={340 + i * 90} width="160" height="60" rx="4" fill="#bae6fd" stroke="#0ea5e9" strokeWidth="1" />
                       ))}
+                      {/* Icon badge */}
+                      <circle cx="410" cy="350" r="32" fill="#0284c7" stroke="white" strokeWidth="3" />
+                      <g transform="translate(410, 350)">
+                        {/* Classroom/Chalkboard icon */}
+                        <rect x="-14" y="-10" width="28" height="18" rx="2" fill="none" stroke="white" strokeWidth="2" />
+                        <path d="M-8,12 L8,12" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                        <path d="M-6,-4 L6,-4 M-6,0 L2,0" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+                      </g>
                       {/* Label */}
                       <rect x="305" y="540" width="210" height="40" rx="8" fill="white" opacity="0.95" filter="url(#shadow)" />
                       <text x="410" y="565" className="text-[20px] font-bold" fill="#0c4a6e" textAnchor="middle" dominantBaseline="middle">Building 1</text>
@@ -941,6 +956,13 @@ const KioskSystem = () => {
                       {[0, 1, 2, 3, 4].map(i => (
                         <rect key={`b2-win-${i}`} x={920} y={340 + i * 90} width="200" height="60" rx="4" fill="#bae6fd" stroke="#0ea5e9" strokeWidth="1" />
                       ))}
+                      {/* Icon badge */}
+                      <circle cx="1030" cy="350" r="32" fill="#0284c7" stroke="white" strokeWidth="3" />
+                      <g transform="translate(1030, 350)">
+                        {/* Science/Flask icon */}
+                        <path d="M-6,-14 L6,-14 M-4,-14 L-4,-4 L-12,10 Q-14,14 -10,14 L10,14 Q14,14 12,10 L4,-4 L4,-14" fill="none" stroke="white" strokeWidth="2" strokeLinejoin="round" />
+                        <ellipse cx="0" cy="8" rx="8" ry="4" fill="white" opacity="0.5" />
+                      </g>
                       {/* Label */}
                       <rect x="915" y="540" width="230" height="40" rx="8" fill="white" opacity="0.95" filter="url(#shadow)" />
                       <text x="1030" y="565" className="text-[20px] font-bold" fill="#0c4a6e" textAnchor="middle" dominantBaseline="middle">Building 2</text>
@@ -964,6 +986,14 @@ const KioskSystem = () => {
                       {[0, 1, 2, 3, 4].map(i => (
                         <rect key={`b3-win-${i}`} x={1470} y={340 + i * 90} width="180" height="60" rx="4" fill="#bae6fd" stroke="#0ea5e9" strokeWidth="1" />
                       ))}
+                      {/* Icon badge */}
+                      <circle cx="1570" cy="350" r="32" fill="#0284c7" stroke="white" strokeWidth="3" />
+                      <g transform="translate(1570, 350)">
+                        {/* Computer/Monitor icon */}
+                        <rect x="-14" y="-12" width="28" height="18" rx="2" fill="none" stroke="white" strokeWidth="2" />
+                        <path d="M-6,10 L6,10 M0,6 L0,10" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                        <rect x="-10" y="-8" width="20" height="10" rx="1" fill="white" opacity="0.3" />
+                      </g>
                       {/* Label */}
                       <rect x="1460" y="540" width="220" height="40" rx="8" fill="white" opacity="0.95" filter="url(#shadow)" />
                       <text x="1570" y="565" className="text-[20px] font-bold" fill="#0c4a6e" textAnchor="middle" dominantBaseline="middle">Building 3</text>
@@ -984,6 +1014,14 @@ const KioskSystem = () => {
                       <ellipse cx="1000" cy="870" rx="300" ry="30" fill="#fdba74" stroke="#ea580c" strokeWidth="2" />
                       {/* Roof top highlight */}
                       <ellipse cx="1000" cy="865" rx="250" ry="20" fill="#fed7aa" opacity="0.6" />
+                      {/* Icon badge */}
+                      <circle cx="750" cy="920" r="35" fill="#ea580c" stroke="white" strokeWidth="3" />
+                      <g transform="translate(750, 920)">
+                        {/* Basketball icon */}
+                        <circle cx="0" cy="0" r="14" fill="none" stroke="white" strokeWidth="2" />
+                        <path d="M-14,0 L14,0 M0,-14 L0,14" stroke="white" strokeWidth="1.5" />
+                        <path d="M-10,-10 Q0,-4 10,-10 M-10,10 Q0,4 10,10" fill="none" stroke="white" strokeWidth="1.5" />
+                      </g>
                       {/* Label */}
                       <rect x="870" y="955" width="260" height="50" rx="10" fill="white" opacity="0.95" filter="url(#shadow)" />
                       <text x="1000" y="985" className="text-[24px] font-bold" fill="#9a3412" textAnchor="middle" dominantBaseline="middle">Gymnasium</text>
@@ -1000,6 +1038,13 @@ const KioskSystem = () => {
                       <path d="M790,1140 L820,1110 L820,1270 L790,1250 Z" fill="url(#canteenSide)" />
                       {/* Right side face */}
                       <path d="M1180,1110 L1210,1140 L1210,1250 L1180,1270 Z" fill="url(#canteenFront)" />
+                      {/* Icon badge */}
+                      <circle cx="850" cy="1150" r="30" fill="#e11d48" stroke="white" strokeWidth="3" />
+                      <g transform="translate(850, 1150)">
+                        {/* Fork and Spoon icon */}
+                        <path d="M-8,-12 L-8,12 M-8,-4 Q-14,-4 -14,-10 Q-14,-12 -8,-12" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                        <path d="M6,-12 L6,-2 Q6,4 10,6 L10,12 M6,-12 L6,-8 M2,-12 L2,-8 M10,-12 L10,-8" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                      </g>
                       {/* Label */}
                       <rect x="895" y="1170" width="210" height="44" rx="8" fill="white" opacity="0.95" filter="url(#shadow)" />
                       <text x="1000" y="1196" className="text-[22px] font-bold" fill="#9f1239" textAnchor="middle" dominantBaseline="middle">Canteen</text>
@@ -1019,6 +1064,15 @@ const KioskSystem = () => {
                       {/* Gate icon - arch */}
                       <path d="M250,1020 Q275,990 300,1020 L300,1060 L250,1060 Z" fill="#166534" opacity="0.4" />
                       <rect x="255" y="1030" width="40" height="30" fill="#15803d" opacity="0.3" />
+                      {/* Icon badge */}
+                      <circle cx="380" cy="990" r="28" fill="#16a34a" stroke="white" strokeWidth="3" />
+                      <g transform="translate(380, 990)">
+                        {/* Gate/Door icon */}
+                        <rect x="-10" y="-10" width="20" height="18" rx="2" fill="none" stroke="white" strokeWidth="2" />
+                        <path d="M0,-10 L0,8" stroke="white" strokeWidth="2" />
+                        <circle cx="-4" cy="0" r="2" fill="white" />
+                        <circle cx="4" cy="0" r="2" fill="white" />
+                      </g>
                       {/* Label */}
                       <rect x="180" y="1018" width="190" height="40" rx="8" fill="white" opacity="0.95" filter="url(#shadow)" />
                       <text x="275" y="1042" className="text-[18px] font-bold" fill="#14532d" textAnchor="middle" dominantBaseline="middle">Main Entrance</text>
