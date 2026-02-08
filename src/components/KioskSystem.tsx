@@ -781,11 +781,28 @@ const KioskSystem = () => {
                     {/* Dark navy background */}
                     <rect width="2000" height="1400" fill="url(#bgGradient)" />
                     
-                    {/* Grass areas */}
+                    {/* Ground texture dots for depth */}
+                    <g opacity="0.08">
+                      {Array.from({ length: 80 }, (_, i) => (
+                        <circle key={`dot-${i}`} cx={100 + (i % 20) * 95} cy={260 + Math.floor(i / 20) * 180} r={1.5 + Math.random()} fill="#94a3b8" />
+                      ))}
+                    </g>
+                    
+                    {/* Grass areas with subtle texture */}
                     <rect x="50" y="250" width="400" height="700" rx="20" fill="url(#grassGradient)" opacity="0.6" />
                     <rect x="550" y="250" width="500" height="700" rx="20" fill="url(#grassGradient)" opacity="0.6" />
                     <rect x="1150" y="250" width="400" height="700" rx="20" fill="url(#grassGradient)" opacity="0.6" />
                     <rect x="1650" y="250" width="300" height="700" rx="20" fill="url(#grassGradient)" opacity="0.6" />
+                    
+                    {/* Grass texture lines */}
+                    <g opacity="0.12">
+                      {[0, 1, 2, 3, 4, 5].map(i => (
+                        <g key={`grass-line-${i}`}>
+                          <line x1={100 + i * 60} y1={400 + i * 30} x2={110 + i * 60} y2={390 + i * 30} stroke="#4ade80" strokeWidth="1" />
+                          <line x1={1200 + i * 50} y1={420 + i * 25} x2={1210 + i * 50} y2={410 + i * 25} stroke="#4ade80" strokeWidth="1" />
+                        </g>
+                      ))}
+                    </g>
 
                     {/* Roads/Pathways - Gray asphalt like reference */}
                     <g id="roads">
@@ -798,21 +815,31 @@ const KioskSystem = () => {
                       <rect x="1000" y="270" width="50" height="620" rx="4" fill="url(#roadGradient)" />
                       <rect x="1550" y="270" width="50" height="720" rx="4" fill="url(#roadGradient)" />
                       
+                      {/* Vertical road lane markings */}
+                      <line x1="415" y1="270" x2="415" y2="890" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="15,12" />
+                      <line x1="1025" y1="270" x2="1025" y2="890" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="15,12" />
+                      <line x1="1575" y1="270" x2="1575" y2="890" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="15,12" />
+                      
                       {/* Connecting road at bottom */}
                       <rect x="100" y="890" width="1500" height="50" rx="4" fill="url(#roadGradient)" />
                       <line x1="100" y1="915" x2="1600" y2="915" stroke="#94a3b8" strokeWidth="2" strokeDasharray="20,15" />
                       
                       {/* Road to entrance */}
                       <rect x="100" y="940" width="350" height="50" rx="4" fill="url(#roadGradient)" />
+                      <line x1="100" y1="965" x2="450" y2="965" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="12,10" />
                       
                       {/* Road to gym and canteen */}
                       <rect x="650" y="890" width="50" height="220" rx="4" fill="url(#roadGradient)" />
+                      <line x1="675" y1="890" x2="675" y2="1110" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="12,10" />
                       <rect x="1300" y="890" width="50" height="220" rx="4" fill="url(#roadGradient)" />
+                      <line x1="1325" y1="890" x2="1325" y2="1110" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="12,10" />
                       
-                      {/* Parking area markers */}
-                      <g opacity="0.5">
+                      {/* Parking area with markings */}
+                      <rect x="1690" y="280" width="200" height="120" rx="6" fill="#334155" opacity="0.5" />
+                      <text x="1790" y="295" className="text-[10px]" fill="#94a3b8" textAnchor="middle" dominantBaseline="middle" opacity="0.7">PARKING</text>
+                      <g opacity="0.6">
                         {[0, 1, 2, 3, 4].map(i => (
-                          <rect key={`park-${i}`} x={1700 + i * 35} y="300" width="25" height="50" rx="2" fill="#475569" stroke="#64748b" strokeWidth="1" />
+                          <rect key={`park-${i}`} x={1700 + i * 35} y="300" width="25" height="50" rx="2" fill="none" stroke="#64748b" strokeWidth="1" strokeDasharray="4,3" />
                         ))}
                       </g>
                     </g>
@@ -895,13 +922,10 @@ const KioskSystem = () => {
                       {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(i => (
                         <rect key={`b4-win-${i}`} x={400 + i * 125} y={100} width="80" height="50" rx="4" fill="#bae6fd" stroke="#0ea5e9" strokeWidth="1" />
                       ))}
-                      {/* Icon badge */}
-                      <circle cx="1600" cy="90" r="28" fill="#0284c7" stroke="white" strokeWidth="3" />
-                      <g transform="translate(1600, 90)">
-                        {/* Book/Education icon */}
-                        <path d="M-12,-8 L0,-14 L12,-8 L12,10 L0,4 L-12,10 Z" fill="none" stroke="white" strokeWidth="2" strokeLinejoin="round" />
-                        <path d="M0,-14 L0,4" stroke="white" strokeWidth="2" />
-                      </g>
+                      {/* Roof details - AC units */}
+                      {[0, 1, 2].map(i => (
+                        <rect key={`b4-ac-${i}`} x={450 + i * 400} y={68} width="30" height="20" rx="3" fill="#94a3b8" stroke="#64748b" strokeWidth="1" opacity="0.7" />
+                      ))}
                       {/* Label */}
                       <rect x="880" y="115" width="240" height="40" rx="8" fill="white" opacity="0.95" filter="url(#shadow)" />
                       <text x="1000" y="140" className="text-[22px] font-bold" fill="#0c4a6e" textAnchor="middle" dominantBaseline="middle">Building 4</text>
@@ -925,14 +949,11 @@ const KioskSystem = () => {
                       {[0, 1, 2, 3, 4].map(i => (
                         <rect key={`b1-win-${i}`} x={320} y={340 + i * 90} width="160" height="60" rx="4" fill="#bae6fd" stroke="#0ea5e9" strokeWidth="1" />
                       ))}
-                      {/* Icon badge */}
-                      <circle cx="410" cy="350" r="32" fill="#0284c7" stroke="white" strokeWidth="3" />
-                      <g transform="translate(410, 350)">
-                        {/* Classroom/Chalkboard icon */}
-                        <rect x="-14" y="-10" width="28" height="18" rx="2" fill="none" stroke="white" strokeWidth="2" />
-                        <path d="M-8,12 L8,12" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                        <path d="M-6,-4 L6,-4 M-6,0 L2,0" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
-                      </g>
+                      {/* Roof details */}
+                      <rect x="390" y="305" width="20" height="15" rx="2" fill="#94a3b8" stroke="#64748b" strokeWidth="1" opacity="0.6" />
+                      {/* Door */}
+                      <rect x="390" y="780" width="40" height="35" rx="3" fill="#0369a1" stroke="#075985" strokeWidth="1.5" />
+                      <circle cx="425" cy="800" r="3" fill="#fbbf24" />
                       {/* Label */}
                       <rect x="305" y="540" width="210" height="40" rx="8" fill="white" opacity="0.95" filter="url(#shadow)" />
                       <text x="410" y="565" className="text-[20px] font-bold" fill="#0c4a6e" textAnchor="middle" dominantBaseline="middle">Building 1</text>
@@ -956,13 +977,12 @@ const KioskSystem = () => {
                       {[0, 1, 2, 3, 4].map(i => (
                         <rect key={`b2-win-${i}`} x={920} y={340 + i * 90} width="200" height="60" rx="4" fill="#bae6fd" stroke="#0ea5e9" strokeWidth="1" />
                       ))}
-                      {/* Icon badge */}
-                      <circle cx="1030" cy="350" r="32" fill="#0284c7" stroke="white" strokeWidth="3" />
-                      <g transform="translate(1030, 350)">
-                        {/* Science/Flask icon */}
-                        <path d="M-6,-14 L6,-14 M-4,-14 L-4,-4 L-12,10 Q-14,14 -10,14 L10,14 Q14,14 12,10 L4,-4 L4,-14" fill="none" stroke="white" strokeWidth="2" strokeLinejoin="round" />
-                        <ellipse cx="0" cy="8" rx="8" ry="4" fill="white" opacity="0.5" />
-                      </g>
+                      {/* Roof details */}
+                      <rect x="1010" y="305" width="20" height="15" rx="2" fill="#94a3b8" stroke="#64748b" strokeWidth="1" opacity="0.6" />
+                      <rect x="1040" y="308" width="15" height="12" rx="2" fill="#94a3b8" stroke="#64748b" strokeWidth="1" opacity="0.5" />
+                      {/* Door */}
+                      <rect x="1010" y="780" width="40" height="35" rx="3" fill="#0369a1" stroke="#075985" strokeWidth="1.5" />
+                      <circle cx="1045" cy="800" r="3" fill="#fbbf24" />
                       {/* Label */}
                       <rect x="915" y="540" width="230" height="40" rx="8" fill="white" opacity="0.95" filter="url(#shadow)" />
                       <text x="1030" y="565" className="text-[20px] font-bold" fill="#0c4a6e" textAnchor="middle" dominantBaseline="middle">Building 2</text>
@@ -986,14 +1006,11 @@ const KioskSystem = () => {
                       {[0, 1, 2, 3, 4].map(i => (
                         <rect key={`b3-win-${i}`} x={1470} y={340 + i * 90} width="180" height="60" rx="4" fill="#bae6fd" stroke="#0ea5e9" strokeWidth="1" />
                       ))}
-                      {/* Icon badge */}
-                      <circle cx="1570" cy="350" r="32" fill="#0284c7" stroke="white" strokeWidth="3" />
-                      <g transform="translate(1570, 350)">
-                        {/* Computer/Monitor icon */}
-                        <rect x="-14" y="-12" width="28" height="18" rx="2" fill="none" stroke="white" strokeWidth="2" />
-                        <path d="M-6,10 L6,10 M0,6 L0,10" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                        <rect x="-10" y="-8" width="20" height="10" rx="1" fill="white" opacity="0.3" />
-                      </g>
+                      {/* Roof details */}
+                      <rect x="1550" y="305" width="20" height="15" rx="2" fill="#94a3b8" stroke="#64748b" strokeWidth="1" opacity="0.6" />
+                      {/* Door */}
+                      <rect x="1550" y="780" width="40" height="35" rx="3" fill="#0369a1" stroke="#075985" strokeWidth="1.5" />
+                      <circle cx="1585" cy="800" r="3" fill="#fbbf24" />
                       {/* Label */}
                       <rect x="1460" y="540" width="220" height="40" rx="8" fill="white" opacity="0.95" filter="url(#shadow)" />
                       <text x="1570" y="565" className="text-[20px] font-bold" fill="#0c4a6e" textAnchor="middle" dominantBaseline="middle">Building 3</text>
@@ -1014,14 +1031,9 @@ const KioskSystem = () => {
                       <ellipse cx="1000" cy="870" rx="300" ry="30" fill="#fdba74" stroke="#ea580c" strokeWidth="2" />
                       {/* Roof top highlight */}
                       <ellipse cx="1000" cy="865" rx="250" ry="20" fill="#fed7aa" opacity="0.6" />
-                      {/* Icon badge */}
-                      <circle cx="750" cy="920" r="35" fill="#ea580c" stroke="white" strokeWidth="3" />
-                      <g transform="translate(750, 920)">
-                        {/* Basketball icon */}
-                        <circle cx="0" cy="0" r="14" fill="none" stroke="white" strokeWidth="2" />
-                        <path d="M-14,0 L14,0 M0,-14 L0,14" stroke="white" strokeWidth="1.5" />
-                        <path d="M-10,-10 Q0,-4 10,-10 M-10,10 Q0,4 10,10" fill="none" stroke="white" strokeWidth="1.5" />
-                      </g>
+                      {/* Court lines */}
+                      <rect x="800" y="910" width="400" height="120" rx="6" fill="none" stroke="#fdba74" strokeWidth="2" strokeDasharray="8,4" opacity="0.5" />
+                      <circle cx="1000" cy="970" r="40" fill="none" stroke="#fdba74" strokeWidth="2" strokeDasharray="8,4" opacity="0.5" />
                       {/* Label */}
                       <rect x="870" y="955" width="260" height="50" rx="10" fill="white" opacity="0.95" filter="url(#shadow)" />
                       <text x="1000" y="985" className="text-[24px] font-bold" fill="#9a3412" textAnchor="middle" dominantBaseline="middle">Gymnasium</text>
@@ -1038,13 +1050,14 @@ const KioskSystem = () => {
                       <path d="M790,1140 L820,1110 L820,1270 L790,1250 Z" fill="url(#canteenSide)" />
                       {/* Right side face */}
                       <path d="M1180,1110 L1210,1140 L1210,1250 L1180,1270 Z" fill="url(#canteenFront)" />
-                      {/* Icon badge */}
-                      <circle cx="850" cy="1150" r="30" fill="#e11d48" stroke="white" strokeWidth="3" />
-                      <g transform="translate(850, 1150)">
-                        {/* Fork and Spoon icon */}
-                        <path d="M-8,-12 L-8,12 M-8,-4 Q-14,-4 -14,-10 Q-14,-12 -8,-12" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                        <path d="M6,-12 L6,-2 Q6,4 10,6 L10,12 M6,-12 L6,-8 M2,-12 L2,-8 M10,-12 L10,-8" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                      </g>
+                      {/* Table and chairs hint */}
+                      {[0, 1, 2].map(i => (
+                        <g key={`table-${i}`}>
+                          <rect x={880 + i * 110} y={1150} width="40" height="25" rx="4" fill="#fda4af" stroke="#e11d48" strokeWidth="1" opacity="0.4" />
+                          <circle cx={875 + i * 110} cy={1162} r="6" fill="#fecdd3" opacity="0.5" />
+                          <circle cx={925 + i * 110} cy={1162} r="6" fill="#fecdd3" opacity="0.5" />
+                        </g>
+                      ))}
                       {/* Label */}
                       <rect x="895" y="1170" width="210" height="44" rx="8" fill="white" opacity="0.95" filter="url(#shadow)" />
                       <text x="1000" y="1196" className="text-[22px] font-bold" fill="#9f1239" textAnchor="middle" dominantBaseline="middle">Canteen</text>
@@ -1064,26 +1077,138 @@ const KioskSystem = () => {
                       {/* Gate icon - arch */}
                       <path d="M250,1020 Q275,990 300,1020 L300,1060 L250,1060 Z" fill="#166534" opacity="0.4" />
                       <rect x="255" y="1030" width="40" height="30" fill="#15803d" opacity="0.3" />
-                      {/* Icon badge */}
-                      <circle cx="380" cy="990" r="28" fill="#16a34a" stroke="white" strokeWidth="3" />
-                      <g transform="translate(380, 990)">
-                        {/* Gate/Door icon */}
-                        <rect x="-10" y="-10" width="20" height="18" rx="2" fill="none" stroke="white" strokeWidth="2" />
-                        <path d="M0,-10 L0,8" stroke="white" strokeWidth="2" />
-                        <circle cx="-4" cy="0" r="2" fill="white" />
-                        <circle cx="4" cy="0" r="2" fill="white" />
-                      </g>
+                      {/* Gate pillars */}
+                      <rect x="165" y="970" width="15" height="45" rx="2" fill="#166534" stroke="#14532d" strokeWidth="1" />
+                      <rect x="370" y="970" width="15" height="45" rx="2" fill="#166534" stroke="#14532d" strokeWidth="1" />
+                      {/* Gate arch */}
+                      <path d="M172,975 Q275,955 377,975" fill="none" stroke="#15803d" strokeWidth="3" />
                       {/* Label */}
                       <rect x="180" y="1018" width="190" height="40" rx="8" fill="white" opacity="0.95" filter="url(#shadow)" />
                       <text x="275" y="1042" className="text-[18px] font-bold" fill="#14532d" textAnchor="middle" dominantBaseline="middle">Main Entrance</text>
                     </g>
 
                     {/* Parked vehicles for realism */}
-                    <g opacity="0.7">
-                      {/* Yellow taxi/bus near entrance */}
-                      <rect x="470" y="1020" width="50" height="25" rx="5" fill="#fbbf24" stroke="#ca8a04" strokeWidth="1" />
-                      <rect x="475" y="1025" width="15" height="10" rx="2" fill="#7dd3fc" />
-                      <rect x="500" y="1025" width="15" height="10" rx="2" fill="#7dd3fc" />
+                    <g opacity="0.75">
+                      {/* Yellow school bus */}
+                      <rect x="470" y="1015" width="60" height="28" rx="6" fill="#fbbf24" stroke="#ca8a04" strokeWidth="1.5" />
+                      <rect x="476" y="1020" width="14" height="10" rx="2" fill="#7dd3fc" stroke="#38bdf8" strokeWidth="0.5" />
+                      <rect x="494" y="1020" width="14" height="10" rx="2" fill="#7dd3fc" stroke="#38bdf8" strokeWidth="0.5" />
+                      <rect x="512" y="1020" width="14" height="10" rx="2" fill="#7dd3fc" stroke="#38bdf8" strokeWidth="0.5" />
+                      <circle cx="480" cy="1045" r="5" fill="#334155" stroke="#1e293b" strokeWidth="1" />
+                      <circle cx="520" cy="1045" r="5" fill="#334155" stroke="#1e293b" strokeWidth="1" />
+                      
+                      {/* Car 1 - sedan */}
+                      <rect x="550" y="1020" width="40" height="22" rx="6" fill="#ef4444" stroke="#dc2626" strokeWidth="1" />
+                      <rect x="555" y="1024" width="12" height="8" rx="2" fill="#bae6fd" />
+                      <rect x="572" y="1024" width="12" height="8" rx="2" fill="#bae6fd" />
+                      <circle cx="556" cy="1044" r="4" fill="#334155" />
+                      <circle cx="584" cy="1044" r="4" fill="#334155" />
+                      
+                      {/* Car 2 - SUV */}
+                      <rect x="600" y="1018" width="45" height="24" rx="5" fill="#3b82f6" stroke="#2563eb" strokeWidth="1" />
+                      <rect x="606" y="1022" width="14" height="9" rx="2" fill="#bae6fd" />
+                      <rect x="624" y="1022" width="14" height="9" rx="2" fill="#bae6fd" />
+                      <circle cx="608" cy="1044" r="4" fill="#334155" />
+                      <circle cx="638" cy="1044" r="4" fill="#334155" />
+                      
+                      {/* Parking lot vehicles */}
+                      {[0, 1, 2, 3].map(i => (
+                        <g key={`pcar-${i}`}>
+                          <rect x={1705 + i * 35} y="310" width="22" height="40" rx="4" fill={['#64748b', '#ef4444', '#f59e0b', '#3b82f6'][i]} stroke="#475569" strokeWidth="1" />
+                          <circle cx={1716 + i * 35} cy="315" r="3" fill="#bae6fd" opacity="0.8" />
+                        </g>
+                      ))}
+                    </g>
+
+                    {/* Lampposts along roads */}
+                    <g id="lampposts">
+                      {[
+                        { x: 350, y: 870 }, { x: 600, y: 870 }, { x: 850, y: 870 },
+                        { x: 1100, y: 870 }, { x: 1350, y: 870 },
+                      ].map((lamp, i) => (
+                        <g key={`lamp-${i}`}>
+                          <rect x={lamp.x - 2} y={lamp.y - 30} width="4" height="30" fill="#94a3b8" />
+                          <ellipse cx={lamp.x} cy={lamp.y - 32} rx="8" ry="4" fill="#fde68a" />
+                          <circle cx={lamp.x} cy={lamp.y - 32} r="5" fill="#fef3c7" opacity="0.6" />
+                          {/* Light glow */}
+                          <circle cx={lamp.x} cy={lamp.y - 30} r="18" fill="#fef9c3" opacity="0.15" />
+                        </g>
+                      ))}
+                    </g>
+
+                    {/* Flower beds near buildings */}
+                    <g id="flower-beds">
+                      {/* Flower bed near B1 */}
+                      <rect x="270" y="825" width="180" height="15" rx="6" fill="#2d5a3d" stroke="#1e4d2b" strokeWidth="1" />
+                      {[0, 1, 2, 3, 4, 5].map(i => (
+                        <circle key={`fb1-${i}`} cx={285 + i * 28} cy="830" r="5" fill={['#f472b6', '#fb923c', '#a78bfa', '#f472b6', '#fbbf24', '#f472b6'][i]} opacity="0.9" />
+                      ))}
+                      
+                      {/* Flower bed near B2 */}
+                      <rect x="870" y="825" width="200" height="15" rx="6" fill="#2d5a3d" stroke="#1e4d2b" strokeWidth="1" />
+                      {[0, 1, 2, 3, 4, 5].map(i => (
+                        <circle key={`fb2-${i}`} cx={888 + i * 30} cy="830" r="5" fill={['#a78bfa', '#f472b6', '#fbbf24', '#fb923c', '#a78bfa', '#f472b6'][i]} opacity="0.9" />
+                      ))}
+                      
+                      {/* Flower bed near B3 */}
+                      <rect x="1420" y="825" width="190" height="15" rx="6" fill="#2d5a3d" stroke="#1e4d2b" strokeWidth="1" />
+                      {[0, 1, 2, 3, 4, 5].map(i => (
+                        <circle key={`fb3-${i}`} cx={1438 + i * 28} cy="830" r="5" fill={['#fbbf24', '#f472b6', '#fb923c', '#a78bfa', '#fbbf24', '#f472b6'][i]} opacity="0.9" />
+                      ))}
+                    </g>
+
+                    {/* Benches near trees */}
+                    <g id="benches">
+                      {[
+                        { x: 200, y: 660 },
+                        { x: 1840, y: 620 },
+                      ].map((bench, i) => (
+                        <g key={`bench-${i}`}>
+                          <rect x={bench.x - 12} y={bench.y} width="24" height="8" rx="2" fill="#a16207" stroke="#854d0e" strokeWidth="1" />
+                          <rect x={bench.x - 10} y={bench.y + 8} width="4" height="6" fill="#854d0e" />
+                          <rect x={bench.x + 6} y={bench.y + 8} width="4" height="6" fill="#854d0e" />
+                        </g>
+                      ))}
+                    </g>
+
+                    {/* Flagpole near entrance */}
+                    <g id="flagpole">
+                      <rect x="130" y="930" width="3" height="60" fill="#94a3b8" />
+                      <circle cx="131" cy="930" r="3" fill="#fbbf24" />
+                      <path d="M133,933 L155,940 L133,947 Z" fill="#dc2626" />
+                    </g>
+
+                    {/* Crosswalks */}
+                    <g id="crosswalks" opacity="0.6">
+                      {/* Crosswalk to B1 */}
+                      {[0, 1, 2, 3].map(i => (
+                        <rect key={`cw1-${i}`} x={380 + i * 15} y="845" width="8" height="40" rx="1" fill="white" opacity="0.7" />
+                      ))}
+                      {/* Crosswalk to B2 */}
+                      {[0, 1, 2, 3].map(i => (
+                        <rect key={`cw2-${i}`} x={1000 + i * 15} y="845" width="8" height="40" rx="1" fill="white" opacity="0.7" />
+                      ))}
+                      {/* Crosswalk to B3 */}
+                      {[0, 1, 2, 3].map(i => (
+                        <rect key={`cw3-${i}`} x={1540 + i * 15} y="845" width="8" height="40" rx="1" fill="white" opacity="0.7" />
+                      ))}
+                    </g>
+
+                    {/* Courtyard/Plaza between buildings */}
+                    <g id="courtyard">
+                      {/* Central plaza */}
+                      <ellipse cx="700" cy="600" rx="60" ry="40" fill="#475569" opacity="0.3" />
+                      <ellipse cx="700" cy="600" rx="40" ry="26" fill="#64748b" opacity="0.2" />
+                      {/* Fountain */}
+                      <circle cx="700" cy="600" r="18" fill="#0ea5e9" opacity="0.35" />
+                      <circle cx="700" cy="600" r="10" fill="#38bdf8" opacity="0.5" />
+                      <circle cx="700" cy="600" r="4" fill="#7dd3fc" opacity="0.7" />
+                      
+                      {/* Sitting area between B2 and B3 */}
+                      <ellipse cx="1330" cy="580" rx="40" ry="30" fill="#475569" opacity="0.25" />
+                      {[0, 1, 2].map(i => (
+                        <rect key={`cseat-${i}`} x={1315 + i * 14} y="575" width="10" height="10" rx="2" fill="#78716c" opacity="0.5" />
+                      ))}
                     </g>
 
                     {/* Rooms */}
