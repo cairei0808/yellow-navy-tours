@@ -78,13 +78,14 @@ const KioskSystem = () => {
         for (let idx = 1; idx <= 5; idx++) {
           const code = `${bid.toUpperCase()}-${floor * 100 + idx}`;
           const schedule = teacherSchedules[code];
+          const detailedSchedule = roomSchedules[code];
           rooms.push({
             code,
             building: bid,
             floor,
             roomIdx: idx,
-            teacher: schedule?.teacher,
-            subject: schedule?.subject,
+            teacher: schedule?.teacher || (detailedSchedule ? detailedSchedule.adviser : undefined),
+            subject: schedule?.subject || (detailedSchedule ? detailedSchedule.section : undefined),
           });
         }
       }
