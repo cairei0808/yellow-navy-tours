@@ -3,8 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { Clock, User, BookOpen, MapPin, Search, X } from "lucide-react";
+import { Clock, User, BookOpen, MapPin, Search, X, GraduationCap } from "lucide-react";
 import fabinhsLogo from "@/assets/fabinhs-logo.jpg";
+import { roomSchedules, getRoomSchedule, DAYS, TIME_SLOTS, type RoomSchedule } from "@/data/scheduleData";
 
 interface State {
   building: string;
@@ -23,13 +24,8 @@ interface SearchResult {
   subject?: string;
 }
 
-// Mock teacher schedule data
+// Legacy teacher schedule lookup (for rooms without detailed timetable)
 const teacherSchedules: Record<string, { teacher: string; subject: string; schedule: { day: string; time: string }[] }> = {
-  "B1-101": { teacher: "Ms. Maria Santos", subject: "Mathematics", schedule: [{ day: "Mon-Fri", time: "8:00 AM - 9:00 AM" }] },
-  "B1-102": { teacher: "Mr. Juan Reyes", subject: "Science", schedule: [{ day: "Mon-Fri", time: "9:00 AM - 10:00 AM" }] },
-  "B1-103": { teacher: "Mrs. Ana Cruz", subject: "English", schedule: [{ day: "Mon-Fri", time: "10:00 AM - 11:00 AM" }] },
-  "B1-104": { teacher: "Mr. Pedro Garcia", subject: "Filipino", schedule: [{ day: "Mon-Fri", time: "11:00 AM - 12:00 PM" }] },
-  "B1-105": { teacher: "Ms. Rosa Mendoza", subject: "Social Studies", schedule: [{ day: "Mon-Fri", time: "1:00 PM - 2:00 PM" }] },
   "B2-201": { teacher: "Mr. Carlos Diaz", subject: "Physics", schedule: [{ day: "Mon-Fri", time: "8:00 AM - 9:00 AM" }] },
   "B2-202": { teacher: "Ms. Elena Torres", subject: "Chemistry", schedule: [{ day: "Mon-Fri", time: "9:00 AM - 10:00 AM" }] },
   "B2-203": { teacher: "Mr. Ramon Lopez", subject: "Biology", schedule: [{ day: "Mon-Fri", time: "10:00 AM - 11:00 AM" }] },
@@ -82,13 +78,14 @@ const KioskSystem = () => {
         for (let idx = 1; idx <= 5; idx++) {
           const code = `${bid.toUpperCase()}-${floor * 100 + idx}`;
           const schedule = teacherSchedules[code];
+          const detailedSchedule = roomSchedules[code];
           rooms.push({
             code,
             building: bid,
             floor,
             roomIdx: idx,
-            teacher: schedule?.teacher,
-            subject: schedule?.subject,
+            teacher: schedule?.teacher || (detailedSchedule ? detailedSchedule.adviser : undefined),
+            subject: schedule?.subject || (detailedSchedule ? detailedSchedule.section : undefined),
           });
         }
       }
@@ -1243,20 +1240,113 @@ const KioskSystem = () => {
 
       {/* Room Info Dialog */}
       <Dialog open={showRoomDialog} onOpenChange={setShowRoomDialog}>
-        <DialogContent className="sm:max-w-[500px]">
+        <DialogContent className="sm:max-w-[750px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-2xl">
               <MapPin className="w-6 h-6 text-primary" />
               {selectedRoom?.code}
             </DialogTitle>
             <DialogDescription>
-              Room details and teacher schedule information
+              Room details and class schedule
             </DialogDescription>
           </DialogHeader>
           
-          {selectedRoom && teacherSchedules[selectedRoom.code] && (
+          {selectedRoom && getRoomSchedule(selectedRoom.code) ? (() => {
+            const roomData = getRoomSchedule(selectedRoom.code)!;
+            return (
+              <div className="space-y-5 py-2">
+                {/* Section & Adviser Info */}
+                <div className="bg-primary/5 rounded-lg p-4 space-y-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                      <GraduationCap className="w-5 h-5 text-primary" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">Section</p>
+                      <p className="font-semibold text-lg">{roomData.section}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
+                      <User className="w-5 h-5 text-accent" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">Adviser</p>
+                      <p className="font-semibold">{roomData.adviser}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Location Info */}
+                <div className="grid grid-cols-2 gap-4 text-sm border border-border rounded-lg p-3">
+                  <div>
+                    <p className="text-muted-foreground mb-1">Building</p>
+                    <p className="font-semibold">{buildings.find(b => b.value === selectedRoom.bid)?.label}</p>
+                  </div>
+                  <div>
+                    <p className="text-muted-foreground mb-1">Floor</p>
+                    <p className="font-semibold">Floor {selectedRoom.floor}</p>
+                  </div>
+                </div>
+
+                {/* Timetable Grid */}
+                <div>
+                  <div className="flex items-center gap-2 mb-3">
+                    <Clock className="w-5 h-5 text-primary" />
+                    <h4 className="font-semibold text-lg">Class Schedule</h4>
+                  </div>
+                  <div className="overflow-x-auto rounded-lg border border-border">
+                    <table className="w-full text-xs border-collapse">
+                      <thead>
+                        <tr className="bg-muted">
+                          <th className="border border-border p-2 text-left font-bold text-foreground min-w-[80px]">Time</th>
+                          {DAYS.map(day => (
+                            <th key={day} className="border border-border p-2 text-center font-bold text-foreground min-w-[110px]">
+                              {day === "M" ? "Mon" : day === "T" ? "Tue" : day === "W" ? "Wed" : day === "Th" ? "Thu" : "Fri"}
+                            </th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {TIME_SLOTS.map(time => (
+                          <tr key={time}>
+                            <td className="border border-border p-2 font-semibold bg-muted/50 text-foreground whitespace-nowrap">
+                              {time}
+                            </td>
+                            {DAYS.map(day => {
+                              const entry = roomData.schedule[time]?.[day];
+                              if (!entry) return <td key={day} className="border border-border p-2" />;
+                              const isFlag = entry.subject.includes("Flag Ceremony");
+                              return (
+                                <td
+                                  key={day}
+                                  className="border border-border p-1.5 text-center"
+                                  style={{
+                                    backgroundColor: entry.color + "33",
+                                    borderLeft: `3px solid ${entry.color}`,
+                                  }}
+                                >
+                                  <div className="font-bold text-foreground leading-tight" style={{ fontSize: "10px" }}>
+                                    {isFlag ? "Flag Ceremony" : entry.subject}
+                                  </div>
+                                  {entry.teacher && (
+                                    <div className="text-muted-foreground mt-0.5 leading-tight" style={{ fontSize: "9px" }}>
+                                      ({entry.teacher})
+                                    </div>
+                                  )}
+                                </td>
+                              );
+                            })}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            );
+          })() : selectedRoom && teacherSchedules[selectedRoom.code] ? (
             <div className="space-y-6 py-4">
-              {/* Teacher Info */}
               <div className="bg-primary/5 rounded-lg p-4 space-y-3">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
@@ -1267,7 +1357,6 @@ const KioskSystem = () => {
                     <p className="font-semibold text-lg">{teacherSchedules[selectedRoom.code].teacher}</p>
                   </div>
                 </div>
-                
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
                     <BookOpen className="w-5 h-5 text-accent" />
@@ -1278,8 +1367,6 @@ const KioskSystem = () => {
                   </div>
                 </div>
               </div>
-
-              {/* Schedule */}
               <div>
                 <div className="flex items-center gap-2 mb-3">
                   <Clock className="w-5 h-5 text-primary" />
@@ -1294,8 +1381,6 @@ const KioskSystem = () => {
                   ))}
                 </div>
               </div>
-
-              {/* Location Info */}
               <div className="border-t border-border pt-4">
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
@@ -1309,9 +1394,7 @@ const KioskSystem = () => {
                 </div>
               </div>
             </div>
-          )}
-
-          {selectedRoom && !teacherSchedules[selectedRoom.code] && (
+          ) : (
             <div className="py-8 text-center">
               <p className="text-muted-foreground">No schedule information available for this room.</p>
             </div>
