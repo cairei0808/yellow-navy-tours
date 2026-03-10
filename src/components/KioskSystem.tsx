@@ -3,8 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { Clock, User, BookOpen, MapPin, Search, X } from "lucide-react";
+import { Clock, User, BookOpen, MapPin, Search, X, GraduationCap } from "lucide-react";
 import fabinhsLogo from "@/assets/fabinhs-logo.jpg";
+import { roomSchedules, getRoomSchedule, DAYS, TIME_SLOTS, type RoomSchedule } from "@/data/scheduleData";
 
 interface State {
   building: string;
