@@ -1,16 +1,16 @@
-// Room Schedule Data for FABINHS
-// Building 1 (Pavilion 1) - Grade 11 Sections
+// Room Schedule Data for FABINHS - Building 1 (Pavilion 1)
+// SY 2025-2026, 2nd Semester
 
 export interface ScheduleEntry {
   subject: string;
   teacher: string;
-  color: string; // background color for timetable cell
+  color: string;
 }
 
 export interface RoomSchedule {
   section: string;
   adviser: string;
-  schedule: Record<string, Record<string, ScheduleEntry>>; // time -> day -> entry
+  schedule: Record<string, Record<string, ScheduleEntry>>;
 }
 
 export type RoomScheduleMap = Record<string, RoomSchedule>;
@@ -23,125 +23,221 @@ export const TIME_SLOTS = [
   "7:00-8:00",
   "8:00-9:00",
   "9:00-10:00",
+  "10:00-10:20",
+  "10:20-11:20",
+  "11:20-12:20",
+  "12:20-1:20",
+  "1:20-2:20",
 ] as const;
 
-// Building 1, Floor 1 Rooms
+// Subject color map for consistency
+const C = {
+  FLAG: "#9ca3af",
+  HGP: "#ef4444",
+  ECOM: "#f97316",
+  KOM: "#84cc16",
+  CC1: "#a855f7",
+  GSCI: "#22c55e",
+  GMATH: "#3b82f6",
+  KAS: "#eab308",
+  LIFE: "#94a3b8",
+  PIL: "#14b8a6",
+  BREAK: "#d1d5db",
+};
+
+const flag = (t = ""): ScheduleEntry => ({ subject: "Flag Ceremony / Classroom Mgt.", teacher: t, color: C.FLAG });
+const brk = (label: string): ScheduleEntry => ({ subject: label, teacher: "", color: C.BREAK });
+
 export const roomSchedules: RoomScheduleMap = {
-  // ===== ROOM 101 (G11-01) =====
+
+  // ═══════════════════════════════════════
+  // ROOM 101 — G11-01 (P1)
+  // ═══════════════════════════════════════
   "B1-101": {
     section: "G11-01 (P1)",
     adviser: "Rose Ann L. Dela Peña",
     schedule: {
       "6:45-7:00": {
-        M: { subject: "Flag Ceremony / Classroom Management", teacher: "", color: "#d1d5db" },
-        T: { subject: "Flag Ceremony / Classroom Management", teacher: "", color: "#d1d5db" },
-        W: { subject: "Flag Ceremony / Classroom Management", teacher: "", color: "#d1d5db" },
-        Th: { subject: "Flag Ceremony / Classroom Management", teacher: "", color: "#d1d5db" },
-        F: { subject: "Flag Ceremony / Classroom Management", teacher: "", color: "#d1d5db" },
+        M: flag(), T: flag(), W: flag(), Th: flag(), F: flag(),
       },
       "7:00-8:00": {
-        M: { subject: "HGP", teacher: "Ms. Dela Peña", color: "#ef4444" },
-        T: { subject: "Effective Com", teacher: "Ms. R. De La Peña", color: "#f97316" },
-        W: { subject: "Effective Com", teacher: "Ms. R. De La Peña", color: "#f97316" },
-        Th: { subject: "Komunikasyon", teacher: "Ms. R. De La Peña", color: "#84cc16" },
-        F: { subject: "Komunikasyon", teacher: "Ms. R. De La Peña", color: "#84cc16" },
+        M:  { subject: "HGP", teacher: "Ms. De La Peña", color: C.HGP },
+        T:  { subject: "Effective Com", teacher: "Ms. R. De La Peña", color: C.ECOM },
+        W:  { subject: "Effective Com", teacher: "Ms. R. De La Peña", color: C.ECOM },
+        Th: { subject: "Komunikasyon", teacher: "Ms. R. De La Peña", color: C.KOM },
+        F:  { subject: "Komunikasyon", teacher: "Ms. R. De La Peña", color: C.KOM },
       },
       "8:00-9:00": {
-        M: { subject: "Creative Composition 1", teacher: "Ms. Llanes", color: "#a855f7" },
-        T: { subject: "Creative Composition 1", teacher: "Ms. Llanes", color: "#a855f7" },
-        W: { subject: "Gen. Sci", teacher: "A. Villar", color: "#22c55e" },
-        Th: { subject: "Gen. Sci", teacher: "A. Villar", color: "#22c55e" },
-        F: { subject: "Life Skills", teacher: "Ms. J. Andal", color: "#f5f5f5" },
+        M:  { subject: "Creative Composition 1", teacher: "Ms. Llanes", color: C.CC1 },
+        T:  { subject: "Creative Composition 1", teacher: "Ms. Llanes", color: C.CC1 },
+        W:  { subject: "Gen. Sci", teacher: "A. Villar", color: C.GSCI },
+        Th: { subject: "Gen. Sci", teacher: "A. Villar", color: C.GSCI },
+        F:  { subject: "Life Skills", teacher: "Ms. J. Andal", color: C.LIFE },
       },
       "9:00-10:00": {
-        M: { subject: "Life Skills", teacher: "Ms. J. Andal", color: "#f5f5f5" },
-        T: { subject: "Life Skills", teacher: "Ms. J. Andal", color: "#f5f5f5" },
-        W: { subject: "Effective Com", teacher: "Ms. R. De La Peña", color: "#f97316" },
-        Th: { subject: "Life Skills", teacher: "Ms. J. Andal", color: "#f5f5f5" },
-        F: { subject: "Life Skills", teacher: "Ms. J. Andal", color: "#f5f5f5" },
+        M:  { subject: "Life Skills", teacher: "Ms. J. Andal", color: C.LIFE },
+        T:  { subject: "Life Skills", teacher: "Ms. J. Andal", color: C.LIFE },
+        W:  { subject: "Creative Composition 1", teacher: "Ms. Llanes", color: C.CC1 },
+        Th: { subject: "Kasaysayan", teacher: "Ms. A. Panaligan", color: C.KAS },
+        F:  { subject: "Gen. Sci", teacher: "A. Villar", color: C.GSCI },
+      },
+      "10:00-10:20": {
+        M: brk("Recess"), T: brk("Recess"), W: brk("Recess"), Th: brk("Recess"), F: brk("Recess"),
+      },
+      "10:20-11:20": {
+        M:  { subject: "Gen. Sci", teacher: "A. Villar", color: C.GSCI },
+        T:  { subject: "Gen. Math", teacher: "Mr. A. Vergara", color: C.GMATH },
+        W:  { subject: "Life Skills", teacher: "Ms. J. Andal", color: C.LIFE },
+        Th: { subject: "Gen. Math", teacher: "Mr. A. Vergara", color: C.GMATH },
+        F:  { subject: "Gen. Math", teacher: "Mr. A. Vergara", color: C.GMATH },
+      },
+      "11:20-12:20": {
+        M:  { subject: "Gen. Math", teacher: "Mr. A. Vergara", color: C.GMATH },
+        T:  { subject: "Kasaysayan", teacher: "Ms. A. Panaligan", color: C.KAS },
+        W:  { subject: "Kasaysayan", teacher: "Ms. A. Panaligan", color: C.KAS },
+        Th: { subject: "Creative Composition 1", teacher: "Ms. Llanes", color: C.CC1 },
+        F:  { subject: "Kasaysayan", teacher: "Ms. A. Panaligan", color: C.KAS },
+      },
+      "12:20-1:20": {
+        M: brk("Lunch"), T: brk("Lunch"), W: brk("Lunch"), Th: brk("Lunch"), F: brk("Lunch"),
+      },
+      "1:20-2:20": {
+        M:  { subject: "Piling Larang", teacher: "M. Manguiat C/O Mam Rose", color: C.PIL },
+        T:  { subject: "Piling Larang", teacher: "M. Manguiat C/O Mam Rose", color: C.PIL },
+        W:  { subject: "Piling Larang", teacher: "M. Manguiat C/O Mam Rose", color: C.PIL },
+        Th: { subject: "Piling Larang", teacher: "M. Manguiat C/O Mam Rose", color: C.PIL },
+        F:  brk("—"),
       },
     },
   },
 
-  // ===== ROOM 102 (G11-02) =====
+  // ═══════════════════════════════════════
+  // ROOM 102 — G11-02 (P1)
+  // ═══════════════════════════════════════
   "B1-102": {
     section: "G11-02 (P1)",
     adviser: "Christene R. Llanes",
     schedule: {
       "6:45-7:00": {
-        M: { subject: "Flag Ceremony / Classroom Management", teacher: "", color: "#d1d5db" },
-        T: { subject: "Flag Ceremony / Classroom Management", teacher: "", color: "#d1d5db" },
-        W: { subject: "Flag Ceremony / Classroom Management", teacher: "", color: "#d1d5db" },
-        Th: { subject: "Flag Ceremony / Classroom Management", teacher: "", color: "#d1d5db" },
-        F: { subject: "Flag Ceremony / Classroom Management", teacher: "", color: "#d1d5db" },
+        M: flag(), T: flag(), W: flag(), Th: flag(), F: flag(),
       },
       "7:00-8:00": {
-        M: { subject: "HGP", teacher: "Ms. Llanes", color: "#ef4444" },
-        T: { subject: "Creative Composition 1", teacher: "Ms. Llanes", color: "#eab308" },
-        W: { subject: "Creative Composition 1", teacher: "Ms. Llanes", color: "#eab308" },
-        Th: { subject: "Creative Composition 1", teacher: "Ms. Llanes", color: "#eab308" },
-        F: { subject: "Creative Composition 1", teacher: "Ms. Llanes", color: "#eab308" },
+        M:  { subject: "HGP", teacher: "Ms. Llanes", color: C.HGP },
+        T:  { subject: "Creative Composition 1", teacher: "Ms. Llanes", color: C.CC1 },
+        W:  { subject: "Creative Composition 1", teacher: "Ms. Llanes", color: C.CC1 },
+        Th: { subject: "Creative Composition 1", teacher: "Ms. Llanes", color: C.CC1 },
+        F:  { subject: "Creative Composition 1", teacher: "Ms. Llanes", color: C.CC1 },
       },
       "8:00-9:00": {
-        M: { subject: "Piling Larang", teacher: "M. Manguiat C/O Mam Kim", color: "#22c55e" },
-        T: { subject: "Piling Larang", teacher: "M. Manguiat C/O Mam Kim", color: "#22c55e" },
-        W: { subject: "Piling Larang", teacher: "M. Manguiat C/O Mam Kim", color: "#22c55e" },
-        Th: { subject: "Piling Larang", teacher: "M. Manguiat C/O Mam Kim", color: "#22c55e" },
-        F: { subject: "Komunikasyon", teacher: "Ms. R. De La Peña", color: "#84cc16" },
+        M:  { subject: "Piling Larang", teacher: "M. Manguiat C/O Mam Kim", color: C.PIL },
+        T:  { subject: "Piling Larang", teacher: "M. Manguiat C/O Mam Kim", color: C.PIL },
+        W:  { subject: "Piling Larang", teacher: "M. Manguiat C/O Mam Kim", color: C.PIL },
+        Th: { subject: "Piling Larang", teacher: "M. Manguiat C/O Mam Kim", color: C.PIL },
+        F:  { subject: "Komunikasyon", teacher: "Ms. R. De La Peña", color: C.KOM },
       },
       "9:00-10:00": {
-        M: { subject: "Effective Com", teacher: "Ms. R. De La Peña", color: "#f97316" },
-        T: { subject: "Effective Com", teacher: "Ms. R. De La Peña", color: "#f97316" },
-        W: { subject: "Effective Com", teacher: "Ms. R. De La Peña", color: "#f97316" },
-        Th: { subject: "Piling Larang", teacher: "M. Manguiat C/O Mam Mavelle", color: "#22c55e" },
-        F: { subject: "Piling Larang", teacher: "M. Manguiat C/O Mam Mavelle", color: "#22c55e" },
+        M:  { subject: "Effective Com", teacher: "Ms. R. De La Peña", color: C.ECOM },
+        T:  { subject: "Effective Com", teacher: "Ms. R. De La Peña", color: C.ECOM },
+        W:  { subject: "Life Skills", teacher: "Ms. J. Andal", color: C.LIFE },
+        Th: { subject: "Kasaysayan", teacher: "Ms. A. Panaligan", color: C.KAS },
+        F:  { subject: "Kasaysayan", teacher: "Ms. A. Panaligan", color: C.KAS },
+      },
+      "10:00-10:20": {
+        M: brk("Recess"), T: brk("Recess"), W: brk("Recess"), Th: brk("Recess"), F: brk("Recess"),
+      },
+      "10:20-11:20": {
+        M:  { subject: "Kasaysayan", teacher: "Ms. A. Panaligan", color: C.KAS },
+        T:  { subject: "Kasaysayan", teacher: "Ms. A. Panaligan", color: C.KAS },
+        W:  { subject: "Effective Com", teacher: "Ms. R. De La Peña", color: C.ECOM },
+        Th: { subject: "Life Skills", teacher: "Ms. J. Andal", color: C.LIFE },
+        F:  { subject: "Life Skills", teacher: "Ms. J. Andal", color: C.LIFE },
+      },
+      "11:20-12:20": {
+        M:  { subject: "Life Skills", teacher: "Ms. J. Andal", color: C.LIFE },
+        T:  { subject: "Gen. Math", teacher: "Mr. A. Vergara", color: C.GMATH },
+        W:  { subject: "Gen. Sci", teacher: "A. Villar", color: C.GSCI },
+        Th: { subject: "Kasaysayan", teacher: "Ms. A. Panaligan", color: C.KAS },
+        F:  { subject: "Gen. Sci", teacher: "A. Villar", color: C.GSCI },
+      },
+      "12:20-1:20": {
+        M: brk("Lunch"), T: brk("Lunch"), W: brk("Lunch"), Th: brk("Lunch"), F: brk("Lunch"),
+      },
+      "1:20-2:20": {
+        M:  { subject: "Gen. Math", teacher: "Mr. A. Vergara", color: C.GMATH },
+        T:  { subject: "Gen. Sci", teacher: "A. Villar", color: C.GSCI },
+        W:  { subject: "Gen. Math", teacher: "Mr. A. Vergara", color: C.GMATH },
+        Th: { subject: "Gen. Sci", teacher: "A. Villar", color: C.GSCI },
+        F:  brk("—"),
       },
     },
   },
 
-  // ===== ROOM 103 (G11-03) =====
+  // ═══════════════════════════════════════
+  // ROOM 103 — G11-03 (P1)
+  // ═══════════════════════════════════════
   "B1-103": {
     section: "G11-03 (P1)",
     adviser: "Alex M. Vergara",
     schedule: {
       "6:45-7:00": {
-        M: { subject: "Flag Ceremony / Classroom Management", teacher: "", color: "#d1d5db" },
-        T: { subject: "Flag Ceremony / Classroom Management", teacher: "", color: "#d1d5db" },
-        W: { subject: "Flag Ceremony / Classroom Management", teacher: "", color: "#d1d5db" },
-        Th: { subject: "Flag Ceremony / Classroom Management", teacher: "", color: "#d1d5db" },
-        F: { subject: "Flag Ceremony / Classroom Management", teacher: "", color: "#d1d5db" },
+        M: flag(), T: flag(), W: flag(), Th: flag(), F: flag(),
       },
       "7:00-8:00": {
-        M: { subject: "HGP", teacher: "Mr. A. Vergara", color: "#6366f1" },
-        T: { subject: "Gen. Math", teacher: "Mr. A. Vergara", color: "#6366f1" },
-        W: { subject: "Gen. Math", teacher: "Mr. A. Vergara", color: "#6366f1" },
-        Th: { subject: "Gen. Math", teacher: "Mr. A. Vergara", color: "#6366f1" },
-        F: { subject: "Gen. Math", teacher: "Mr. A. Vergara", color: "#6366f1" },
+        M:  { subject: "HGP", teacher: "Mr. A. Vergara", color: C.HGP },
+        T:  { subject: "Gen. Math", teacher: "Mr. A. Vergara", color: C.GMATH },
+        W:  { subject: "Gen. Math", teacher: "Mr. A. Vergara", color: C.GMATH },
+        Th: { subject: "Gen. Math", teacher: "Mr. A. Vergara", color: C.GMATH },
+        F:  { subject: "Gen. Math", teacher: "Mr. A. Vergara", color: C.GMATH },
       },
       "8:00-9:00": {
-        M: { subject: "Kasaysayan", teacher: "Ms. A. Panaligon", color: "#f59e0b" },
-        T: { subject: "Gen. Sci", teacher: "A. Villar", color: "#22c55e" },
-        W: { subject: "Komunikasyon", teacher: "Ms. R. De La Peña", color: "#84cc16" },
-        Th: { subject: "Komunikasyon", teacher: "Ms. Mitra", color: "#84cc16" },
-        F: { subject: "Komunikasyon", teacher: "Ms. Mitra", color: "#84cc16" },
+        M:  { subject: "Kasaysayan", teacher: "Ms. A. Panaligan", color: C.KAS },
+        T:  { subject: "Gen. Sci", teacher: "A. Villar", color: C.GSCI },
+        W:  { subject: "Komunikasyon", teacher: "Ms. R. De La Peña", color: C.KOM },
+        Th: { subject: "Komunikasyon", teacher: "Ms. R. De La Peña", color: C.KOM },
+        F:  { subject: "Piling Larang", teacher: "M. Manguiat C/O Mam Mavelle", color: C.PIL },
       },
       "9:00-10:00": {
-        M: { subject: "Kasaysayan", teacher: "Ms. Viñas", color: "#f59e0b" },
-        T: { subject: "Kasaysayan", teacher: "Ms. Viñas", color: "#f59e0b" },
-        W: { subject: "Life Skills", teacher: "Ms. Cerilla", color: "#f5f5f5" },
-        Th: { subject: "Piling Larang", teacher: "M. Manguiat C/O Mam Mavelle", color: "#22c55e" },
-        F: { subject: "Piling Larang", teacher: "M. Manguiat C/O Mam Mavelle", color: "#22c55e" },
+        M:  { subject: "Piling Larang", teacher: "M. Manguiat C/O Mam Mavelle", color: C.PIL },
+        T:  { subject: "Piling Larang", teacher: "M. Manguiat C/O Mam Mavelle", color: C.PIL },
+        W:  { subject: "Piling Larang", teacher: "M. Manguiat C/O Mam Mavelle", color: C.PIL },
+        Th: { subject: "Gen. Sci", teacher: "A. Villar", color: C.GSCI },
+        F:  { subject: "Creative Composition 1", teacher: "Ms. Llanes", color: C.CC1 },
+      },
+      "10:00-10:20": {
+        M: brk("Recess"), T: brk("Recess"), W: brk("Recess"), Th: brk("Recess"), F: brk("Recess"),
+      },
+      "10:20-11:20": {
+        M:  { subject: "Effective Com", teacher: "Ms. R. De La Peña", color: C.ECOM },
+        T:  { subject: "Effective Com", teacher: "Ms. R. De La Peña", color: C.ECOM },
+        W:  { subject: "Creative Composition 1", teacher: "Ms. Llanes", color: C.CC1 },
+        Th: { subject: "Creative Composition 1", teacher: "Ms. Llanes", color: C.CC1 },
+        F:  { subject: "Gen. Sci", teacher: "A. Villar", color: C.GSCI },
+      },
+      "11:20-12:20": {
+        M:  { subject: "Gen. Sci", teacher: "A. Villar", color: C.GSCI },
+        T:  { subject: "Life Skills", teacher: "Ms. J. Andal", color: C.LIFE },
+        W:  { subject: "Life Skills", teacher: "Ms. J. Andal", color: C.LIFE },
+        Th: { subject: "Life Skills", teacher: "Ms. J. Andal", color: C.LIFE },
+        F:  { subject: "Life Skills", teacher: "Ms. J. Andal", color: C.LIFE },
+      },
+      "12:20-1:20": {
+        M: brk("Lunch"), T: brk("Lunch"), W: brk("Lunch"), Th: brk("Lunch"), F: brk("Lunch"),
+      },
+      "1:20-2:20": {
+        M:  { subject: "Creative Composition 1", teacher: "Ms. Llanes", color: C.CC1 },
+        T:  { subject: "Kasaysayan", teacher: "Ms. A. Panaligan", color: C.KAS },
+        W:  { subject: "Kasaysayan", teacher: "Ms. A. Panaligan", color: C.KAS },
+        Th: { subject: "Kasaysayan", teacher: "Ms. A. Panaligan", color: C.KAS },
+        F:  brk("—"),
       },
     },
   },
 };
 
-// Helper to get schedule for a room code
 export const getRoomSchedule = (roomCode: string): RoomSchedule | undefined => {
   return roomSchedules[roomCode];
 };
 
-// Get all unique teachers from schedule data
 export const getTeachersForRoom = (roomCode: string): string[] => {
   const room = roomSchedules[roomCode];
   if (!room) return [];
@@ -154,14 +250,15 @@ export const getTeachersForRoom = (roomCode: string): string[] => {
   return Array.from(teachers);
 };
 
-// Get all unique subjects for a room
 export const getSubjectsForRoom = (roomCode: string): string[] => {
   const room = roomSchedules[roomCode];
   if (!room) return [];
   const subjects = new Set<string>();
   Object.values(room.schedule).forEach(dayMap => {
     Object.values(dayMap).forEach(entry => {
-      if (entry.subject && !entry.subject.includes("Flag Ceremony")) subjects.add(entry.subject);
+      if (entry.subject && !entry.subject.includes("Flag Ceremony") && !["Recess", "Lunch", "—"].includes(entry.subject)) {
+        subjects.add(entry.subject);
+      }
     });
   });
   return Array.from(subjects);
