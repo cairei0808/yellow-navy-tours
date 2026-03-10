@@ -1308,37 +1308,52 @@ const KioskSystem = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {TIME_SLOTS.map(time => (
-                          <tr key={time}>
-                            <td className="border border-border p-2 font-semibold bg-muted/50 text-foreground whitespace-nowrap">
-                              {time}
-                            </td>
-                            {DAYS.map(day => {
-                              const entry = roomData.schedule[time]?.[day];
-                              if (!entry) return <td key={day} className="border border-border p-2" />;
-                              const isFlag = entry.subject.includes("Flag Ceremony");
-                              return (
-                                <td
-                                  key={day}
-                                  className="border border-border p-1.5 text-center"
-                                  style={{
-                                    backgroundColor: entry.color + "33",
-                                    borderLeft: `3px solid ${entry.color}`,
-                                  }}
-                                >
-                                  <div className="font-bold text-foreground leading-tight" style={{ fontSize: "10px" }}>
-                                    {isFlag ? "Flag Ceremony" : entry.subject}
-                                  </div>
-                                  {entry.teacher && (
-                                    <div className="text-muted-foreground mt-0.5 leading-tight" style={{ fontSize: "9px" }}>
-                                      ({entry.teacher})
-                                    </div>
-                                  )}
+                        {TIME_SLOTS.map(time => {
+                          const isBreak = time === "10:00-10:20" || time === "12:20-1:20";
+                          if (isBreak) {
+                            return (
+                              <tr key={time}>
+                                <td className="border border-border p-1.5 font-semibold bg-muted/50 text-foreground whitespace-nowrap text-center" colSpan={6}>
+                                  <span className="text-muted-foreground italic">
+                                    {time === "10:00-10:20" ? "🕙 Recess (10:00-10:20)" : "🍽️ Lunch Break (12:20-1:20)"}
+                                  </span>
                                 </td>
-                              );
-                            })}
-                          </tr>
-                        ))}
+                              </tr>
+                            );
+                          }
+                          return (
+                            <tr key={time}>
+                              <td className="border border-border p-2 font-semibold bg-muted/50 text-foreground whitespace-nowrap">
+                                {time}
+                              </td>
+                              {DAYS.map(day => {
+                                const entry = roomData.schedule[time]?.[day];
+                                if (!entry) return <td key={day} className="border border-border p-2" />;
+                                const isFlag = entry.subject.includes("Flag Ceremony");
+                                const isDash = entry.subject === "—";
+                                return (
+                                  <td
+                                    key={day}
+                                    className="border border-border p-1.5 text-center"
+                                    style={{
+                                      backgroundColor: entry.color + "33",
+                                      borderLeft: `3px solid ${entry.color}`,
+                                    }}
+                                  >
+                                    <div className="font-bold text-foreground leading-tight" style={{ fontSize: "10px" }}>
+                                      {isFlag ? "Flag Ceremony" : isDash ? "—" : entry.subject}
+                                    </div>
+                                    {entry.teacher && (
+                                      <div className="text-muted-foreground mt-0.5 leading-tight" style={{ fontSize: "9px" }}>
+                                        ({entry.teacher})
+                                      </div>
+                                    )}
+                                  </td>
+                                );
+                              })}
+                            </tr>
+                          );
+                        })}
                       </tbody>
                     </table>
                   </div>
