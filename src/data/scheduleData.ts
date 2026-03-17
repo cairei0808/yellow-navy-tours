@@ -43,6 +43,24 @@ const C = {
   LIFE: "#94a3b8",
   PIL: "#14b8a6",
   BREAK: "#d1d5db",
+  CHEM2: "#dc2626",
+  CC2: "#c084fc",
+  MABISA: "#f472b6",
+  FIN2: "#6366f1",
+  PHYS2: "#0ea5e9",
+  // Grade 12 subjects
+  IMM: "#7c3aed",
+  CSS4: "#0d9488",
+  EMPTECH: "#d97706",
+  RESPR: "#2563eb",
+  ENTREP: "#059669",
+  POLITICS: "#b91c1c",
+  CESAC: "#7e22ce",
+  CNF: "#c2410c",
+  TRENDS: "#0891b2",
+  CULM: "#4f46e5",
+  HOPE4: "#16a34a",
+  PHYSCI: "#ea580c",
 };
 
 const flag = (t = ""): ScheduleEntry => ({ subject: "Flag Ceremony / Classroom Mgt.", teacher: t, color: C.FLAG });
