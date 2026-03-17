@@ -23,6 +23,15 @@ interface SearchResult {
   teacher?: string;
   subject?: string;
 }
+// Custom room names (override default "Room X" labels)
+const roomNames: Record<string, string> = {
+  "B1-101": "Computer Lab",
+  "B1-103": "DCP",
+};
+
+const getRoomLabel = (code: string, roomNum: number): string => {
+  return roomNames[code] || `Room ${roomNum}`;
+};
 
 // Legacy teacher schedule lookup (for rooms without detailed timetable)
 const teacherSchedules: Record<string, { teacher: string; subject: string; schedule: { day: string; time: string }[] }> = {
@@ -270,7 +279,7 @@ const KioskSystem = () => {
               onClick={(ev) => handleRoomClick(state.building, state.floor, i + 1, ev)}
             />
             <text x={rx + roomW/2} y={ry + 20} className="text-[16px] font-bold" fill="#000000" textAnchor="middle" dominantBaseline="middle">
-              Room {roomNumberFor(state.floor, i + 1)}
+              {getRoomLabel(code, roomNumberFor(state.floor, i + 1))}
             </text>
           </g>
         );
@@ -308,7 +317,7 @@ const KioskSystem = () => {
                 onClick={(ev) => handleRoomClick(state.building, state.floor, i + 1, ev)}
               />
               <text x={rx + rw/2} y={ry + roomHeight/2} className="text-[16px] font-bold" fill="#000000" textAnchor="middle" dominantBaseline="middle">
-                Room {roomNumberFor(state.floor, i + 1)}
+                {getRoomLabel(code, roomNumberFor(state.floor, i + 1))}
               </text>
             </g>
           );
@@ -1244,7 +1253,7 @@ const KioskSystem = () => {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-2xl">
               <MapPin className="w-6 h-6 text-primary" />
-              {selectedRoom?.code}
+              {roomNames[selectedRoom?.code] ? `${roomNames[selectedRoom.code]} (${selectedRoom.code})` : selectedRoom?.code}
             </DialogTitle>
             <DialogDescription>
               Room details and class schedule
