@@ -23,6 +23,15 @@ interface SearchResult {
   teacher?: string;
   subject?: string;
 }
+// Custom room names (override default "Room X" labels)
+const roomNames: Record<string, string> = {
+  "B1-101": "Computer Lab",
+  "B1-103": "DCP",
+};
+
+const getRoomLabel = (code: string, roomNum: number): string => {
+  return roomNames[code] || `Room ${roomNum}`;
+};
 
 // Legacy teacher schedule lookup (for rooms without detailed timetable)
 const teacherSchedules: Record<string, { teacher: string; subject: string; schedule: { day: string; time: string }[] }> = {
