@@ -1253,7 +1253,7 @@ const KioskSystem = () => {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-2xl">
               <MapPin className="w-6 h-6 text-primary" />
-              {selectedRoom?.code}
+              {roomNames[selectedRoom?.code] ? `${roomNames[selectedRoom.code]} (${selectedRoom.code})` : selectedRoom?.code}
             </DialogTitle>
             <DialogDescription>
               Room details and class schedule
