@@ -317,7 +317,7 @@ const KioskSystem = () => {
                 onClick={(ev) => handleRoomClick(state.building, state.floor, i + 1, ev)}
               />
               <text x={rx + rw/2} y={ry + roomHeight/2} className="text-[16px] font-bold" fill="#000000" textAnchor="middle" dominantBaseline="middle">
-                Room {roomNumberFor(state.floor, i + 1)}
+                {getRoomLabel(code, roomNumberFor(state.floor, i + 1))}
               </text>
             </g>
           );
