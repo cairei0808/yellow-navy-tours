@@ -30,9 +30,6 @@ const Navigation = () => {
             <Link to="/campus-tour" className="text-foreground hover:text-accent transition-colors">
               Campus Tour
             </Link>
-            <a href="/#contact" className="text-foreground hover:text-accent transition-colors">
-              Contact
-            </a>
           </div>
 
           {/* Mobile Menu Button */}
