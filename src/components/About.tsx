@@ -1,26 +1,26 @@
-import { Award, Users, BookOpen, Sparkles } from "lucide-react";
+import { Monitor, Map, Clock, Search } from "lucide-react";
 
 const About = () => {
   const features = [
     {
-      icon: Award,
-      title: "Award-Winning Education",
-      description: "Recognized for excellence in academic achievement and student development.",
+      icon: Monitor,
+      title: "Digital Kiosk System",
+      description: "An interactive information kiosk designed to help students, staff, and visitors navigate FABINHS with ease.",
     },
     {
-      icon: Users,
-      title: "Expert Faculty",
-      description: "Dedicated teachers with years of experience and passion for education.",
+      icon: Map,
+      title: "Campus Map",
+      description: "View a detailed digital campus map showing all buildings, rooms, and facilities across the school grounds.",
     },
     {
-      icon: BookOpen,
-      title: "K-12 Curriculum",
-      description: "Junior High School (Grades 7-10) and Senior High School (Grades 11-12) programs aligned with DepEd K-12 standards.",
+      icon: Clock,
+      title: "Class Schedules",
+      description: "Instantly look up room schedules, sections, advisers, and subjects for every classroom in every building.",
     },
     {
-      icon: Sparkles,
-      title: "Holistic Development",
-      description: "Focus on academics, sports, arts, and character building.",
+      icon: Search,
+      title: "Smart Search",
+      description: "Search by teacher name, subject, section, or room number to quickly find the information you need.",
     },
   ];
 
@@ -29,10 +29,10 @@ const About = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">
-            Why Choose FABINHS?
+            About the Kiosk System
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Providing quality education for Junior High School and Senior High School students through the K-12 Philippine curriculum.
+            The FABINHS Kiosk Information System provides quick access to campus maps, room schedules, and school information — all in one place.
           </p>
         </div>
 
