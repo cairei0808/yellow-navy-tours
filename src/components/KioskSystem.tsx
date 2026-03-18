@@ -525,29 +525,29 @@ const KioskSystem = () => {
                   </svg>
                   <strong className="text-sm">Map Legend</strong>
                 </div>
-                  <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 gap-2">
                   <div className="flex items-center gap-2 p-2 rounded-lg bg-muted/30">
-                    <div className="w-4 h-4 rounded bg-gradient-to-b from-[#f5f0e8] to-[#b8ad9e] border border-[#8c7e6e]"></div>
+                    <div className="w-4 h-4 rounded bg-gradient-to-b from-blue-200 to-blue-400 border-2 border-blue-500"></div>
                     <span className="text-xs font-medium">Buildings</span>
                   </div>
                   <div className="flex items-center gap-2 p-2 rounded-lg bg-muted/30">
-                    <div className="w-4 h-4 rounded bg-gradient-to-b from-white to-[#f1f5f9] border border-[#7a9bb5]"></div>
+                    <div className="w-4 h-4 rounded bg-gradient-to-b from-blue-100 to-blue-200 border-2 border-blue-400"></div>
                     <span className="text-xs font-medium">Rooms</span>
                   </div>
                   <div className="flex items-center gap-2 p-2 rounded-lg bg-muted/30">
-                    <div className="w-4 h-4 rounded bg-gradient-to-b from-[#e8d5c4] to-[#a07858] border border-[#6d4c35]"></div>
+                    <div className="w-4 h-4 rounded bg-gradient-to-b from-orange-200 to-orange-400 border-2 border-orange-500"></div>
                     <span className="text-xs font-medium">Gym</span>
                   </div>
                   <div className="flex items-center gap-2 p-2 rounded-lg bg-muted/30">
-                    <div className="w-4 h-4 rounded bg-gradient-to-b from-[#e8d0d0] to-[#8b5e5e] border border-[#5a3636]"></div>
+                    <div className="w-4 h-4 rounded bg-gradient-to-b from-pink-200 to-pink-400 border-2 border-pink-500"></div>
                     <span className="text-xs font-medium">Canteen</span>
                   </div>
                   <div className="flex items-center gap-2 p-2 rounded-lg bg-muted/30">
-                    <div className="w-4 h-4 rounded bg-gradient-to-b from-[#c8dcc8] to-[#4a6e4a] border border-[#2a4a2a]"></div>
+                    <div className="w-4 h-4 rounded bg-gradient-to-b from-green-200 to-green-400 border-2 border-green-500"></div>
                     <span className="text-xs font-medium">Entrance</span>
                   </div>
                   <div className="flex items-center gap-2 p-2 rounded-lg bg-muted/30">
-                    <div className="w-4 h-3 rounded bg-gradient-to-r from-[#3d4f63] to-[#1f2d3d] border border-[#475569]"></div>
+                    <div className="w-4 h-3 rounded bg-gradient-to-r from-amber-100 to-amber-200 border border-amber-400"></div>
                     <span className="text-xs font-medium">Pathways</span>
                   </div>
                 </div>
@@ -639,128 +639,123 @@ const KioskSystem = () => {
                     style={{ pointerEvents: isPanning ? 'none' : 'auto' }}
                   >
                     <defs>
-                      {/* Formal dark background gradient */}
+                      {/* Dark background gradient */}
                       <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style={{ stopColor: "#0f1729", stopOpacity: 1 }} />
-                        <stop offset="40%" style={{ stopColor: "#111d35", stopOpacity: 1 }} />
-                        <stop offset="100%" style={{ stopColor: "#0a1120", stopOpacity: 1 }} />
+                        <stop offset="0%" style={{ stopColor: "#1e3a5f", stopOpacity: 1 }} />
+                        <stop offset="50%" style={{ stopColor: "#1a2744", stopOpacity: 1 }} />
+                        <stop offset="100%" style={{ stopColor: "#0f172a", stopOpacity: 1 }} />
                       </linearGradient>
                       
-                      {/* Subtle grid pattern */}
-                      <pattern id="gridPattern" width="40" height="40" patternUnits="userSpaceOnUse">
-                        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e3a5f" strokeWidth="0.5" opacity="0.3" />
-                      </pattern>
-                      
-                      {/* Ground texture */}
+                      {/* Grass/ground areas */}
                       <linearGradient id="grassGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" style={{ stopColor: "#1a3328", stopOpacity: 1 }} />
-                        <stop offset="100%" style={{ stopColor: "#142a20", stopOpacity: 1 }} />
+                        <stop offset="0%" style={{ stopColor: "#2d5a3d", stopOpacity: 1 }} />
+                        <stop offset="100%" style={{ stopColor: "#1e4d2b", stopOpacity: 1 }} />
                       </linearGradient>
                       
-                      {/* Road gradient - formal asphalt */}
+                      {/* Road/pathway gradient - Gray asphalt */}
                       <linearGradient id="roadGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" style={{ stopColor: "#3d4f63", stopOpacity: 1 }} />
-                        <stop offset="50%" style={{ stopColor: "#2d3d4f", stopOpacity: 1 }} />
-                        <stop offset="100%" style={{ stopColor: "#1f2d3d", stopOpacity: 1 }} />
+                        <stop offset="0%" style={{ stopColor: "#64748b", stopOpacity: 1 }} />
+                        <stop offset="50%" style={{ stopColor: "#475569", stopOpacity: 1 }} />
+                        <stop offset="100%" style={{ stopColor: "#334155", stopOpacity: 1 }} />
                       </linearGradient>
                       
-                      {/* 3D Building gradients - Formal cream/stone */}
+                      {/* 3D Building gradients - Light blue/white theme */}
                       <linearGradient id="buildingTop" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style={{ stopColor: "#f5f0e8", stopOpacity: 1 }} />
-                        <stop offset="100%" style={{ stopColor: "#e8e0d0", stopOpacity: 1 }} />
+                        <stop offset="0%" style={{ stopColor: "#e0f2fe", stopOpacity: 1 }} />
+                        <stop offset="100%" style={{ stopColor: "#bae6fd", stopOpacity: 1 }} />
                       </linearGradient>
                       <linearGradient id="buildingFront" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" style={{ stopColor: "#d4cbbf", stopOpacity: 1 }} />
-                        <stop offset="100%" style={{ stopColor: "#b8ad9e", stopOpacity: 1 }} />
+                        <stop offset="0%" style={{ stopColor: "#7dd3fc", stopOpacity: 1 }} />
+                        <stop offset="100%" style={{ stopColor: "#38bdf8", stopOpacity: 1 }} />
                       </linearGradient>
                       <linearGradient id="buildingSide" x1="100%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" style={{ stopColor: "#a69888", stopOpacity: 1 }} />
-                        <stop offset="100%" style={{ stopColor: "#8c7e6e", stopOpacity: 1 }} />
+                        <stop offset="0%" style={{ stopColor: "#0ea5e9", stopOpacity: 1 }} />
+                        <stop offset="100%" style={{ stopColor: "#0284c7", stopOpacity: 1 }} />
                       </linearGradient>
                       
-                      {/* Active building - Gold/Amber formal */}
+                      {/* Active building - Yellow/Gold theme */}
                       <linearGradient id="buildingTopActive" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style={{ stopColor: "#fef3c7", stopOpacity: 1 }} />
-                        <stop offset="100%" style={{ stopColor: "#fde68a", stopOpacity: 1 }} />
+                        <stop offset="0%" style={{ stopColor: "#fef9c3", stopOpacity: 1 }} />
+                        <stop offset="100%" style={{ stopColor: "#fef08a", stopOpacity: 1 }} />
                       </linearGradient>
                       <linearGradient id="buildingFrontActive" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" style={{ stopColor: "#fbbf24", stopOpacity: 1 }} />
-                        <stop offset="100%" style={{ stopColor: "#d97706", stopOpacity: 1 }} />
+                        <stop offset="0%" style={{ stopColor: "#fde047", stopOpacity: 1 }} />
+                        <stop offset="100%" style={{ stopColor: "#facc15", stopOpacity: 1 }} />
                       </linearGradient>
                       <linearGradient id="buildingSideActive" x1="100%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" style={{ stopColor: "#b45309", stopOpacity: 1 }} />
-                        <stop offset="100%" style={{ stopColor: "#92400e", stopOpacity: 1 }} />
+                        <stop offset="0%" style={{ stopColor: "#eab308", stopOpacity: 1 }} />
+                        <stop offset="100%" style={{ stopColor: "#ca8a04", stopOpacity: 1 }} />
                       </linearGradient>
                       
-                      {/* Room gradient - clean white */}
+                      {/* Room gradient */}
                       <linearGradient id="roomGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" style={{ stopColor: "#ffffff", stopOpacity: 1 }} />
-                        <stop offset="100%" style={{ stopColor: "#f1f5f9", stopOpacity: 1 }} />
+                        <stop offset="0%" style={{ stopColor: "#f0f9ff", stopOpacity: 1 }} />
+                        <stop offset="100%" style={{ stopColor: "#e0f2fe", stopOpacity: 1 }} />
                       </linearGradient>
                       
-                      {/* Gymnasium - Warm terracotta */}
+                      {/* Gym gradient - Orange/Coral */}
                       <linearGradient id="gymTop" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style={{ stopColor: "#e8d5c4", stopOpacity: 1 }} />
-                        <stop offset="100%" style={{ stopColor: "#d4b8a0", stopOpacity: 1 }} />
+                        <stop offset="0%" style={{ stopColor: "#fed7aa", stopOpacity: 1 }} />
+                        <stop offset="100%" style={{ stopColor: "#fdba74", stopOpacity: 1 }} />
                       </linearGradient>
                       <linearGradient id="gymFront" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" style={{ stopColor: "#c49a7c", stopOpacity: 1 }} />
-                        <stop offset="100%" style={{ stopColor: "#a07858", stopOpacity: 1 }} />
+                        <stop offset="0%" style={{ stopColor: "#fb923c", stopOpacity: 1 }} />
+                        <stop offset="100%" style={{ stopColor: "#f97316", stopOpacity: 1 }} />
                       </linearGradient>
                       <linearGradient id="gymSide" x1="100%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" style={{ stopColor: "#8b6544", stopOpacity: 1 }} />
-                        <stop offset="100%" style={{ stopColor: "#6d4c35", stopOpacity: 1 }} />
+                        <stop offset="0%" style={{ stopColor: "#ea580c", stopOpacity: 1 }} />
+                        <stop offset="100%" style={{ stopColor: "#c2410c", stopOpacity: 1 }} />
                       </linearGradient>
                       
-                      {/* Canteen - Muted burgundy */}
+                      {/* Canteen gradient - Rose/Pink */}
                       <linearGradient id="canteenTop" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style={{ stopColor: "#e8d0d0", stopOpacity: 1 }} />
-                        <stop offset="100%" style={{ stopColor: "#d4b0b0", stopOpacity: 1 }} />
+                        <stop offset="0%" style={{ stopColor: "#fecdd3", stopOpacity: 1 }} />
+                        <stop offset="100%" style={{ stopColor: "#fda4af", stopOpacity: 1 }} />
                       </linearGradient>
                       <linearGradient id="canteenFront" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" style={{ stopColor: "#b08080", stopOpacity: 1 }} />
-                        <stop offset="100%" style={{ stopColor: "#8b5e5e", stopOpacity: 1 }} />
+                        <stop offset="0%" style={{ stopColor: "#fb7185", stopOpacity: 1 }} />
+                        <stop offset="100%" style={{ stopColor: "#f43f5e", stopOpacity: 1 }} />
                       </linearGradient>
                       <linearGradient id="canteenSide" x1="100%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" style={{ stopColor: "#6d4444", stopOpacity: 1 }} />
-                        <stop offset="100%" style={{ stopColor: "#5a3636", stopOpacity: 1 }} />
+                        <stop offset="0%" style={{ stopColor: "#e11d48", stopOpacity: 1 }} />
+                        <stop offset="100%" style={{ stopColor: "#be123c", stopOpacity: 1 }} />
                       </linearGradient>
                       
-                      {/* Entrance - Formal green */}
+                      {/* Entrance gradient - Green */}
                       <linearGradient id="entranceTop" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style={{ stopColor: "#c8dcc8", stopOpacity: 1 }} />
-                        <stop offset="100%" style={{ stopColor: "#a8c4a8", stopOpacity: 1 }} />
+                        <stop offset="0%" style={{ stopColor: "#bbf7d0", stopOpacity: 1 }} />
+                        <stop offset="100%" style={{ stopColor: "#86efac", stopOpacity: 1 }} />
                       </linearGradient>
                       <linearGradient id="entranceFront" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" style={{ stopColor: "#6b8f6b", stopOpacity: 1 }} />
-                        <stop offset="100%" style={{ stopColor: "#4a6e4a", stopOpacity: 1 }} />
+                        <stop offset="0%" style={{ stopColor: "#4ade80", stopOpacity: 1 }} />
+                        <stop offset="100%" style={{ stopColor: "#22c55e", stopOpacity: 1 }} />
                       </linearGradient>
                       <linearGradient id="entranceSide" x1="100%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" style={{ stopColor: "#3a5a3a", stopOpacity: 1 }} />
-                        <stop offset="100%" style={{ stopColor: "#2a4a2a", stopOpacity: 1 }} />
+                        <stop offset="0%" style={{ stopColor: "#16a34a", stopOpacity: 1 }} />
+                        <stop offset="100%" style={{ stopColor: "#15803d", stopOpacity: 1 }} />
                       </linearGradient>
                       
-                      {/* Tree gradients - darker, mature */}
+                      {/* Tree gradients */}
                       <radialGradient id="treeTop" cx="30%" cy="30%">
-                        <stop offset="0%" style={{ stopColor: "#3d7a3d", stopOpacity: 1 }} />
-                        <stop offset="70%" style={{ stopColor: "#2d5a2d", stopOpacity: 1 }} />
-                        <stop offset="100%" style={{ stopColor: "#1e4a1e", stopOpacity: 1 }} />
+                        <stop offset="0%" style={{ stopColor: "#4ade80", stopOpacity: 1 }} />
+                        <stop offset="70%" style={{ stopColor: "#22c55e", stopOpacity: 1 }} />
+                        <stop offset="100%" style={{ stopColor: "#16a34a", stopOpacity: 1 }} />
                       </radialGradient>
                       <linearGradient id="treeTrunk" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style={{ stopColor: "#6b5340", stopOpacity: 1 }} />
-                        <stop offset="100%" style={{ stopColor: "#4a3728", stopOpacity: 1 }} />
+                        <stop offset="0%" style={{ stopColor: "#a16207", stopOpacity: 1 }} />
+                        <stop offset="100%" style={{ stopColor: "#713f12", stopOpacity: 1 }} />
                       </linearGradient>
                       
-                      {/* Enhanced professional shadows */}
+                      {/* Enhanced shadows for 3D effect */}
                       <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-                        <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="#000" floodOpacity="0.25" />
+                        <feDropShadow dx="0" dy="3" stdDeviation="3" floodColor="#000" floodOpacity="0.3" />
                       </filter>
                       <filter id="buildingShadow" x="-30%" y="-30%" width="160%" height="160%">
-                        <feDropShadow dx="8" dy="12" stdDeviation="14" floodColor="#000" floodOpacity="0.45" />
+                        <feDropShadow dx="10" dy="15" stdDeviation="12" floodColor="#000" floodOpacity="0.4" />
                       </filter>
                       <filter id="selectedGlow" x="-50%" y="-50%" width="200%" height="200%">
-                        <feGaussianBlur stdDeviation="12" result="blur" />
-                        <feFlood floodColor="#d97706" floodOpacity="0.6" result="color" />
+                        <feGaussianBlur stdDeviation="15" result="blur" />
+                        <feFlood floodColor="#fbbf24" floodOpacity="0.8" result="color" />
                         <feComposite in="color" in2="blur" operator="in" result="glow" />
                         <feMerge>
                           <feMergeNode in="glow" />
@@ -778,408 +773,442 @@ const KioskSystem = () => {
                           <feMergeNode in="SourceGraphic" />
                         </feMerge>
                       </filter>
-                      {/* Label background */}
-                      <filter id="labelShadow" x="-10%" y="-10%" width="120%" height="120%">
-                        <feDropShadow dx="0" dy="2" stdDeviation="4" floodColor="#000" floodOpacity="0.35" />
-                      </filter>
                     </defs>
                     
-                    {/* Dark formal background */}
+                    {/* Dark navy background */}
                     <rect width="2000" height="1400" fill="url(#bgGradient)" />
                     
-                    {/* Subtle grid overlay for architectural feel */}
-                    <rect width="2000" height="1400" fill="url(#gridPattern)" />
-                    
-                    {/* Compass rose */}
-                    <g transform="translate(1880, 80)" opacity="0.5">
-                      <circle cx="0" cy="0" r="28" fill="none" stroke="#94a3b8" strokeWidth="1" />
-                      <circle cx="0" cy="0" r="24" fill="none" stroke="#64748b" strokeWidth="0.5" />
-                      <polygon points="0,-22 3,-8 -3,-8" fill="#94a3b8" />
-                      <polygon points="0,22 3,8 -3,8" fill="#475569" />
-                      <polygon points="-22,0 -8,3 -8,-3" fill="#475569" />
-                      <polygon points="22,0 8,3 8,-3" fill="#475569" />
-                      <text x="0" y="-30" className="text-[10px]" fill="#94a3b8" textAnchor="middle" fontWeight="bold">N</text>
-                      <text x="0" y="38" className="text-[10px]" fill="#64748b" textAnchor="middle">S</text>
-                      <text x="-32" y="4" className="text-[10px]" fill="#64748b" textAnchor="middle">W</text>
-                      <text x="32" y="4" className="text-[10px]" fill="#64748b" textAnchor="middle">E</text>
+                    {/* Ground texture dots for depth */}
+                    <g opacity="0.08">
+                      {Array.from({ length: 80 }, (_, i) => (
+                        <circle key={`dot-${i}`} cx={100 + (i % 20) * 95} cy={260 + Math.floor(i / 20) * 180} r={1.5 + Math.random()} fill="#94a3b8" />
+                      ))}
                     </g>
                     
-                    {/* Scale bar */}
-                    <g transform="translate(80, 1150)" opacity="0.45">
-                      <line x1="0" y1="0" x2="120" y2="0" stroke="#94a3b8" strokeWidth="2" />
-                      <line x1="0" y1="-5" x2="0" y2="5" stroke="#94a3b8" strokeWidth="2" />
-                      <line x1="60" y1="-3" x2="60" y2="3" stroke="#94a3b8" strokeWidth="1" />
-                      <line x1="120" y1="-5" x2="120" y2="5" stroke="#94a3b8" strokeWidth="2" />
-                      <text x="60" y="15" className="text-[9px]" fill="#94a3b8" textAnchor="middle">≈ 50m</text>
-                    </g>
+                    {/* Grass areas with subtle texture */}
+                    <rect x="50" y="250" width="400" height="700" rx="20" fill="url(#grassGradient)" opacity="0.6" />
+                    <rect x="550" y="250" width="500" height="700" rx="20" fill="url(#grassGradient)" opacity="0.6" />
+                    <rect x="1150" y="250" width="400" height="700" rx="20" fill="url(#grassGradient)" opacity="0.6" />
+                    <rect x="1650" y="250" width="300" height="700" rx="20" fill="url(#grassGradient)" opacity="0.6" />
                     
-                    {/* Title cartouche */}
-                    <g transform="translate(100, 40)">
-                      <rect x="0" y="0" width="380" height="55" rx="4" fill="#111d35" stroke="#334155" strokeWidth="1.5" opacity="0.9" />
-                      <rect x="2" y="2" width="376" height="51" rx="3" fill="none" stroke="#475569" strokeWidth="0.5" />
-                      <text x="190" y="24" className="text-[16px] font-bold" fill="#e2e8f0" textAnchor="middle" dominantBaseline="middle" letterSpacing="3">FABINHS CAMPUS</text>
-                      <text x="190" y="42" className="text-[9px]" fill="#94a3b8" textAnchor="middle" dominantBaseline="middle" letterSpacing="1">SITE PLAN • SY 2025-2026</text>
-                    </g>
-                    
-                    {/* Ground areas with subtle texture */}
-                    <rect x="50" y="250" width="400" height="700" rx="12" fill="url(#grassGradient)" opacity="0.5" />
-                    <rect x="550" y="250" width="500" height="700" rx="12" fill="url(#grassGradient)" opacity="0.5" />
-                    <rect x="1150" y="250" width="400" height="700" rx="12" fill="url(#grassGradient)" opacity="0.5" />
-                    <rect x="1650" y="250" width="300" height="700" rx="12" fill="url(#grassGradient)" opacity="0.5" />
-                    
-                    {/* Grass texture dots */}
-                    <g opacity="0.06">
-                      {Array.from({ length: 60 }, (_, i) => (
-                        <circle key={`dot-${i}`} cx={120 + (i % 15) * 120} cy={300 + Math.floor(i / 15) * 150} r={1} fill="#4ade80" />
+                    {/* Grass texture lines */}
+                    <g opacity="0.12">
+                      {[0, 1, 2, 3, 4, 5].map(i => (
+                        <g key={`grass-line-${i}`}>
+                          <line x1={100 + i * 60} y1={400 + i * 30} x2={110 + i * 60} y2={390 + i * 30} stroke="#4ade80" strokeWidth="1" />
+                          <line x1={1200 + i * 50} y1={420 + i * 25} x2={1210 + i * 50} y2={410 + i * 25} stroke="#4ade80" strokeWidth="1" />
+                        </g>
                       ))}
                     </g>
 
-                    {/* Roads/Pathways */}
+                    {/* Roads/Pathways - Gray asphalt like reference */}
                     <g id="roads">
                       {/* Main horizontal road */}
                       <rect x="100" y="210" width="1800" height="60" rx="4" fill="url(#roadGradient)" />
-                      <line x1="100" y1="240" x2="1900" y2="240" stroke="#64748b" strokeWidth="1.5" strokeDasharray="18,14" opacity="0.6" />
+                      <line x1="100" y1="240" x2="1900" y2="240" stroke="#94a3b8" strokeWidth="2" strokeDasharray="20,15" />
                       
-                      {/* Vertical roads */}
+                      {/* Vertical roads connecting buildings */}
                       <rect x="390" y="270" width="50" height="720" rx="4" fill="url(#roadGradient)" />
                       <rect x="1000" y="270" width="50" height="620" rx="4" fill="url(#roadGradient)" />
                       <rect x="1550" y="270" width="50" height="720" rx="4" fill="url(#roadGradient)" />
                       
-                      {/* Lane markings */}
-                      <line x1="415" y1="270" x2="415" y2="890" stroke="#64748b" strokeWidth="1" strokeDasharray="12,10" opacity="0.5" />
-                      <line x1="1025" y1="270" x2="1025" y2="890" stroke="#64748b" strokeWidth="1" strokeDasharray="12,10" opacity="0.5" />
-                      <line x1="1575" y1="270" x2="1575" y2="890" stroke="#64748b" strokeWidth="1" strokeDasharray="12,10" opacity="0.5" />
+                      {/* Vertical road lane markings */}
+                      <line x1="415" y1="270" x2="415" y2="890" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="15,12" />
+                      <line x1="1025" y1="270" x2="1025" y2="890" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="15,12" />
+                      <line x1="1575" y1="270" x2="1575" y2="890" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="15,12" />
                       
-                      {/* Bottom road */}
+                      {/* Connecting road at bottom */}
                       <rect x="100" y="890" width="1500" height="50" rx="4" fill="url(#roadGradient)" />
-                      <line x1="100" y1="915" x2="1600" y2="915" stroke="#64748b" strokeWidth="1.5" strokeDasharray="18,14" opacity="0.5" />
+                      <line x1="100" y1="915" x2="1600" y2="915" stroke="#94a3b8" strokeWidth="2" strokeDasharray="20,15" />
                       
                       {/* Road to entrance */}
                       <rect x="100" y="940" width="350" height="50" rx="4" fill="url(#roadGradient)" />
-                      <line x1="100" y1="965" x2="450" y2="965" stroke="#64748b" strokeWidth="1" strokeDasharray="10,8" opacity="0.5" />
+                      <line x1="100" y1="965" x2="450" y2="965" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="12,10" />
                       
-                      {/* Connector roads */}
+                      {/* Road to gym and canteen */}
                       <rect x="650" y="890" width="50" height="220" rx="4" fill="url(#roadGradient)" />
+                      <line x1="675" y1="890" x2="675" y2="1110" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="12,10" />
                       <rect x="1300" y="890" width="50" height="220" rx="4" fill="url(#roadGradient)" />
+                      <line x1="1325" y1="890" x2="1325" y2="1110" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="12,10" />
                       
-                      {/* Parking area */}
-                      <rect x="1690" y="280" width="200" height="120" rx="6" fill="#1e293b" opacity="0.6" stroke="#334155" strokeWidth="1" />
-                      <text x="1790" y="295" className="text-[9px]" fill="#64748b" textAnchor="middle" dominantBaseline="middle" letterSpacing="2">PARKING</text>
-                      <g opacity="0.4">
+                      {/* Parking area with markings */}
+                      <rect x="1690" y="280" width="200" height="120" rx="6" fill="#334155" opacity="0.5" />
+                      <text x="1790" y="295" className="text-[10px]" fill="#94a3b8" textAnchor="middle" dominantBaseline="middle" opacity="0.7">PARKING</text>
+                      <g opacity="0.6">
                         {[0, 1, 2, 3, 4].map(i => (
-                          <rect key={`park-${i}`} x={1700 + i * 35} y="300" width="25" height="50" rx="2" fill="none" stroke="#475569" strokeWidth="1" strokeDasharray="3,2" />
+                          <rect key={`park-${i}`} x={1700 + i * 35} y="300" width="25" height="50" rx="2" fill="none" stroke="#64748b" strokeWidth="1" strokeDasharray="4,3" />
                         ))}
                       </g>
                     </g>
 
-                    {/* Trees - refined */}
+                    {/* Decorative trees - More realistic 3D style */}
                     <g id="trees">
+                      {/* Tree cluster near Building 1 */}
                       {[
-                        { x: 180, y: 380, s: 1 }, { x: 220, y: 450, s: 0.8 }, { x: 160, y: 520, s: 0.9 },
-                        { x: 200, y: 600, s: 1.1 }, { x: 170, y: 700, s: 0.85 },
+                        { x: 180, y: 380, s: 1 },
+                        { x: 220, y: 450, s: 0.8 },
+                        { x: 160, y: 520, s: 0.9 },
+                        { x: 200, y: 600, s: 1.1 },
+                        { x: 170, y: 700, s: 0.85 },
                       ].map((t, i) => (
                         <g key={`tree-l-${i}`} transform={`translate(${t.x}, ${t.y}) scale(${t.s})`}>
-                          <ellipse cx="0" cy="30" rx="16" ry="5" fill="#000" opacity="0.15" />
-                          <rect x="-3" y="2" width="6" height="28" fill="url(#treeTrunk)" />
-                          <circle cx="0" cy="-12" r="22" fill="url(#treeTop)" />
-                          <circle cx="-10" cy="-6" r="15" fill="#2d5a2d" opacity="0.8" />
-                          <circle cx="8" cy="-4" r="13" fill="#3d6e3d" opacity="0.6" />
+                          <ellipse cx="0" cy="30" rx="18" ry="6" fill="#000" opacity="0.2" />
+                          <rect x="-4" y="0" width="8" height="30" fill="url(#treeTrunk)" />
+                          <circle cx="0" cy="-15" r="25" fill="url(#treeTop)" />
+                          <circle cx="-12" cy="-8" r="18" fill="#22c55e" />
+                          <circle cx="10" cy="-5" r="16" fill="#4ade80" />
                         </g>
                       ))}
                       
+                      {/* Tree cluster near Building 3 */}
                       {[
-                        { x: 1820, y: 400, s: 1.1 }, { x: 1850, y: 480, s: 0.9 }, { x: 1800, y: 560, s: 1 },
-                        { x: 1840, y: 650, s: 0.85 }, { x: 1810, y: 750, s: 0.95 },
+                        { x: 1820, y: 400, s: 1.1 },
+                        { x: 1850, y: 480, s: 0.9 },
+                        { x: 1800, y: 560, s: 1 },
+                        { x: 1840, y: 650, s: 0.85 },
+                        { x: 1810, y: 750, s: 0.95 },
                       ].map((t, i) => (
                         <g key={`tree-r-${i}`} transform={`translate(${t.x}, ${t.y}) scale(${t.s})`}>
-                          <ellipse cx="0" cy="30" rx="16" ry="5" fill="#000" opacity="0.15" />
-                          <rect x="-3" y="2" width="6" height="28" fill="url(#treeTrunk)" />
-                          <circle cx="0" cy="-12" r="22" fill="url(#treeTop)" />
-                          <circle cx="-10" cy="-6" r="15" fill="#2d5a2d" opacity="0.8" />
-                          <circle cx="8" cy="-4" r="13" fill="#3d6e3d" opacity="0.6" />
+                          <ellipse cx="0" cy="30" rx="18" ry="6" fill="#000" opacity="0.2" />
+                          <rect x="-4" y="0" width="8" height="30" fill="url(#treeTrunk)" />
+                          <circle cx="0" cy="-15" r="25" fill="url(#treeTop)" />
+                          <circle cx="-12" cy="-8" r="18" fill="#22c55e" />
+                          <circle cx="10" cy="-5" r="16" fill="#4ade80" />
                         </g>
                       ))}
                       
+                      {/* Trees along pathways */}
                       {[
-                        { x: 600, y: 280, s: 0.7 }, { x: 750, y: 280, s: 0.75 },
-                        { x: 1250, y: 280, s: 0.7 }, { x: 1380, y: 280, s: 0.75 },
-                        { x: 500, y: 980, s: 0.8 }, { x: 1450, y: 980, s: 0.8 },
+                        { x: 600, y: 280, s: 0.75 },
+                        { x: 750, y: 280, s: 0.8 },
+                        { x: 1250, y: 280, s: 0.75 },
+                        { x: 1380, y: 280, s: 0.8 },
+                        { x: 500, y: 980, s: 0.85 },
+                        { x: 1450, y: 980, s: 0.85 },
                       ].map((t, i) => (
                         <g key={`tree-p-${i}`} transform={`translate(${t.x}, ${t.y}) scale(${t.s})`}>
-                          <ellipse cx="0" cy="30" rx="16" ry="5" fill="#000" opacity="0.15" />
-                          <rect x="-3" y="2" width="6" height="28" fill="url(#treeTrunk)" />
-                          <circle cx="0" cy="-12" r="22" fill="url(#treeTop)" />
-                          <circle cx="-10" cy="-6" r="15" fill="#2d5a2d" opacity="0.8" />
-                          <circle cx="8" cy="-4" r="13" fill="#3d6e3d" opacity="0.6" />
+                          <ellipse cx="0" cy="30" rx="18" ry="6" fill="#000" opacity="0.2" />
+                          <rect x="-4" y="0" width="8" height="30" fill="url(#treeTrunk)" />
+                          <circle cx="0" cy="-15" r="25" fill="url(#treeTop)" />
+                          <circle cx="-12" cy="-8" r="18" fill="#22c55e" />
+                          <circle cx="10" cy="-5" r="16" fill="#4ade80" />
                         </g>
                       ))}
                     </g>
 
-                    {/* ═══ 3D ISOMETRIC BUILDINGS ═══ */}
+                    {/* 3D Isometric Buildings */}
                     
-                    {/* Building 2 (top horizontal) */}
+                    {/* Building 4 - Top horizontal building */}
                     <g onClick={(e) => { e.stopPropagation(); zoomToBuilding('b4'); }} className="cursor-pointer" style={{ filter: state.building === 'b4' ? 'url(#selectedGlow)' : undefined }}>
-                      <ellipse cx="1000" cy="200" rx="680" ry="28" fill="#000" opacity="0.2" />
-                      {/* Main body */}
+                      {/* Shadow */}
+                      <ellipse cx="1000" cy="200" rx="680" ry="30" fill="#000" opacity="0.25" />
+                      {/* 3D Building - Top face */}
                       <path d="M350,60 L1650,60 L1700,100 L1700,180 L1650,200 L350,200 L300,180 L300,100 Z" 
                             fill={state.building === 'b4' ? 'url(#buildingTopActive)' : 'url(#buildingTop)'} 
-                            stroke={state.building === 'b4' ? '#92400e' : '#8c7e6e'} strokeWidth="1.5" filter="url(#buildingShadow)" />
+                            stroke={state.building === 'b4' ? '#ca8a04' : '#0284c7'} strokeWidth="2" filter="url(#buildingShadow)" />
+                      {/* Front face */}
                       <path d="M350,200 L1650,200 L1700,180 L1700,200 L350,200 Z" 
                             fill={state.building === 'b4' ? 'url(#buildingFrontActive)' : 'url(#buildingFront)'} />
+                      {/* Right side face */}
                       <path d="M1650,60 L1700,100 L1700,180 L1650,200 L1650,60 Z" 
                             fill={state.building === 'b4' ? 'url(#buildingSideActive)' : 'url(#buildingSide)'} />
+                      {/* Left side face */}
                       <path d="M300,100 L350,60 L350,200 L300,180 Z" 
                             fill={state.building === 'b4' ? 'url(#buildingSideActive)' : 'url(#buildingSide)'} />
-                      {/* Windows - frosted glass look */}
+                      {/* Windows */}
                       {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(i => (
-                        <g key={`b4-win-${i}`}>
-                          <rect x={400 + i * 125} y={100} width="80" height="50" rx="3" fill="#b8cfe0" stroke="#7a9bb5" strokeWidth="0.8" />
-                          <line x1={440 + i * 125} y1={100} x2={440 + i * 125} y2={150} stroke="#7a9bb5" strokeWidth="0.5" opacity="0.5" />
-                          <rect x={400 + i * 125} y={100} width="80" height="6" fill="#9cb8cc" opacity="0.4" />
-                        </g>
+                        <rect key={`b4-win-${i}`} x={400 + i * 125} y={100} width="80" height="50" rx="4" fill="#bae6fd" stroke="#0ea5e9" strokeWidth="1" />
                       ))}
-                      {/* Roof cornice line */}
-                      <line x1="350" y1="62" x2="1650" y2="62" stroke="#a69888" strokeWidth="3" opacity="0.6" />
-                      {/* AC units */}
+                      {/* Roof details - AC units */}
                       {[0, 1, 2].map(i => (
-                        <rect key={`b4-ac-${i}`} x={450 + i * 400} y={68} width="28" height="18" rx="3" fill="#6b7280" stroke="#4b5563" strokeWidth="0.8" opacity="0.5" />
+                        <rect key={`b4-ac-${i}`} x={450 + i * 400} y={68} width="30" height="20" rx="3" fill="#94a3b8" stroke="#64748b" strokeWidth="1" opacity="0.7" />
                       ))}
                       {/* Label */}
-                      <rect x="880" y="112" width="240" height="44" rx="6" fill="#111827" opacity="0.9" filter="url(#labelShadow)" stroke="#334155" strokeWidth="1" />
-                      <text x="1000" y="138" className="text-[20px] font-bold" fill="#e2e8f0" textAnchor="middle" dominantBaseline="middle" letterSpacing="1">Building 2</text>
+                      <rect x="880" y="115" width="240" height="40" rx="8" fill="white" opacity="0.95" filter="url(#shadow)" />
+                      <text x="1000" y="140" className="text-[22px] font-bold" fill="#0c4a6e" textAnchor="middle" dominantBaseline="middle">Building 2</text>
                     </g>
 
                     {/* Building 1 */}
                     <g onClick={(e) => { e.stopPropagation(); zoomToBuilding('b1'); }} className="cursor-pointer" style={{ filter: state.building === 'b1' ? 'url(#selectedGlow)' : undefined }}>
-                      <ellipse cx="410" cy="840" rx="135" ry="22" fill="#000" opacity="0.25" />
+                      {/* Shadow */}
+                      <ellipse cx="410" cy="840" rx="140" ry="25" fill="#000" opacity="0.3" />
+                      {/* 3D Building - Main body */}
                       <path d="M300,300 L520,300 L560,340 L560,800 L520,820 L300,820 L260,800 L260,340 Z" 
                             fill={state.building === 'b1' ? 'url(#buildingTopActive)' : 'url(#buildingTop)'} 
-                            stroke={state.building === 'b1' ? '#92400e' : '#8c7e6e'} strokeWidth="1.5" filter="url(#buildingShadow)" />
+                            stroke={state.building === 'b1' ? '#ca8a04' : '#0284c7'} strokeWidth="2" filter="url(#buildingShadow)" />
+                      {/* Left side face */}
                       <path d="M260,340 L300,300 L300,820 L260,800 Z" 
                             fill={state.building === 'b1' ? 'url(#buildingSideActive)' : 'url(#buildingSide)'} />
+                      {/* Right side face */}
                       <path d="M520,300 L560,340 L560,800 L520,820 Z" 
                             fill={state.building === 'b1' ? 'url(#buildingFrontActive)' : 'url(#buildingFront)'} />
                       {/* Windows */}
                       {[0, 1, 2, 3, 4].map(i => (
-                        <g key={`b1-win-${i}`}>
-                          <rect x={320} y={340 + i * 90} width="160" height="60" rx="3" fill="#b8cfe0" stroke="#7a9bb5" strokeWidth="0.8" />
-                          <line x1={400} y1={340 + i * 90} x2={400} y2={400 + i * 90} stroke="#7a9bb5" strokeWidth="0.5" opacity="0.5" />
-                          <rect x={320} y={340 + i * 90} width="160" height="6" fill="#9cb8cc" opacity="0.3" />
-                        </g>
+                        <rect key={`b1-win-${i}`} x={320} y={340 + i * 90} width="160" height="60" rx="4" fill="#bae6fd" stroke="#0ea5e9" strokeWidth="1" />
                       ))}
-                      {/* Cornice */}
-                      <line x1="300" y1="302" x2="520" y2="302" stroke="#a69888" strokeWidth="3" opacity="0.6" />
-                      {/* Roof detail */}
-                      <rect x="390" y="306" width="18" height="14" rx="2" fill="#6b7280" opacity="0.4" />
+                      {/* Roof details */}
+                      <rect x="390" y="305" width="20" height="15" rx="2" fill="#94a3b8" stroke="#64748b" strokeWidth="1" opacity="0.6" />
                       {/* Door */}
-                      <rect x="388" y="782" width="44" height="35" rx="3" fill="#4a3728" stroke="#3a2a1c" strokeWidth="1.5" />
-                      <circle cx="427" cy="802" r="2.5" fill="#d97706" />
+                      <rect x="390" y="780" width="40" height="35" rx="3" fill="#0369a1" stroke="#075985" strokeWidth="1.5" />
+                      <circle cx="425" cy="800" r="3" fill="#fbbf24" />
                       {/* Label */}
-                      <rect x="305" y="538" width="210" height="44" rx="6" fill="#111827" opacity="0.9" filter="url(#labelShadow)" stroke="#334155" strokeWidth="1" />
-                      <text x="410" y="564" className="text-[18px] font-bold" fill="#e2e8f0" textAnchor="middle" dominantBaseline="middle" letterSpacing="1">Building 1</text>
+                      <rect x="305" y="540" width="210" height="40" rx="8" fill="white" opacity="0.95" filter="url(#shadow)" />
+                      <text x="410" y="565" className="text-[20px] font-bold" fill="#0c4a6e" textAnchor="middle" dominantBaseline="middle">Building 1</text>
                     </g>
 
-                    {/* Building 4 (middle) */}
+                    {/* Building 2 */}
                     <g onClick={(e) => { e.stopPropagation(); zoomToBuilding('b2'); }} className="cursor-pointer" style={{ filter: state.building === 'b2' ? 'url(#selectedGlow)' : undefined }}>
-                      <ellipse cx="1030" cy="840" rx="155" ry="22" fill="#000" opacity="0.25" />
+                      {/* Shadow */}
+                      <ellipse cx="1030" cy="840" rx="160" ry="25" fill="#000" opacity="0.3" />
+                      {/* 3D Building */}
                       <path d="M900,300 L1160,300 L1200,340 L1200,800 L1160,820 L900,820 L860,800 L860,340 Z" 
                             fill={state.building === 'b2' ? 'url(#buildingTopActive)' : 'url(#buildingTop)'} 
-                            stroke={state.building === 'b2' ? '#92400e' : '#8c7e6e'} strokeWidth="1.5" filter="url(#buildingShadow)" />
+                            stroke={state.building === 'b2' ? '#ca8a04' : '#0284c7'} strokeWidth="2" filter="url(#buildingShadow)" />
+                      {/* Left side face */}
                       <path d="M860,340 L900,300 L900,820 L860,800 Z" 
                             fill={state.building === 'b2' ? 'url(#buildingSideActive)' : 'url(#buildingSide)'} />
+                      {/* Right side face */}
                       <path d="M1160,300 L1200,340 L1200,800 L1160,820 Z" 
                             fill={state.building === 'b2' ? 'url(#buildingFrontActive)' : 'url(#buildingFront)'} />
                       {/* Windows */}
                       {[0, 1, 2, 3, 4].map(i => (
-                        <g key={`b2-win-${i}`}>
-                          <rect x={920} y={340 + i * 90} width="200" height="60" rx="3" fill="#b8cfe0" stroke="#7a9bb5" strokeWidth="0.8" />
-                          <line x1={1020} y1={340 + i * 90} x2={1020} y2={400 + i * 90} stroke="#7a9bb5" strokeWidth="0.5" opacity="0.5" />
-                          <rect x={920} y={340 + i * 90} width="200" height="6" fill="#9cb8cc" opacity="0.3" />
-                        </g>
+                        <rect key={`b2-win-${i}`} x={920} y={340 + i * 90} width="200" height="60" rx="4" fill="#bae6fd" stroke="#0ea5e9" strokeWidth="1" />
                       ))}
-                      {/* Cornice */}
-                      <line x1="900" y1="302" x2="1160" y2="302" stroke="#a69888" strokeWidth="3" opacity="0.6" />
-                      <rect x="1010" y="306" width="18" height="14" rx="2" fill="#6b7280" opacity="0.4" />
+                      {/* Roof details */}
+                      <rect x="1010" y="305" width="20" height="15" rx="2" fill="#94a3b8" stroke="#64748b" strokeWidth="1" opacity="0.6" />
+                      <rect x="1040" y="308" width="15" height="12" rx="2" fill="#94a3b8" stroke="#64748b" strokeWidth="1" opacity="0.5" />
                       {/* Door */}
-                      <rect x="1010" y="782" width="44" height="35" rx="3" fill="#4a3728" stroke="#3a2a1c" strokeWidth="1.5" />
-                      <circle cx="1049" cy="802" r="2.5" fill="#d97706" />
+                      <rect x="1010" y="780" width="40" height="35" rx="3" fill="#0369a1" stroke="#075985" strokeWidth="1.5" />
+                      <circle cx="1045" cy="800" r="3" fill="#fbbf24" />
                       {/* Label */}
-                      <rect x="915" y="538" width="230" height="44" rx="6" fill="#111827" opacity="0.9" filter="url(#labelShadow)" stroke="#334155" strokeWidth="1" />
-                      <text x="1030" y="564" className="text-[18px] font-bold" fill="#e2e8f0" textAnchor="middle" dominantBaseline="middle" letterSpacing="1">Building 4</text>
+                      <rect x="915" y="540" width="230" height="40" rx="8" fill="white" opacity="0.95" filter="url(#shadow)" />
+                      <text x="1030" y="565" className="text-[20px] font-bold" fill="#0c4a6e" textAnchor="middle" dominantBaseline="middle">Building 4</text>
                     </g>
 
                     {/* Building 3 */}
                     <g onClick={(e) => { e.stopPropagation(); zoomToBuilding('b3'); }} className="cursor-pointer" style={{ filter: state.building === 'b3' ? 'url(#selectedGlow)' : undefined }}>
-                      <ellipse cx="1570" cy="840" rx="140" ry="22" fill="#000" opacity="0.25" />
+                      {/* Shadow */}
+                      <ellipse cx="1570" cy="840" rx="150" ry="25" fill="#000" opacity="0.3" />
+                      {/* 3D Building */}
                       <path d="M1450,300 L1690,300 L1730,340 L1730,800 L1690,820 L1450,820 L1410,800 L1410,340 Z" 
                             fill={state.building === 'b3' ? 'url(#buildingTopActive)' : 'url(#buildingTop)'} 
-                            stroke={state.building === 'b3' ? '#92400e' : '#8c7e6e'} strokeWidth="1.5" filter="url(#buildingShadow)" />
+                            stroke={state.building === 'b3' ? '#ca8a04' : '#0284c7'} strokeWidth="2" filter="url(#buildingShadow)" />
+                      {/* Left side face */}
                       <path d="M1410,340 L1450,300 L1450,820 L1410,800 Z" 
                             fill={state.building === 'b3' ? 'url(#buildingSideActive)' : 'url(#buildingSide)'} />
+                      {/* Right side face */}
                       <path d="M1690,300 L1730,340 L1730,800 L1690,820 Z" 
                             fill={state.building === 'b3' ? 'url(#buildingFrontActive)' : 'url(#buildingFront)'} />
                       {/* Windows */}
                       {[0, 1, 2, 3, 4].map(i => (
-                        <g key={`b3-win-${i}`}>
-                          <rect x={1470} y={340 + i * 90} width="180" height="60" rx="3" fill="#b8cfe0" stroke="#7a9bb5" strokeWidth="0.8" />
-                          <line x1={1560} y1={340 + i * 90} x2={1560} y2={400 + i * 90} stroke="#7a9bb5" strokeWidth="0.5" opacity="0.5" />
-                          <rect x={1470} y={340 + i * 90} width="180" height="6" fill="#9cb8cc" opacity="0.3" />
-                        </g>
+                        <rect key={`b3-win-${i}`} x={1470} y={340 + i * 90} width="180" height="60" rx="4" fill="#bae6fd" stroke="#0ea5e9" strokeWidth="1" />
                       ))}
-                      {/* Cornice */}
-                      <line x1="1450" y1="302" x2="1690" y2="302" stroke="#a69888" strokeWidth="3" opacity="0.6" />
-                      <rect x="1550" y="306" width="18" height="14" rx="2" fill="#6b7280" opacity="0.4" />
+                      {/* Roof details */}
+                      <rect x="1550" y="305" width="20" height="15" rx="2" fill="#94a3b8" stroke="#64748b" strokeWidth="1" opacity="0.6" />
                       {/* Door */}
-                      <rect x="1550" y="782" width="44" height="35" rx="3" fill="#4a3728" stroke="#3a2a1c" strokeWidth="1.5" />
-                      <circle cx="1589" cy="802" r="2.5" fill="#d97706" />
+                      <rect x="1550" y="780" width="40" height="35" rx="3" fill="#0369a1" stroke="#075985" strokeWidth="1.5" />
+                      <circle cx="1585" cy="800" r="3" fill="#fbbf24" />
                       {/* Label */}
-                      <rect x="1460" y="538" width="220" height="44" rx="6" fill="#111827" opacity="0.9" filter="url(#labelShadow)" stroke="#334155" strokeWidth="1" />
-                      <text x="1570" y="564" className="text-[18px] font-bold" fill="#e2e8f0" textAnchor="middle" dominantBaseline="middle" letterSpacing="1">Building 3</text>
+                      <rect x="1460" y="540" width="220" height="40" rx="8" fill="white" opacity="0.95" filter="url(#shadow)" />
+                      <text x="1570" y="565" className="text-[20px] font-bold" fill="#0c4a6e" textAnchor="middle" dominantBaseline="middle">Building 3</text>
                     </g>
 
                     {/* Gymnasium */}
                     <g className="cursor-pointer">
-                      <ellipse cx="1000" cy="1100" rx="340" ry="28" fill="#000" opacity="0.3" />
+                      {/* Shadow */}
+                      <ellipse cx="1000" cy="1100" rx="340" ry="30" fill="#000" opacity="0.35" />
+                      {/* 3D Building */}
                       <path d="M700,870 L1300,870 L1340,910 L1340,1060 L1300,1080 L700,1080 L660,1060 L660,910 Z" 
-                            fill="url(#gymTop)" stroke="#6d4c35" strokeWidth="1.5" filter="url(#buildingShadow)" />
+                            fill="url(#gymTop)" stroke="#c2410c" strokeWidth="2" filter="url(#buildingShadow)" />
+                      {/* Left side face */}
                       <path d="M660,910 L700,870 L700,1080 L660,1060 Z" fill="url(#gymSide)" />
+                      {/* Right side face */}
                       <path d="M1300,870 L1340,910 L1340,1060 L1300,1080 Z" fill="url(#gymFront)" />
-                      {/* Arched roof */}
-                      <ellipse cx="1000" cy="870" rx="300" ry="28" fill="#d4b8a0" stroke="#8b6544" strokeWidth="1.5" />
-                      <ellipse cx="1000" cy="866" rx="250" ry="18" fill="#e8d5c4" opacity="0.5" />
+                      {/* Roof detail - curved */}
+                      <ellipse cx="1000" cy="870" rx="300" ry="30" fill="#fdba74" stroke="#ea580c" strokeWidth="2" />
+                      {/* Roof top highlight */}
+                      <ellipse cx="1000" cy="865" rx="250" ry="20" fill="#fed7aa" opacity="0.6" />
                       {/* Court lines */}
-                      <rect x="800" y="910" width="400" height="120" rx="4" fill="none" stroke="#c49a7c" strokeWidth="1.5" strokeDasharray="6,3" opacity="0.35" />
-                      <circle cx="1000" cy="970" r="38" fill="none" stroke="#c49a7c" strokeWidth="1.5" strokeDasharray="6,3" opacity="0.35" />
+                      <rect x="800" y="910" width="400" height="120" rx="6" fill="none" stroke="#fdba74" strokeWidth="2" strokeDasharray="8,4" opacity="0.5" />
+                      <circle cx="1000" cy="970" r="40" fill="none" stroke="#fdba74" strokeWidth="2" strokeDasharray="8,4" opacity="0.5" />
                       {/* Label */}
-                      <rect x="875" y="955" width="250" height="44" rx="6" fill="#111827" opacity="0.9" filter="url(#labelShadow)" stroke="#334155" strokeWidth="1" />
-                      <text x="1000" y="981" className="text-[20px] font-bold" fill="#e2e8f0" textAnchor="middle" dominantBaseline="middle" letterSpacing="1">Gymnasium</text>
+                      <rect x="870" y="955" width="260" height="50" rx="10" fill="white" opacity="0.95" filter="url(#shadow)" />
+                      <text x="1000" y="985" className="text-[24px] font-bold" fill="#9a3412" textAnchor="middle" dominantBaseline="middle">Gymnasium</text>
                     </g>
 
                     {/* Canteen */}
                     <g className="cursor-pointer">
-                      <ellipse cx="1000" cy="1290" rx="210" ry="20" fill="#000" opacity="0.3" />
+                      {/* Shadow */}
+                      <ellipse cx="1000" cy="1290" rx="210" ry="22" fill="#000" opacity="0.35" />
+                      {/* 3D Building */}
                       <path d="M820,1110 L1180,1110 L1210,1140 L1210,1250 L1180,1270 L820,1270 L790,1250 L790,1140 Z" 
-                            fill="url(#canteenTop)" stroke="#5a3636" strokeWidth="1.5" filter="url(#buildingShadow)" />
+                            fill="url(#canteenTop)" stroke="#be123c" strokeWidth="2" filter="url(#buildingShadow)" />
+                      {/* Left side face */}
                       <path d="M790,1140 L820,1110 L820,1270 L790,1250 Z" fill="url(#canteenSide)" />
+                      {/* Right side face */}
                       <path d="M1180,1110 L1210,1140 L1210,1250 L1180,1270 Z" fill="url(#canteenFront)" />
-                      {/* Table hints */}
+                      {/* Table and chairs hint */}
                       {[0, 1, 2].map(i => (
                         <g key={`table-${i}`}>
-                          <rect x={880 + i * 110} y={1150} width="40" height="25" rx="3" fill="#b08080" opacity="0.25" stroke="#8b5e5e" strokeWidth="0.5" />
+                          <rect x={880 + i * 110} y={1150} width="40" height="25" rx="4" fill="#fda4af" stroke="#e11d48" strokeWidth="1" opacity="0.4" />
+                          <circle cx={875 + i * 110} cy={1162} r="6" fill="#fecdd3" opacity="0.5" />
+                          <circle cx={925 + i * 110} cy={1162} r="6" fill="#fecdd3" opacity="0.5" />
                         </g>
                       ))}
                       {/* Label */}
-                      <rect x="900" y="1172" width="200" height="40" rx="6" fill="#111827" opacity="0.9" filter="url(#labelShadow)" stroke="#334155" strokeWidth="1" />
-                      <text x="1000" y="1196" className="text-[18px] font-bold" fill="#e2e8f0" textAnchor="middle" dominantBaseline="middle" letterSpacing="1">Canteen</text>
+                      <rect x="895" y="1170" width="210" height="44" rx="8" fill="white" opacity="0.95" filter="url(#shadow)" />
+                      <text x="1000" y="1196" className="text-[22px] font-bold" fill="#9f1239" textAnchor="middle" dominantBaseline="middle">Canteen</text>
                     </g>
 
-                    {/* Main Entrance */}
+                    {/* Entrance */}
                     <g className="cursor-pointer">
-                      <ellipse cx="275" cy="1115" rx="155" ry="18" fill="#000" opacity="0.3" />
+                      {/* Shadow */}
+                      <ellipse cx="275" cy="1115" rx="155" ry="20" fill="#000" opacity="0.35" />
+                      {/* 3D Building */}
                       <path d="M150,960 L400,960 L430,990 L430,1080 L400,1100 L150,1100 L120,1080 L120,990 Z" 
-                            fill="url(#entranceTop)" stroke="#2a4a2a" strokeWidth="1.5" filter="url(#buildingShadow)" />
+                            fill="url(#entranceTop)" stroke="#15803d" strokeWidth="2" filter="url(#buildingShadow)" />
+                      {/* Left side face */}
                       <path d="M120,990 L150,960 L150,1100 L120,1080 Z" fill="url(#entranceSide)" />
+                      {/* Right side face */}
                       <path d="M400,960 L430,990 L430,1080 L400,1100 Z" fill="url(#entranceFront)" />
+                      {/* Gate icon - arch */}
+                      <path d="M250,1020 Q275,990 300,1020 L300,1060 L250,1060 Z" fill="#166534" opacity="0.4" />
+                      <rect x="255" y="1030" width="40" height="30" fill="#15803d" opacity="0.3" />
                       {/* Gate pillars */}
-                      <rect x="165" y="970" width="14" height="42" rx="2" fill="#3a5a3a" stroke="#2a4a2a" strokeWidth="1" />
-                      <rect x="370" y="970" width="14" height="42" rx="2" fill="#3a5a3a" stroke="#2a4a2a" strokeWidth="1" />
+                      <rect x="165" y="970" width="15" height="45" rx="2" fill="#166534" stroke="#14532d" strokeWidth="1" />
+                      <rect x="370" y="970" width="15" height="45" rx="2" fill="#166534" stroke="#14532d" strokeWidth="1" />
                       {/* Gate arch */}
-                      <path d="M172,975 Q275,955 377,975" fill="none" stroke="#4a6e4a" strokeWidth="2.5" />
+                      <path d="M172,975 Q275,955 377,975" fill="none" stroke="#15803d" strokeWidth="3" />
                       {/* Label */}
-                      <rect x="180" y="1018" width="190" height="38" rx="6" fill="#111827" opacity="0.9" filter="url(#labelShadow)" stroke="#334155" strokeWidth="1" />
-                      <text x="275" y="1041" className="text-[15px] font-bold" fill="#e2e8f0" textAnchor="middle" dominantBaseline="middle" letterSpacing="1">Main Entrance</text>
+                      <rect x="180" y="1018" width="190" height="40" rx="8" fill="white" opacity="0.95" filter="url(#shadow)" />
+                      <text x="275" y="1042" className="text-[18px] font-bold" fill="#14532d" textAnchor="middle" dominantBaseline="middle">Main Entrance</text>
                     </g>
 
-                    {/* Vehicles - muted */}
-                    <g opacity="0.5">
-                      {/* School bus */}
-                      <rect x="470" y="1015" width="60" height="28" rx="6" fill="#d97706" stroke="#92400e" strokeWidth="1" />
-                      <rect x="476" y="1020" width="14" height="10" rx="2" fill="#b8cfe0" stroke="#7a9bb5" strokeWidth="0.5" />
-                      <rect x="494" y="1020" width="14" height="10" rx="2" fill="#b8cfe0" stroke="#7a9bb5" strokeWidth="0.5" />
-                      <rect x="512" y="1020" width="14" height="10" rx="2" fill="#b8cfe0" stroke="#7a9bb5" strokeWidth="0.5" />
-                      <circle cx="480" cy="1045" r="5" fill="#1e293b" />
-                      <circle cx="520" cy="1045" r="5" fill="#1e293b" />
+                    {/* Parked vehicles for realism */}
+                    <g opacity="0.75">
+                      {/* Yellow school bus */}
+                      <rect x="470" y="1015" width="60" height="28" rx="6" fill="#fbbf24" stroke="#ca8a04" strokeWidth="1.5" />
+                      <rect x="476" y="1020" width="14" height="10" rx="2" fill="#7dd3fc" stroke="#38bdf8" strokeWidth="0.5" />
+                      <rect x="494" y="1020" width="14" height="10" rx="2" fill="#7dd3fc" stroke="#38bdf8" strokeWidth="0.5" />
+                      <rect x="512" y="1020" width="14" height="10" rx="2" fill="#7dd3fc" stroke="#38bdf8" strokeWidth="0.5" />
+                      <circle cx="480" cy="1045" r="5" fill="#334155" stroke="#1e293b" strokeWidth="1" />
+                      <circle cx="520" cy="1045" r="5" fill="#334155" stroke="#1e293b" strokeWidth="1" />
                       
-                      {/* Parked cars */}
+                      {/* Car 1 - sedan */}
+                      <rect x="550" y="1020" width="40" height="22" rx="6" fill="#ef4444" stroke="#dc2626" strokeWidth="1" />
+                      <rect x="555" y="1024" width="12" height="8" rx="2" fill="#bae6fd" />
+                      <rect x="572" y="1024" width="12" height="8" rx="2" fill="#bae6fd" />
+                      <circle cx="556" cy="1044" r="4" fill="#334155" />
+                      <circle cx="584" cy="1044" r="4" fill="#334155" />
+                      
+                      {/* Car 2 - SUV */}
+                      <rect x="600" y="1018" width="45" height="24" rx="5" fill="#3b82f6" stroke="#2563eb" strokeWidth="1" />
+                      <rect x="606" y="1022" width="14" height="9" rx="2" fill="#bae6fd" />
+                      <rect x="624" y="1022" width="14" height="9" rx="2" fill="#bae6fd" />
+                      <circle cx="608" cy="1044" r="4" fill="#334155" />
+                      <circle cx="638" cy="1044" r="4" fill="#334155" />
+                      
+                      {/* Parking lot vehicles */}
                       {[0, 1, 2, 3].map(i => (
                         <g key={`pcar-${i}`}>
-                          <rect x={1705 + i * 35} y="310" width="22" height="40" rx="4" fill={['#475569', '#7f1d1d', '#78350f', '#1e3a5f'][i]} stroke="#334155" strokeWidth="0.8" />
-                          <circle cx={1716 + i * 35} cy="315" r="3" fill="#b8cfe0" opacity="0.6" />
+                          <rect x={1705 + i * 35} y="310" width="22" height="40" rx="4" fill={['#64748b', '#ef4444', '#f59e0b', '#3b82f6'][i]} stroke="#475569" strokeWidth="1" />
+                          <circle cx={1716 + i * 35} cy="315" r="3" fill="#bae6fd" opacity="0.8" />
                         </g>
                       ))}
                     </g>
 
-                    {/* Lampposts - refined */}
+                    {/* Lampposts along roads */}
                     <g id="lampposts">
                       {[
                         { x: 350, y: 870 }, { x: 600, y: 870 }, { x: 850, y: 870 },
                         { x: 1100, y: 870 }, { x: 1350, y: 870 },
                       ].map((lamp, i) => (
                         <g key={`lamp-${i}`}>
-                          <rect x={lamp.x - 1.5} y={lamp.y - 28} width="3" height="28" fill="#64748b" />
-                          <ellipse cx={lamp.x} cy={lamp.y - 30} rx="7" ry="3.5" fill="#fde68a" opacity="0.6" />
-                          <circle cx={lamp.x} cy={lamp.y - 30} r="12" fill="#fef9c3" opacity="0.08" />
+                          <rect x={lamp.x - 2} y={lamp.y - 30} width="4" height="30" fill="#94a3b8" />
+                          <ellipse cx={lamp.x} cy={lamp.y - 32} rx="8" ry="4" fill="#fde68a" />
+                          <circle cx={lamp.x} cy={lamp.y - 32} r="5" fill="#fef3c7" opacity="0.6" />
+                          {/* Light glow */}
+                          <circle cx={lamp.x} cy={lamp.y - 30} r="18" fill="#fef9c3" opacity="0.15" />
                         </g>
                       ))}
                     </g>
 
-                    {/* Hedges near buildings instead of flowers */}
-                    <g id="hedges">
-                      <rect x="275" y="822" width="170" height="8" rx="4" fill="#1e4a1e" opacity="0.6" stroke="#14331a" strokeWidth="0.5" />
-                      <rect x="875" y="822" width="190" height="8" rx="4" fill="#1e4a1e" opacity="0.6" stroke="#14331a" strokeWidth="0.5" />
-                      <rect x="1425" y="822" width="180" height="8" rx="4" fill="#1e4a1e" opacity="0.6" stroke="#14331a" strokeWidth="0.5" />
+                    {/* Flower beds near buildings */}
+                    <g id="flower-beds">
+                      {/* Flower bed near B1 */}
+                      <rect x="270" y="825" width="180" height="15" rx="6" fill="#2d5a3d" stroke="#1e4d2b" strokeWidth="1" />
+                      {[0, 1, 2, 3, 4, 5].map(i => (
+                        <circle key={`fb1-${i}`} cx={285 + i * 28} cy="830" r="5" fill={['#f472b6', '#fb923c', '#a78bfa', '#f472b6', '#fbbf24', '#f472b6'][i]} opacity="0.9" />
+                      ))}
+                      
+                      {/* Flower bed near B2 */}
+                      <rect x="870" y="825" width="200" height="15" rx="6" fill="#2d5a3d" stroke="#1e4d2b" strokeWidth="1" />
+                      {[0, 1, 2, 3, 4, 5].map(i => (
+                        <circle key={`fb2-${i}`} cx={888 + i * 30} cy="830" r="5" fill={['#a78bfa', '#f472b6', '#fbbf24', '#fb923c', '#a78bfa', '#f472b6'][i]} opacity="0.9" />
+                      ))}
+                      
+                      {/* Flower bed near B3 */}
+                      <rect x="1420" y="825" width="190" height="15" rx="6" fill="#2d5a3d" stroke="#1e4d2b" strokeWidth="1" />
+                      {[0, 1, 2, 3, 4, 5].map(i => (
+                        <circle key={`fb3-${i}`} cx={1438 + i * 28} cy="830" r="5" fill={['#fbbf24', '#f472b6', '#fb923c', '#a78bfa', '#fbbf24', '#f472b6'][i]} opacity="0.9" />
+                      ))}
                     </g>
 
-                    {/* Benches */}
+                    {/* Benches near trees */}
                     <g id="benches">
                       {[
-                        { x: 200, y: 660 }, { x: 1840, y: 620 },
+                        { x: 200, y: 660 },
+                        { x: 1840, y: 620 },
                       ].map((bench, i) => (
                         <g key={`bench-${i}`}>
-                          <rect x={bench.x - 11} y={bench.y} width="22" height="7" rx="2" fill="#6b5340" stroke="#4a3728" strokeWidth="0.8" />
-                          <rect x={bench.x - 9} y={bench.y + 7} width="3" height="5" fill="#4a3728" />
-                          <rect x={bench.x + 6} y={bench.y + 7} width="3" height="5" fill="#4a3728" />
+                          <rect x={bench.x - 12} y={bench.y} width="24" height="8" rx="2" fill="#a16207" stroke="#854d0e" strokeWidth="1" />
+                          <rect x={bench.x - 10} y={bench.y + 8} width="4" height="6" fill="#854d0e" />
+                          <rect x={bench.x + 6} y={bench.y + 8} width="4" height="6" fill="#854d0e" />
                         </g>
                       ))}
                     </g>
 
-                    {/* Flagpole */}
+                    {/* Flagpole near entrance */}
                     <g id="flagpole">
-                      <rect x="130" y="932" width="2.5" height="55" fill="#64748b" />
-                      <circle cx="131" cy="932" r="2.5" fill="#d97706" />
-                      <path d="M132.5,935 L152,941 L132.5,947 Z" fill="#b91c1c" />
+                      <rect x="130" y="930" width="3" height="60" fill="#94a3b8" />
+                      <circle cx="131" cy="930" r="3" fill="#fbbf24" />
+                      <path d="M133,933 L155,940 L133,947 Z" fill="#dc2626" />
                     </g>
 
                     {/* Crosswalks */}
-                    <g id="crosswalks" opacity="0.4">
+                    <g id="crosswalks" opacity="0.6">
+                      {/* Crosswalk to B1 */}
                       {[0, 1, 2, 3].map(i => (
-                        <rect key={`cw1-${i}`} x={382 + i * 15} y="847" width="7" height="38" rx="1" fill="#e2e8f0" opacity="0.5" />
+                        <rect key={`cw1-${i}`} x={380 + i * 15} y="845" width="8" height="40" rx="1" fill="white" opacity="0.7" />
                       ))}
+                      {/* Crosswalk to B2 */}
                       {[0, 1, 2, 3].map(i => (
-                        <rect key={`cw2-${i}`} x={1002 + i * 15} y="847" width="7" height="38" rx="1" fill="#e2e8f0" opacity="0.5" />
+                        <rect key={`cw2-${i}`} x={1000 + i * 15} y="845" width="8" height="40" rx="1" fill="white" opacity="0.7" />
                       ))}
+                      {/* Crosswalk to B3 */}
                       {[0, 1, 2, 3].map(i => (
-                        <rect key={`cw3-${i}`} x={1542 + i * 15} y="847" width="7" height="38" rx="1" fill="#e2e8f0" opacity="0.5" />
+                        <rect key={`cw3-${i}`} x={1540 + i * 15} y="845" width="8" height="40" rx="1" fill="white" opacity="0.7" />
                       ))}
                     </g>
 
-                    {/* Courtyard */}
+                    {/* Courtyard/Plaza between buildings */}
                     <g id="courtyard">
-                      <ellipse cx="700" cy="600" rx="55" ry="36" fill="#1e293b" opacity="0.4" />
-                      <ellipse cx="700" cy="600" rx="36" ry="22" fill="#334155" opacity="0.3" />
+                      {/* Central plaza */}
+                      <ellipse cx="700" cy="600" rx="60" ry="40" fill="#475569" opacity="0.3" />
+                      <ellipse cx="700" cy="600" rx="40" ry="26" fill="#64748b" opacity="0.2" />
                       {/* Fountain */}
-                      <circle cx="700" cy="600" r="16" fill="#164e63" opacity="0.4" />
-                      <circle cx="700" cy="600" r="8" fill="#1e6e8a" opacity="0.5" />
-                      <circle cx="700" cy="600" r="3" fill="#22a3c4" opacity="0.6" />
+                      <circle cx="700" cy="600" r="18" fill="#0ea5e9" opacity="0.35" />
+                      <circle cx="700" cy="600" r="10" fill="#38bdf8" opacity="0.5" />
+                      <circle cx="700" cy="600" r="4" fill="#7dd3fc" opacity="0.7" />
                       
-                      {/* Seating area */}
-                      <ellipse cx="1330" cy="580" rx="36" ry="26" fill="#1e293b" opacity="0.3" />
+                      {/* Sitting area between B2 and B3 */}
+                      <ellipse cx="1330" cy="580" rx="40" ry="30" fill="#475569" opacity="0.25" />
                       {[0, 1, 2].map(i => (
-                        <rect key={`cseat-${i}`} x={1317 + i * 13} y="576" width="8" height="8" rx="2" fill="#475569" opacity="0.4" />
+                        <rect key={`cseat-${i}`} x={1315 + i * 14} y="575" width="10" height="10" rx="2" fill="#78716c" opacity="0.5" />
                       ))}
                     </g>
 
-                    {/* Rooms overlay */}
+                    {/* Rooms */}
                     {renderRooms()}
                   </svg>
                 </div>
