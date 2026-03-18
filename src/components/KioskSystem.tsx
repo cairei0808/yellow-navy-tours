@@ -127,9 +127,9 @@ const KioskSystem = () => {
 
   const buildings = [
     { value: 'b1', label: 'Building 1' },
-    { value: 'b2', label: 'Building 2' },
+    { value: 'b2', label: 'Building 4' },
     { value: 'b3', label: 'Building 3' },
-    { value: 'b4', label: 'Building 4' },
+    { value: 'b4', label: 'Building 2' },
   ];
 
   const clampTranslate = useCallback((tx: number, ty: number, zoom: number) => {
@@ -925,7 +925,7 @@ const KioskSystem = () => {
                       ))}
                       {/* Label */}
                       <rect x="880" y="115" width="240" height="40" rx="8" fill="white" opacity="0.95" filter="url(#shadow)" />
-                      <text x="1000" y="140" className="text-[22px] font-bold" fill="#0c4a6e" textAnchor="middle" dominantBaseline="middle">Building 4</text>
+                      <text x="1000" y="140" className="text-[22px] font-bold" fill="#0c4a6e" textAnchor="middle" dominantBaseline="middle">Building 2</text>
                     </g>
 
                     {/* Building 1 */}
@@ -982,7 +982,7 @@ const KioskSystem = () => {
                       <circle cx="1045" cy="800" r="3" fill="#fbbf24" />
                       {/* Label */}
                       <rect x="915" y="540" width="230" height="40" rx="8" fill="white" opacity="0.95" filter="url(#shadow)" />
-                      <text x="1030" y="565" className="text-[20px] font-bold" fill="#0c4a6e" textAnchor="middle" dominantBaseline="middle">Building 2</text>
+                      <text x="1030" y="565" className="text-[20px] font-bold" fill="#0c4a6e" textAnchor="middle" dominantBaseline="middle">Building 4</text>
                     </g>
 
                     {/* Building 3 */}
