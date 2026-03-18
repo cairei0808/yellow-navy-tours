@@ -982,7 +982,7 @@ const KioskSystem = () => {
                       <circle cx="1045" cy="800" r="3" fill="#fbbf24" />
                       {/* Label */}
                       <rect x="915" y="540" width="230" height="40" rx="8" fill="white" opacity="0.95" filter="url(#shadow)" />
-                      <text x="1030" y="565" className="text-[20px] font-bold" fill="#0c4a6e" textAnchor="middle" dominantBaseline="middle">Building 2</text>
+                      <text x="1030" y="565" className="text-[20px] font-bold" fill="#0c4a6e" textAnchor="middle" dominantBaseline="middle">Building 4</text>
                     </g>
 
                     {/* Building 3 */}
