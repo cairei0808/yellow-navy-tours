@@ -72,13 +72,6 @@ const Navigation = () => {
             >
               Campus Tour
             </Link>
-            <a
-              href="/#contact"
-              className="text-foreground hover:text-accent transition-colors"
-              onClick={() => setIsOpen(false)}
-            >
-              Contact
-            </a>
           </div>
         )}
       </div>
