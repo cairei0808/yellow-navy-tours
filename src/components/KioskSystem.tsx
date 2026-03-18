@@ -525,29 +525,29 @@ const KioskSystem = () => {
                   </svg>
                   <strong className="text-sm">Map Legend</strong>
                 </div>
-                <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-2 gap-2">
                   <div className="flex items-center gap-2 p-2 rounded-lg bg-muted/30">
-                    <div className="w-4 h-4 rounded bg-gradient-to-b from-blue-200 to-blue-400 border-2 border-blue-500"></div>
+                    <div className="w-4 h-4 rounded bg-gradient-to-b from-[#f5f0e8] to-[#b8ad9e] border border-[#8c7e6e]"></div>
                     <span className="text-xs font-medium">Buildings</span>
                   </div>
                   <div className="flex items-center gap-2 p-2 rounded-lg bg-muted/30">
-                    <div className="w-4 h-4 rounded bg-gradient-to-b from-blue-100 to-blue-200 border-2 border-blue-400"></div>
+                    <div className="w-4 h-4 rounded bg-gradient-to-b from-white to-[#f1f5f9] border border-[#7a9bb5]"></div>
                     <span className="text-xs font-medium">Rooms</span>
                   </div>
                   <div className="flex items-center gap-2 p-2 rounded-lg bg-muted/30">
-                    <div className="w-4 h-4 rounded bg-gradient-to-b from-orange-200 to-orange-400 border-2 border-orange-500"></div>
+                    <div className="w-4 h-4 rounded bg-gradient-to-b from-[#e8d5c4] to-[#a07858] border border-[#6d4c35]"></div>
                     <span className="text-xs font-medium">Gym</span>
                   </div>
                   <div className="flex items-center gap-2 p-2 rounded-lg bg-muted/30">
-                    <div className="w-4 h-4 rounded bg-gradient-to-b from-pink-200 to-pink-400 border-2 border-pink-500"></div>
+                    <div className="w-4 h-4 rounded bg-gradient-to-b from-[#e8d0d0] to-[#8b5e5e] border border-[#5a3636]"></div>
                     <span className="text-xs font-medium">Canteen</span>
                   </div>
                   <div className="flex items-center gap-2 p-2 rounded-lg bg-muted/30">
-                    <div className="w-4 h-4 rounded bg-gradient-to-b from-green-200 to-green-400 border-2 border-green-500"></div>
+                    <div className="w-4 h-4 rounded bg-gradient-to-b from-[#c8dcc8] to-[#4a6e4a] border border-[#2a4a2a]"></div>
                     <span className="text-xs font-medium">Entrance</span>
                   </div>
                   <div className="flex items-center gap-2 p-2 rounded-lg bg-muted/30">
-                    <div className="w-4 h-3 rounded bg-gradient-to-r from-amber-100 to-amber-200 border border-amber-400"></div>
+                    <div className="w-4 h-3 rounded bg-gradient-to-r from-[#3d4f63] to-[#1f2d3d] border border-[#475569]"></div>
                     <span className="text-xs font-medium">Pathways</span>
                   </div>
                 </div>
