@@ -23,7 +23,7 @@ const Hero = () => {
             <span className="block text-accent">FABINHS Kiosk System</span>
           </h1>
           <p className="text-xl md:text-2xl text-primary-foreground/90 mb-8 leading-relaxed">
-            Explore our interactive digital campus map, discover our facilities, and find your way
+            Discover our facilities and find your way
             around Fernando Air Base Integrated National High School with ease.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
