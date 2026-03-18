@@ -127,9 +127,9 @@ const KioskSystem = () => {
 
   const buildings = [
     { value: 'b1', label: 'Building 1' },
-    { value: 'b2', label: 'Building 2' },
+    { value: 'b2', label: 'Building 4' },
     { value: 'b3', label: 'Building 3' },
-    { value: 'b4', label: 'Building 4' },
+    { value: 'b4', label: 'Building 2' },
   ];
 
   const clampTranslate = useCallback((tx: number, ty: number, zoom: number) => {
